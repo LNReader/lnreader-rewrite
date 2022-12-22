@@ -1,7 +1,9 @@
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
-import LibraryScreen from '../../screens/LibraryScreen/LibraryScreen';
+import LibraryScreen from 'screens/LibraryScreen/LibraryScreen';
+import BrowseScreen from 'screens/BrowseScreen/BrowseScreen';
+import MoreScreen from 'screens/MoreScreen/MoreScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -25,12 +27,12 @@ const BottomNavigator = () => {
       />
       <Tab.Screen
         name="BrowseScreen"
-        component={LibraryScreen}
+        component={BrowseScreen}
         options={{tabBarIcon: 'compass-outline', tabBarLabel: 'Browse'}}
       />
       <Tab.Screen
         name="MoreScreen"
-        component={LibraryScreen}
+        component={MoreScreen}
         options={{tabBarIcon: 'dots-horizontal', tabBarLabel: 'More'}}
       />
     </Tab.Navigator>
