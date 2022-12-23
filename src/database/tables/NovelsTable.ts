@@ -1,6 +1,6 @@
 import {NovelStatus} from '../types';
 
-const DEFAULT_CATEGORIES = [1].toString();
+const DEFAULT_CATEGORIES = [1];
 
 export const createNovelTableQuery = `
     CREATE TABLE IF NOT EXISTS novels (
@@ -8,12 +8,14 @@ export const createNovelTableQuery = `
         url TEXT NOT NULL,
         title TEXT NOT NULL,
         status TEXT NOT NULL DEFAULT ${NovelStatus.UNKNOWN},
-        thumbnailUrl TEXT,
+        coverUrl TEXT,
+        genre TEXT,
+        description TEXT,
         favorite INTEGER NOT NULL DEFAULT 0,
         lastUpdate INTEGER,
         nextUpdate INTEGER,
         initialized INTEGER NOT NULL DEFAULT 0,
         dateAdded INTEGER NOT NULL,
-        categoryIds TEXT DEFAULT ${DEFAULT_CATEGORIES}
+        categoryIds TEXT DEFAULT ${JSON.stringify(DEFAULT_CATEGORIES)}
     )
 `;

@@ -11,7 +11,10 @@
       "database/*": ["src/database/*"],
       "hooks/*": ["src/hooks/*"],
       "navigators/*": ["src/navigators/*"],
-      "screens/*": ["src/screens/*"]
+      "screens/*": ["src/screens/*"],
+      "sources/*": ["src/sources/*"],
+      "theme/*": ["src/theme/*"],
+      "utils/*": ["src/utils/*"]
     }
   }
 }
