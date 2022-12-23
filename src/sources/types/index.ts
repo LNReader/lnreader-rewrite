@@ -1,6 +1,6 @@
 export enum Language {
-  English = 'en',
-  Japanese = 'jp',
+  English = 'English',
+  Japanese = 'Japanese',
 }
 
 export abstract class Source {

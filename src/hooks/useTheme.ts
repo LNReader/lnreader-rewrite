@@ -1,8 +1,15 @@
-import {defaultTo, get, isUndefined} from 'lodash';
 import {useMemo} from 'react';
 import {Appearance} from 'react-native';
+import {defaultTo, get, isUndefined} from 'lodash';
 import {useMMKVBoolean, useMMKVObject} from 'react-native-mmkv';
+import Color from 'color';
+
 import {defaultColors} from 'theme/Colors/default';
+import {ThemeColors} from 'theme/types';
+
+interface ExtendedThemeColors extends ThemeColors {
+  rippleColor?: string;
+}
 
 enum ThemePreferences {
   APP_THEME = 'APP_THEME',
@@ -10,7 +17,13 @@ enum ThemePreferences {
   AMOLED_BLACK = 'AMOLED_BLACK',
 }
 
-interface UseThemeReturn {}
+interface UseThemeReturn {
+  theme: ExtendedThemeColors;
+  isDarkMode?: boolean;
+  setAppTheme: (id: number) => void;
+  setDarkMode: (val: boolean) => void;
+  setAmoledBlack: (val: boolean) => void;
+}
 
 const ThemesMap = {
   1: defaultColors,
@@ -34,10 +47,15 @@ export const useTheme = (): UseThemeReturn => {
         : 'light'
       : defaultDeviceColorScheme;
 
-    let colors = defaultTo(
+    let colors: ExtendedThemeColors = defaultTo(
       get(ThemesMap, `[${appTheme}].${lightOrDark}`),
       defaultColors.light,
     );
+
+    colors = {
+      ...colors,
+      rippleColor: Color(colors.primary).alpha(0.12).toString(),
+    };
 
     if (isAmoledBlack && isDarkMode) {
       colors = {

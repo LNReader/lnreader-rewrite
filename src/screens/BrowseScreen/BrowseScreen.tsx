@@ -1,13 +1,33 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useMemo} from 'react';
+import {SectionList, StyleSheet} from 'react-native';
+
 import SourceFactory from 'sources/index';
 
+import SourceCard from 'components/SourceCard/SourceCard';
+import Appbar from 'components/Appbar/Appbar';
+import Searchbar from 'components/Searchbar/Searchbar';
+
 const BrowseScreen = () => {
+  const sources = SourceFactory.getSources();
+
+  const sections = useMemo(
+    () => [
+      {
+        header: 'Sources',
+        data: sources,
+      },
+    ],
+    [sources],
+  );
+
   return (
-    <View>
-      <Text>BrowseScreen</Text>
-      <Text>{JSON.stringify(SourceFactory.getSources())}</Text>
-    </View>
+    <>
+      <Searchbar placeholder="Search sources" />
+      <SectionList
+        sections={sections}
+        renderItem={({item}) => <SourceCard source={item} />}
+      />
+    </>
   );
 };
 
