@@ -7,6 +7,7 @@ import {CoverImage, SubHeader} from './Components';
 import {Row, Text} from '..';
 import {IMAGE_PLACEHOLDER_COLOR, Spacing} from 'theme/constants';
 import {useTheme} from 'hooks/useTheme';
+import SourceFactory from 'sources/SourceFactory';
 
 interface NovelDetailsHeader {
   novel: DatabaseNovel;
@@ -14,6 +15,8 @@ interface NovelDetailsHeader {
 
 const NovelDetailsHeader: React.FC<NovelDetailsHeader> = ({novel}) => {
   const {theme} = useTheme();
+
+  const sourceName = SourceFactory.getSource(novel.sourceId)?.name;
 
   return (
     <>
@@ -29,7 +32,7 @@ const NovelDetailsHeader: React.FC<NovelDetailsHeader> = ({novel}) => {
             </Text>
             <Text numberOfLines={1} color={theme.onSurfaceVariant}>{`${
               novel.status || NovelStatus.UNKNOWN
-            } • ${novel.author}`}</Text>
+            }${sourceName ? ' • ' + sourceName : ''}`}</Text>
           </View>
         </Row>
       </CoverImage>

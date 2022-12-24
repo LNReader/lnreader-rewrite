@@ -94,7 +94,6 @@ export const insertNovel = async (
           novel.coverUrl || null,
           novel.genre || null,
           novel.description || null,
-          1,
           Date.now(),
           novel.author || null,
           novel.artist || null,

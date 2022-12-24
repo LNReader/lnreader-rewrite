@@ -4,7 +4,7 @@ import {DATABASE_NAME} from 'database/constants';
 import {DatabaseChapter} from 'database/types';
 import {txnErrorCallback} from 'database/utils';
 import {SourceNovelChapter} from 'sources/types';
-import {noop} from 'lodash';
+import {escape, noop} from 'lodash';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -52,8 +52,8 @@ export const insertChapters = async (
     valuesArr.push(
       `(
         ${novelId}, 
-        "${chapter.url}", 
-        "${chapter.name}", 
+        "${escape(chapter.url)}", 
+        "${escape(chapter.name)}", 
         ${chapter.dateUpload || 'NULL'}, 
         ${Date.now()}, 
         ${chapter.scanlator || 'NULL'}

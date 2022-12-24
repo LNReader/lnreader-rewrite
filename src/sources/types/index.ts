@@ -1,3 +1,5 @@
+import {NovelStatus} from 'database/types';
+
 export enum Language {
   English = 'English',
   Japanese = 'Japanese',
@@ -25,7 +27,7 @@ export interface SourceNovelDetails {
   url: string;
   title: string;
   coverUrl?: string;
-  status?: string;
+  status?: NovelStatus;
   genre?: string;
   artist?: string;
   author?: string;
@@ -41,6 +43,13 @@ export interface SourceNovelChapter {
   scanlator?: string;
 }
 
+export interface SourceChapter {
+  sourceId: number;
+  url: string;
+  name: string;
+  text: string | null;
+}
+
 export interface GetPopularNovelsParams {
   page?: number;
 }
@@ -51,6 +60,10 @@ export interface GetSearchNovelsParams {
 }
 
 export interface GetNovelDetailsParams {
+  url: string;
+}
+
+export interface GetChapterParams {
   url: string;
 }
 
@@ -71,4 +84,6 @@ export abstract class ParsedSource extends Source {
   abstract getNovelDetails({
     url,
   }: GetNovelDetailsParams): Promise<SourceNovelDetails>;
+
+  abstract getChapter({url}: GetChapterParams): Promise<SourceChapter>;
 }

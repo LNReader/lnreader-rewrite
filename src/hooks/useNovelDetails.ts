@@ -17,20 +17,20 @@ import {
 
 interface UseNovelDetailsProps {
   novelId?: number;
-  defaultNovel: SourceNovelDetails;
+  novelParams: SourceNovelDetails;
 }
 
 export const useNovelDetails = ({
-  defaultNovel,
+  novelParams,
   novelId,
 }: UseNovelDetailsProps) => {
-  const {sourceId, url} = defaultNovel;
+  const {sourceId, url} = novelParams;
 
   const source = SourceFactory.getSource(sourceId);
 
   const [loading, setLoading] = useState(true);
   const [novel, setNovel] = useState<DatabaseNovel>(
-    defaultNovel as DatabaseNovel,
+    novelParams as DatabaseNovel,
   );
   const [chapters, setChapters] = useState<DatabaseChapter[]>([]);
   const [error, setError] = useState('');
@@ -56,7 +56,6 @@ export const useNovelDetails = ({
 
       dbChapters = await getChaptersByNovelId(dbNovel.id);
 
-      console.log(dbNovel);
       setNovel(dbNovel);
       setChapters(dbChapters);
     } catch (err) {

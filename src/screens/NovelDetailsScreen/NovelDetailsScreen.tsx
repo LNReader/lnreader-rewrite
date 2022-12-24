@@ -17,21 +17,23 @@ type NovelDetailsScreenRouteProps = RouteProp<{
 
 const NovelDetailsScreen = () => {
   const {theme} = useTheme();
-  const {params: defaultNovel} = useRoute<NovelDetailsScreenRouteProps>();
+  const {params: novelParams} = useRoute<NovelDetailsScreenRouteProps>();
   const {top: topInset} = useSafeAreaInsets();
 
   const progressViewOffset = topInset + 16;
 
   const {novel, chapters, loading, error} = useNovelDetails({
-    defaultNovel,
-    novelId: defaultNovel.id,
+    novelParams,
+    novelId: novelParams.id,
   });
 
   return (
     <FlashList
       data={chapters}
       ListHeaderComponent={<NovelDetailsHeader novel={novel} />}
-      renderItem={({item}) => <ChapterCard chapter={item} />}
+      renderItem={({item}) => (
+        <ChapterCard chapter={item} sourceId={novelParams.sourceId} />
+      )}
       estimatedItemSize={100}
       refreshControl={
         <RefreshControl

@@ -21,6 +21,14 @@ const useDatabase = () => {
     });
   }, []);
 
+  // useEffect(() => {
+  //   db.transaction(tx => {
+  //     tx.executeSql('DROP TABLE novels');
+  //     tx.executeSql('DROP TABLE chapters');
+  //     tx.executeSql('DROP TABLE categories');
+  //   });
+  // }, []);
+
   return true;
 };
 

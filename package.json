@@ -35,7 +35,8 @@
     "react-native-screens": "^3.18.2",
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-webview": "^11.26.0"
+    "react-native-webview": "^11.26.0",
+    "sanitize-html": "^2.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -49,6 +50,7 @@
     "@types/react-native": "^0.70.6",
     "@types/react-native-vector-icons": "^6.4.12",
     "@types/react-test-renderer": "^18.0.0",
+    "@types/sanitize-html": "^2.8.0",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
     "babel-jest": "^26.6.3",
