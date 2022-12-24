@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS novels (
     sourceId INTEGER NOT NULL, 
     url TEXT NOT NULL, 
     title TEXT NOT NULL, 
-    status TEXT DEFAULT ${NovelStatus.UNKNOWN}, 
+    status TEXT DEFAULT "${NovelStatus.UNKNOWN}", 
     coverUrl TEXT, 
     genre TEXT, 
     description TEXT, 
@@ -18,6 +18,6 @@ CREATE TABLE IF NOT EXISTS novels (
     nextUpdate INTEGER, 
     initialized INTEGER NOT NULL DEFAULT 0, 
     dateAdded INTEGER NOT NULL, 
-    categoryIds TEXT DEFAULT ${JSON.stringify(DEFAULT_CATEGORIES)}
+    categoryIds TEXT DEFAULT "${JSON.stringify(DEFAULT_CATEGORIES)}"
   )
 `;

@@ -7,7 +7,7 @@ import {SourceNovel} from 'sources/types';
 
 interface UseSourceParams {
   sourceId: number;
-  searchText?: string;
+  searchText: string;
 }
 
 const useSource = (params: UseSourceParams) => {
@@ -22,18 +22,28 @@ const useSource = (params: UseSourceParams) => {
 
   const fetchNovels = async () => {
     try {
-      let res;
+      let res = await source?.getPopoularNovels({page});
 
-      if (params.searchText) {
-        res = await source?.getSearchNovels({
-          searchTerm: params.searchText,
-          page,
-        });
-      } else {
-        res = await source?.getPopoularNovels({
-          page,
-        });
+      const data = res?.novels || [];
+
+      setNovels(prevVal => (page === 1 ? data : [...prevVal, ...data]));
+      setTotalPages(defaultTo(res?.totalPages, 1));
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
       }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const searchNovels = async () => {
+    try {
+      setLoading(true);
+      let res = await source?.getSearchNovels({
+        searchTerm: params.searchText,
+        page,
+      });
 
       const data = res?.novels || [];
 
@@ -58,7 +68,10 @@ const useSource = (params: UseSourceParams) => {
     }
   };
 
-  const resetPage = () => setPage(1);
+  const onClearSearch = () => {
+    setLoading(true);
+    setPage(1);
+  };
 
   return {
     loading,
@@ -66,7 +79,8 @@ const useSource = (params: UseSourceParams) => {
     source,
     novels,
     fetchNextPage,
-    resetPage,
+    searchNovels,
+    onClearSearch,
   };
 };
 

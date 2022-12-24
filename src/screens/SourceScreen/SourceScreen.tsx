@@ -24,22 +24,27 @@ const SourceScreen: React.FC = () => {
     params: {sourceId},
   } = useRoute<SourceScreenRouteProps>();
   const {searchText, setSearchText} = useSearchText();
-  const {loading, source, novels, error, resetPage, fetchNextPage} = useSource({
+  const {
+    loading,
+    source,
+    novels,
+    error,
+    fetchNextPage,
+    searchNovels,
+    onClearSearch,
+  } = useSource({
     searchText,
     sourceId,
   });
-
-  const onChangeText = (text: string) => {
-    setSearchText(text);
-    resetPage();
-  };
 
   return (
     <ScreenContainer>
       <Searchbar
         placeholder={`Search ${source?.name}`}
         value={searchText}
-        onChangeText={onChangeText}
+        onChangeText={setSearchText}
+        onSubmitEditing={searchNovels}
+        onClearSearchbar={onClearSearch}
         useBackAction
       />
       {loading ? (

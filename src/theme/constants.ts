@@ -10,6 +10,7 @@ export const Spacing = {
   L: 20,
   XL: 24,
   XXL: 32,
+  HUGE: 48,
 };
 
 export const Opacity = {

@@ -1,10 +1,10 @@
-import {StyleSheet, Text, View, ViewProps} from 'react-native';
+import {StyleSheet, View, ViewProps} from 'react-native';
 import React from 'react';
 
 export const Row: React.FC<ViewProps> = props => {
   return (
     <View {...props} style={[props.style, styles.rowCtn]}>
-      <Text>{props.children}</Text>
+      {props.children}
     </View>
   );
 };

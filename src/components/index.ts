@@ -7,3 +7,5 @@ export {default as NovelList} from './NovelList/NovelList';
 export {default as NovelItem} from './NovelItem/NovelItem';
 export {ScreenContainer, Row} from './Layout/Layout';
 export {default as ErrorScreen} from './ErrorScreen/ErrorScreen';
+export {default as ChapterCard} from './ChapterCard/ChapterCard';
+export {default as SourceCard} from './SourceCard/SourceCard';

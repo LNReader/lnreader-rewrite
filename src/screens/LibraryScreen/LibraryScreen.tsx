@@ -3,7 +3,7 @@ import React from 'react';
 
 import {useSearchText} from 'hooks/useSearchText';
 
-import {Searchbar} from 'components/index';
+import {ErrorScreen, LoadingScreen, Searchbar} from 'components/index';
 
 const LibraryScreen = () => {
   const {searchText, setSearchText} = useSearchText();
@@ -15,6 +15,13 @@ const LibraryScreen = () => {
         onChangeText={setSearchText}
         placeholder="Search library"
       />
+      {/* {loading ? (
+        <LoadingScreen />
+      ) : error ? (
+        <ErrorScreen error={error} />
+      ) : (
+        <NovelList data={novels} onEndReached={fetchNextPage} />
+      )} */}
     </>
   );
 };

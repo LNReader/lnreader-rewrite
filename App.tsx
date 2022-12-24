@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {StatusBar} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, Theme} from '@react-navigation/native';
 
 import MainNavigator from 'navigators/MainNavigator/MainNavigator';
 import AppErrorBoundary from 'components/AppErrorBoundary/AppErrorBoundary';
@@ -8,7 +8,7 @@ import {useTheme} from 'hooks/useTheme';
 import useDatabase from 'hooks/useDatabase';
 
 const App = () => {
-  const {isDarkMode} = useTheme();
+  const {isDarkMode, theme} = useTheme();
 
   useDatabase();
 
@@ -18,7 +18,8 @@ const App = () => {
 
   return (
     <AppErrorBoundary>
-      <NavigationContainer>
+      <NavigationContainer
+        theme={{colors: {background: theme.background}} as Theme}>
         <StatusBar translucent backgroundColor="transparent" />
         <MainNavigator />
       </NavigationContainer>

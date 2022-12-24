@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import {isDate} from 'lodash';
 import moment from 'moment';
 
 import {
@@ -8,6 +9,7 @@ import {
   SourceNovelDetails,
   GetNovelDetailsParams,
   GetPopularNovelsParams,
+  GetSearchNovelsParams,
 } from 'sources/types';
 import {fetchHtml} from 'utils/fetch/fetch';
 
@@ -48,17 +50,29 @@ export class NovelForestParser extends ParsedSource {
     return {novels, totalPages};
   }
 
-  // async getSearchNovels() {
-  //   const novels: SourceNovel[] = [
-  //     {
-  //       title: 'dscds',
-  //       url: 'dsds',
-  //       coverUrl: 'dsd',
-  //     },
-  //   ];
+  async getSearchNovels({searchTerm}: GetSearchNovelsParams) {
+    const totalPages = 1;
 
-  //   return {novels};
-  // }
+    const baseUrl = this.baseUrl;
+    const sourceId = this.id;
+    const url = `${this.baseUrl}/search?q=${searchTerm}`;
+
+    const html = await fetchHtml({url});
+    const loadedCheerio = cheerio.load(html);
+
+    const novels: SourceNovel[] = [];
+
+    loadedCheerio('.book-item').each(function () {
+      novels.push({
+        sourceId,
+        title: loadedCheerio(this).find('.title').text(),
+        coverUrl: 'https:' + loadedCheerio(this).find('img').attr('data-src'),
+        url: baseUrl + loadedCheerio(this).find('.title a').attr('href'),
+      });
+    });
+
+    return {novels, totalPages};
+  }
 
   async getNovelDetails({url}: GetNovelDetailsParams) {
     const baseUrl = this.baseUrl;
@@ -80,7 +94,7 @@ export class NovelForestParser extends ParsedSource {
       sourceId,
       title: $(titleSelector).text().trim(),
       coverUrl: 'https:' + $(coverSelector).attr('data-src'),
-      description: $(descSelector).text(),
+      description: $(descSelector).text().trim(),
       author: $(authorSelector).text(),
       chapters: [],
     };
@@ -96,9 +110,11 @@ export class NovelForestParser extends ParsedSource {
     const chaptersSelector = 'li';
 
     $(chaptersSelector).each(function () {
-      const dateUpload = moment(
-        new Date($(this).find('.chapter-update').text().trim()),
-      ).unix();
+      const dateObj = moment(
+        $(this).find('.chapter-update').text().trim(),
+        'MMM DD, YYYY',
+      );
+      const dateUpload = moment(dateObj).unix();
 
       const chapterUrl = baseUrl + $(this).find('a').attr('href')?.substring(1);
 

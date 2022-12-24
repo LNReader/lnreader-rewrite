@@ -29,7 +29,9 @@ export const useNovelDetails = ({
   const source = SourceFactory.getSource(sourceId);
 
   const [loading, setLoading] = useState(true);
-  const [novel, setNovel] = useState<Partial<DatabaseNovel>>(defaultNovel);
+  const [novel, setNovel] = useState<DatabaseNovel>(
+    defaultNovel as DatabaseNovel,
+  );
   const [chapters, setChapters] = useState<DatabaseChapter[]>([]);
   const [error, setError] = useState('');
 
@@ -54,6 +56,7 @@ export const useNovelDetails = ({
 
       dbChapters = await getChaptersByNovelId(dbNovel.id);
 
+      console.log(dbNovel);
       setNovel(dbNovel);
       setChapters(dbChapters);
     } catch (err) {

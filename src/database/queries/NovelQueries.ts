@@ -14,7 +14,7 @@ SELECT
 FROM 
   novels 
 WHERE 
-  favourite = 1
+  favorite = 1
 `;
 
 export const getLibraryNovels = (): Promise<DatabaseNovel[]> => {
@@ -59,14 +59,25 @@ export const getNovel = async (
   );
 };
 
+export const toggleNovelFavorite = async (id: number, value: boolean) => {
+  db.transaction(tx => {
+    tx.executeSql(
+      'UPDATE novels SET favorite = ? WHERE id = ?',
+      [+value, id],
+      undefined,
+      txnErrorCallback,
+    );
+  });
+};
+
 const insertNovelQuery = `
 INSERT INTO novels (
   url, title, status, coverUrl, genre, 
-  description, favorite, dateAdded, 
+  description, dateAdded, 
   author, artist, sourceId
 ) 
 VALUES 
-  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
 
 export const insertNovel = async (
