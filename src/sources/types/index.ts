@@ -6,6 +6,7 @@ export enum Language {
 export abstract class Source {
   abstract id: number;
   abstract name: string;
+  abstract baseUrl: string;
   abstract iconUrl: string;
   abstract lang: Language;
   description?: string;
@@ -13,15 +14,18 @@ export abstract class Source {
 }
 
 export interface SourceNovel {
-  name: string;
+  sourceId: number;
+  title: string;
   url: string;
   coverUrl?: string;
 }
 
 export interface SourceNovelDetails {
+  sourceId: number;
   url: string;
   title: string;
   coverUrl?: string;
+  status?: string;
   genre?: string;
   artist?: string;
   author?: string;
@@ -30,26 +34,39 @@ export interface SourceNovelDetails {
 }
 
 export interface SourceNovelChapter {
+  sourceId: number;
   url: string;
   name: string;
-  dateUpload?: string;
+  dateUpload?: number;
   scanlator?: string;
+}
+
+export interface GetPopularNovelsParams {
+  page?: number;
 }
 
 export interface GetSearchNovelsParams {
   searchTerm: string;
+  page?: number;
 }
 
 export interface GetNovelDetailsParams {
   url: string;
 }
 
+export interface SourceNovelsResponse {
+  novels: SourceNovel[];
+  totalPages?: number;
+}
+
 export abstract class ParsedSource extends Source {
-  abstract getPopoularNovels(): Promise<SourceNovel[]>;
+  abstract getPopoularNovels({
+    page,
+  }: GetPopularNovelsParams): Promise<SourceNovelsResponse>;
 
   abstract getSearchNovels({
     searchTerm,
-  }: GetSearchNovelsParams): Promise<SourceNovel[]>;
+  }: GetSearchNovelsParams): Promise<SourceNovelsResponse>;
 
   abstract getNovelDetails({
     url,

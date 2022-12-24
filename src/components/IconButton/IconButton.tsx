@@ -1,6 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import Color from 'color';
+import {Pressable, StyleSheet, View, ViewStyle} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTheme} from 'hooks/useTheme';
@@ -10,6 +9,7 @@ interface IconButtonProps {
   size?: number;
   color?: string;
   onPress?: () => void;
+  containerStyle?: ViewStyle;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
@@ -17,11 +17,12 @@ const IconButton: React.FC<IconButtonProps> = ({
   size = 24,
   color,
   onPress,
+  containerStyle,
 }) => {
   const {theme} = useTheme();
 
   return (
-    <View style={styles.iconButtonCtn}>
+    <View style={[styles.iconButtonCtn, containerStyle]}>
       <Pressable
         onPress={onPress}
         style={styles.pressableCtn}

@@ -1,3 +1,5 @@
+import {SourceNovelDetails} from 'sources/types';
+
 export enum NovelStatus {
   ONGOING = 'Ongoing',
   COMPLETED = 'Completed',
@@ -8,16 +10,25 @@ export enum NovelStatus {
   UNKNOWN = 'Unknown',
 }
 
-export interface Novel {
+export interface DatabaseNovel extends SourceNovelDetails {
+  id: number;
+  favorite: number;
+  lastUpdate?: number;
+  nextUpdate?: number;
+  initialized?: number;
+  dateAdded?: number;
+  categoryIds: number[];
+}
+
+export interface DatabaseChapter {
   id: number;
   url: string;
-  title: string;
-  status: NovelStatus;
-  thumbnailUrl: string;
-  favorite: number;
-  lastUpdate: number;
-  nextUpdate: number;
-  initialized: number;
-  dateAdded: number;
-  categoryIds: string;
+  novelId: number;
+  name: string;
+  dateUpload?: number;
+  dateFetched: number;
+  scanlator?: string;
+  bookmark?: number;
+  read?: number;
+  downloaded?: number;
 }

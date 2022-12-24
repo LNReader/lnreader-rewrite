@@ -1,6 +1,8 @@
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
+import {useTheme} from 'hooks/useTheme';
+
 import LibraryScreen from 'screens/LibraryScreen/LibraryScreen';
 import BrowseScreen from 'screens/BrowseScreen/BrowseScreen';
 import MoreScreen from 'screens/MoreScreen/MoreScreen';
@@ -8,8 +10,13 @@ import MoreScreen from 'screens/MoreScreen/MoreScreen';
 const Tab = createMaterialBottomTabNavigator();
 
 const BottomNavigator = () => {
+  const {theme} = useTheme();
+
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      barStyle={{
+        backgroundColor: theme.surface2,
+      }}>
       <Tab.Screen
         name="LibraryScreen"
         component={LibraryScreen}

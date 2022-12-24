@@ -1,19 +1,22 @@
 import React, {useMemo} from 'react';
 import {SectionList, StyleSheet} from 'react-native';
 
-import SourceFactory from 'sources/index';
+import {useTheme} from 'hooks/useTheme';
+import SourceFactory from 'sources/SourceFactory';
 
 import SourceCard from 'components/SourceCard/SourceCard';
-import Appbar from 'components/Appbar/Appbar';
 import Searchbar from 'components/Searchbar/Searchbar';
+import Text from 'components/Text/Text';
+import {Spacing} from 'theme/constants';
 
 const BrowseScreen = () => {
+  const {theme} = useTheme();
   const sources = SourceFactory.getSources();
 
   const sections = useMemo(
     () => [
       {
-        header: 'Sources',
+        header: 'All',
         data: sources,
       },
     ],
@@ -26,6 +29,13 @@ const BrowseScreen = () => {
       <SectionList
         sections={sections}
         renderItem={({item}) => <SourceCard source={item} />}
+        renderSectionHeader={({section: {header}}) => (
+          <Text
+            color={theme.onSurfaceVariant}
+            padding={{horizontal: Spacing.M, vertical: Spacing.XS}}>
+            {header}
+          </Text>
+        )}
       />
     </>
   );

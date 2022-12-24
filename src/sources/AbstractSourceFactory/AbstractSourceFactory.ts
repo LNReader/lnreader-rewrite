@@ -1,5 +1,4 @@
 import {ParsedSource, Source} from 'sources/types';
-import {pick} from 'lodash';
 
 export class AbstractSourceFactory {
   protected sources: Map<number, ParsedSource>;
@@ -16,7 +15,12 @@ export class AbstractSourceFactory {
     const sources: Source[] = [];
 
     this.sources.forEach(source =>
-      sources.push(pick(source, ['id', 'name', 'iconUrl', 'isNsfw', 'lang'])),
+      sources.push({
+        id: source.id,
+        name: source.name,
+        iconUrl: source.iconUrl,
+        lang: source.lang,
+      }),
     );
 
     return sources;

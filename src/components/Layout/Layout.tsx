@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, ViewProps} from 'react-native';
 import React from 'react';
 
-const Row: React.FC<ViewProps> = props => {
+export const Row: React.FC<ViewProps> = props => {
   return (
     <View {...props} style={[props.style, styles.rowCtn]}>
       <Text>{props.children}</Text>
@@ -9,12 +9,21 @@ const Row: React.FC<ViewProps> = props => {
   );
 };
 
-export default Row;
+export const ScreenContainer: React.FC<ViewProps> = props => {
+  return (
+    <View {...props} style={[props.style, styles.screenCtn]}>
+      {props.children}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   rowCtn: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  screenCtn: {
+    flex: 1,
   },
 });

@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import moment from 'moment';
 
 import {
   Language,
@@ -6,6 +7,7 @@ import {
   SourceNovel,
   SourceNovelDetails,
   GetNovelDetailsParams,
+  GetPopularNovelsParams,
 } from 'sources/types';
 import {fetchHtml} from 'utils/fetch/fetch';
 
@@ -21,34 +23,50 @@ export class NovelForestParser extends ParsedSource {
 
   lang = Language.English;
 
-  async getPopoularNovels() {
-    const novels: SourceNovel[] = [
-      {
-        name: 'dscds',
-        url: 'dsds',
-        coverUrl: 'dsd',
-      },
-    ];
+  baseUrl = 'https://novelforest.com';
 
-    return novels;
+  async getPopoularNovels({page}: GetPopularNovelsParams) {
+    const totalPages = 25;
+    const baseUrl = this.baseUrl;
+    const sourceId = this.id;
+    const url = `${this.baseUrl}/popular?page=${page}`;
+
+    const html = await fetchHtml({url});
+    const loadedCheerio = cheerio.load(html);
+
+    const novels: SourceNovel[] = [];
+
+    loadedCheerio('.book-item').each(function () {
+      novels.push({
+        sourceId,
+        title: loadedCheerio(this).find('.title').text(),
+        coverUrl: 'https:' + loadedCheerio(this).find('img').attr('data-src'),
+        url: baseUrl + loadedCheerio(this).find('.title a').attr('href'),
+      });
+    });
+
+    return {novels, totalPages};
   }
 
-  async getSearchNovels() {
-    const novels: SourceNovel[] = [
-      {
-        name: 'dscds',
-        url: 'dsds',
-        coverUrl: 'dsd',
-      },
-    ];
+  // async getSearchNovels() {
+  //   const novels: SourceNovel[] = [
+  //     {
+  //       title: 'dscds',
+  //       url: 'dsds',
+  //       coverUrl: 'dsd',
+  //     },
+  //   ];
 
-    return novels;
-  }
+  //   return {novels};
+  // }
 
   async getNovelDetails({url}: GetNovelDetailsParams) {
+    const baseUrl = this.baseUrl;
+    const sourceId = this.id;
+
     const html = await fetchHtml({url});
 
-    const $ = cheerio.load(html);
+    let $ = cheerio.load(html);
 
     const titleSelector = '.name h1';
     const descSelector =
@@ -59,12 +77,42 @@ export class NovelForestParser extends ParsedSource {
 
     const novelDetails: SourceNovelDetails = {
       url,
+      sourceId,
       title: $(titleSelector).text().trim(),
       coverUrl: 'https:' + $(coverSelector).attr('data-src'),
       description: $(descSelector).text(),
       author: $(authorSelector).text(),
       chapters: [],
     };
+
+    const chaptersUrl =
+      url.replace(baseUrl, 'https://novelforest.com/api/novels') +
+      '/chapters?source=detail';
+
+    const chaptersHtml = await fetchHtml({url: chaptersUrl});
+
+    $ = cheerio.load(chaptersHtml);
+
+    const chaptersSelector = 'li';
+
+    $(chaptersSelector).each(function () {
+      const dateUpload = moment(
+        new Date($(this).find('.chapter-update').text().trim()),
+      ).unix();
+
+      const chapterUrl = baseUrl + $(this).find('a').attr('href')?.substring(1);
+
+      novelDetails.chapters?.push({
+        sourceId,
+        url: chapterUrl,
+        name: $(this).find('.chapter-title').text().trim(),
+        dateUpload,
+      });
+    });
+
+    novelDetails.chapters?.reverse();
+
+    // console.log(novelDe)
 
     return novelDetails;
   }
