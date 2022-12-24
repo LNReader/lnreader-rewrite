@@ -2,19 +2,17 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import {DatabaseNovel, NovelStatus} from 'database/types';
+import {NovelStatus} from 'database/types';
 import {CoverImage, SubHeader} from './Components';
 import {Row, Text} from '..';
 import {IMAGE_PLACEHOLDER_COLOR, Spacing} from 'theme/constants';
 import {useTheme} from 'hooks/useTheme';
 import SourceFactory from 'sources/SourceFactory';
+import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
 
-interface NovelDetailsHeader {
-  novel: DatabaseNovel;
-}
-
-const NovelDetailsHeader: React.FC<NovelDetailsHeader> = ({novel}) => {
+const NovelDetailsHeader: React.FC = () => {
   const {theme} = useTheme();
+  const {novel} = useNovelDetailsContext();
 
   const sourceName = SourceFactory.getSource(novel.sourceId)?.name;
 
@@ -36,7 +34,7 @@ const NovelDetailsHeader: React.FC<NovelDetailsHeader> = ({novel}) => {
           </View>
         </Row>
       </CoverImage>
-      <SubHeader novel={novel} />
+      <SubHeader />
     </>
   );
 };

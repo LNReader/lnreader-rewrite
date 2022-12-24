@@ -1,38 +1,47 @@
 import React from 'react';
-import {RefreshControl, StyleSheet} from 'react-native';
+import {RefreshControl} from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
 
 import {SourceNovelDetails} from 'sources/types';
 import {useNovelDetails} from 'hooks/useNovelDetails';
 
-import {ChapterCard, Text} from 'components/index';
+import {ChapterCard} from 'components/index';
 import NovelDetailsHeader from 'components/NovelDetailsHeader/NovelDetailsHeader';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTheme} from 'hooks/useTheme';
+import {
+  NovelDetailsContext,
+  useNovelDetailsContext,
+} from 'contexts/NovelDetailsContext';
+import {
+  setMangaFavorite,
+  toggleNovelFavorite,
+} from 'database/queries/NovelQueries';
 
 type NovelDetailsScreenRouteProps = RouteProp<{
   params: SourceNovelDetails & {id?: number};
 }>;
 
-const NovelDetailsScreen = () => {
+interface NovelDetailsProps {
+  sourceId: number;
+}
+
+const NovelDetails: React.FC<NovelDetailsProps> = ({sourceId}) => {
   const {theme} = useTheme();
-  const {params: novelParams} = useRoute<NovelDetailsScreenRouteProps>();
+
   const {top: topInset} = useSafeAreaInsets();
 
   const progressViewOffset = topInset + 16;
 
-  const {novel, chapters, loading, error} = useNovelDetails({
-    novelParams,
-    novelId: novelParams.id,
-  });
+  const {chapters, loading} = useNovelDetailsContext();
 
   return (
     <FlashList
       data={chapters}
-      ListHeaderComponent={<NovelDetailsHeader novel={novel} />}
+      ListHeaderComponent={<NovelDetailsHeader />}
       renderItem={({item}) => (
-        <ChapterCard chapter={item} sourceId={novelParams.sourceId} />
+        <ChapterCard chapter={item} sourceId={sourceId} />
       )}
       estimatedItemSize={100}
       refreshControl={
@@ -47,6 +56,18 @@ const NovelDetailsScreen = () => {
   );
 };
 
-export default NovelDetailsScreen;
+const NovelDetailsScreen = () => {
+  const {params: novelParams} = useRoute<NovelDetailsScreenRouteProps>();
+  const novelDetails = useNovelDetails({
+    novelParams,
+    novelId: novelParams.id,
+  });
 
-const styles = StyleSheet.create({});
+  return (
+    <NovelDetailsContext.Provider value={novelDetails}>
+      <NovelDetails sourceId={novelParams.sourceId} />
+    </NovelDetailsContext.Provider>
+  );
+};
+
+export default NovelDetailsScreen;

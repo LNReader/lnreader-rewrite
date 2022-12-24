@@ -11,6 +11,7 @@ module.exports = {
       {
         alias: {
           components: './src/components',
+          contexts: './src/contexts',
           database: './src/database',
           hooks: './src/hooks',
           navigators: './src/navigators',

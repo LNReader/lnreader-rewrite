@@ -59,7 +59,7 @@ export const getNovel = async (
   );
 };
 
-export const toggleNovelFavorite = async (id: number, value: boolean) => {
+export const setNovelFavorite = async (id: number, value: boolean) => {
   db.transaction(tx => {
     tx.executeSql(
       'UPDATE novels SET favorite = ? WHERE id = ?',

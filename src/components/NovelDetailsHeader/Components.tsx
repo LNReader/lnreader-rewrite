@@ -10,7 +10,7 @@ import {useTheme} from 'hooks/useTheme';
 import Color from 'color';
 import {DatabaseNovel} from 'database/types';
 import {Spacing} from 'theme/constants';
-import {toggleNovelFavorite} from 'database/queries/NovelQueries';
+import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
 
 export const CoverImage: React.FC<FastImageProps> = props => {
   const {theme} = useTheme();
@@ -42,8 +42,9 @@ export const CoverImage: React.FC<FastImageProps> = props => {
   );
 };
 
-export const SubHeader: React.FC<{novel: DatabaseNovel}> = ({novel}) => {
+export const SubHeader: React.FC = () => {
   const {theme} = useTheme();
+  const {novel, handleSetNovelFavorite} = useNovelDetailsContext();
 
   const followBtnColor = novel.favorite
     ? theme.primary
@@ -56,7 +57,7 @@ export const SubHeader: React.FC<{novel: DatabaseNovel}> = ({novel}) => {
           android_ripple={{color: theme.rippleColor}}
           style={styles.buttonCtn}
           onPress={() => {
-            toggleNovelFavorite(novel.id, !novel.favorite);
+            handleSetNovelFavorite(!novel.favorite);
           }}>
           <Icon
             name={novel.favorite ? 'heart' : 'heart-outline'}

@@ -8,7 +8,7 @@
     "baseUrl": ".",
     "paths": {
       "components/*": ["src/components/*"],
-      "components": ["src/components/index"],
+      "contexts/*": ["src/contexts/*"],
       "database/*": ["src/database/*"],
       "hooks/*": ["src/hooks/*"],
       "navigators/*": ["src/navigators/*"],

@@ -4,6 +4,7 @@ import {
   getNovel,
   getNovelById,
   insertNovel,
+  setNovelFavorite,
 } from 'database/queries/NovelQueries';
 import {DatabaseChapter, DatabaseNovel} from 'database/types';
 
@@ -67,6 +68,11 @@ export const useNovelDetails = ({
     }
   };
 
+  const handleSetNovelFavorite = (val: boolean) => {
+    setNovel(prevVal => ({...prevVal, favorite: +val}));
+    setNovelFavorite(novel.id, val);
+  };
+
   useEffect(() => {
     getNovelDetails();
   }, []);
@@ -76,5 +82,6 @@ export const useNovelDetails = ({
     loading,
     error,
     chapters,
+    handleSetNovelFavorite,
   };
 };
