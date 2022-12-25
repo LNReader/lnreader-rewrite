@@ -1,5 +1,12 @@
 import React from 'react';
-import {Pressable, StyleSheet, View, ViewStyle} from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTheme} from 'hooks/useTheme';
@@ -10,6 +17,8 @@ interface IconButtonProps {
   color?: string;
   onPress?: () => void;
   containerStyle?: ViewStyle;
+  style?: StyleProp<TextStyle>;
+  padding?: number;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
@@ -17,6 +26,8 @@ const IconButton: React.FC<IconButtonProps> = ({
   size = 24,
   color,
   onPress,
+  style,
+  padding = 8,
   containerStyle,
 }) => {
   const {theme} = useTheme();
@@ -25,9 +36,14 @@ const IconButton: React.FC<IconButtonProps> = ({
     <View style={[styles.iconButtonCtn, containerStyle]}>
       <Pressable
         onPress={onPress}
-        style={styles.pressableCtn}
+        style={[styles.pressableCtn, {padding}]}
         android_ripple={{color: theme.rippleColor}}>
-        <Icon name={name} size={size} color={color || theme.onSurfaceVariant} />
+        <Icon
+          name={name}
+          size={size}
+          color={color || theme.onSurfaceVariant}
+          style={style}
+        />
       </Pressable>
     </View>
   );

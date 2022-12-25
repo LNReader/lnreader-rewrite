@@ -28,6 +28,7 @@ enum ThemePreferences {
 interface UseThemeReturn {
   theme: ExtendedThemeColors;
   isDarkMode?: boolean;
+  isAmoledBlack?: boolean;
   setAppTheme: (id: number) => void;
   setDarkMode: (val: boolean) => void;
   setAmoledBlack: (val: boolean) => void;
@@ -69,7 +70,7 @@ export const useTheme = (): UseThemeReturn => {
       : defaultDeviceColorScheme;
 
     let colors: ExtendedThemeColors = defaultTo(
-      get(ThemesMap, `[${appTheme}].${colorScheme}`),
+      get(ThemesMap, `[${defaultTo(appTheme, 1)}].${colorScheme}`),
       defaultColors.light,
     );
 
@@ -97,6 +98,7 @@ export const useTheme = (): UseThemeReturn => {
   return {
     theme: themeColors,
     isDarkMode,
+    isAmoledBlack,
     setAppTheme,
     setDarkMode,
     setAmoledBlack,

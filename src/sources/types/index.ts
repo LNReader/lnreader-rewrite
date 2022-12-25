@@ -26,13 +26,13 @@ export interface SourceNovelDetails {
   sourceId: number;
   url: string;
   title: string;
-  coverUrl?: string;
-  status?: NovelStatus;
-  genre?: string;
-  artist?: string;
-  author?: string;
-  description?: string;
-  chapters?: SourceNovelChapter[];
+  coverUrl?: string | null;
+  status?: NovelStatus | null;
+  genre?: string | null;
+  artist?: string | null;
+  author?: string | null;
+  description?: string | null;
+  chapters?: SourceNovelChapter[] | null;
 }
 
 export interface SourceNovelChapter {

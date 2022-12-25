@@ -50,7 +50,7 @@ const Searchbar: React.FC<SearchbarProps> = props => {
         <TextInput
           {...props}
           placeholderTextColor={theme.onSurfaceVariant}
-          style={[props.style, styles.inputCtn]}
+          style={[props.style, styles.inputCtn, {color: theme.onSurface}]}
           value={props.value}
           onChangeText={props.onChangeText}
         />

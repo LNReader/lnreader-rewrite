@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {FlatList, Pressable, StyleSheet, View} from 'react-native';
 import FastImage, {FastImageProps} from 'react-native-fast-image';
 import {LinearGradient} from 'expo-linear-gradient';
 import {easeGradient} from 'react-native-easing-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {Text, Row} from 'components/index';
+import {Text, Row, IconButton, Chip} from 'components/index';
 import {useTheme} from 'hooks/useTheme';
 import Color from 'color';
-import {DatabaseNovel} from 'database/types';
 import {Spacing} from 'theme/constants';
 import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
 
@@ -83,6 +82,58 @@ export const SubHeader: React.FC = () => {
   );
 };
 
+export const Description = () => {
+  const {theme} = useTheme();
+  const {
+    novel: {description, genre, favorite},
+  } = useNovelDetailsContext();
+
+  const [expanded, setExpanded] = useState(!favorite);
+  const isExpanded = expanded || !favorite;
+
+  const handleOnPress = () => setExpanded(prevVal => !prevVal);
+
+  const genreArr = genre?.split(/\s*,\s*/);
+
+  return (
+    <>
+      <Pressable style={styles.descriptionCtn} onPress={handleOnPress}>
+        <Text
+          color={theme.onSurfaceVariant}
+          numberOfLines={isExpanded ? Number.MAX_SAFE_INTEGER : 3}
+          style={[styles.descText, isExpanded && {marginBottom: Spacing.XL}]}>
+          {description || 'No summary'}
+        </Text>
+        {description ? (
+          <View
+            style={[
+              styles.iconCtn,
+              {backgroundColor: Color(theme.background).alpha(0.8).string()},
+            ]}>
+            <IconButton
+              name={isExpanded ? 'chevron-up' : 'chevron-down'}
+              onPress={handleOnPress}
+            />
+          </View>
+        ) : null}
+      </Pressable>
+      {genreArr?.length ? (
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.genreCtn}
+          data={genreArr}
+          horizontal
+          renderItem={({item}) => (
+            <View style={styles.chipCtn}>
+              <Chip textSize={12}>{item}</Chip>
+            </View>
+          )}
+        />
+      ) : null}
+    </>
+  );
+};
+
 const styles = StyleSheet.create({
   subHeaderCtn: {
     justifyContent: 'space-around',
@@ -107,5 +158,26 @@ const styles = StyleSheet.create({
   },
   label: {
     marginTop: Spacing.XS,
+  },
+  descriptionCtn: {
+    padding: Spacing.M,
+  },
+  iconCtn: {
+    alignItems: 'center',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: -Spacing.XS,
+  },
+  descText: {
+    lineHeight: 20,
+  },
+  chipCtn: {
+    marginRight: Spacing.S,
+    marginBottom: Spacing.S,
+  },
+  genreCtn: {
+    paddingHorizontal: Spacing.M,
+    marginVertical: Spacing.XS,
   },
 });

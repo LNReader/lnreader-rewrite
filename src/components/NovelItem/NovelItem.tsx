@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {Pressable, StyleSheet, useWindowDimensions} from 'react-native';
+import {Pressable, StyleSheet, useWindowDimensions, View} from 'react-native';
 
 import Image from 'react-native-fast-image';
 
@@ -8,7 +8,7 @@ import {SourceNovel} from 'sources/types';
 
 import Text from 'components/Text/Text';
 
-import {Spacing} from 'theme/constants';
+import {IMAGE_PLACEHOLDER_COLOR, Spacing} from 'theme/constants';
 import {useTheme} from 'hooks/useTheme';
 import {useNavigation} from '@react-navigation/native';
 
@@ -28,19 +28,25 @@ const NovelItem: React.FC<NovelItemProps> = ({novel}) => {
   };
 
   return (
-    <Pressable style={styles.novelCtn} onPress={handleOnPress}>
-      <Image
-        source={{uri: novel.coverUrl}}
-        style={[styles.cover, {height: coverHeight}]}
-      />
-      <Text
-        numberOfLines={2}
-        fontWeight="bold"
-        color={theme.onSurface}
-        padding={Spacing.XS}>
-        {novel.title}
-      </Text>
-    </Pressable>
+    <View style={styles.novelCtn}>
+      <Pressable
+        style={styles.pressable}
+        onPress={handleOnPress}
+        android_ripple={{color: theme.rippleColor}}>
+        <Image
+          source={{uri: novel.coverUrl || undefined}}
+          style={[styles.cover, {height: coverHeight}]}
+        />
+        <Text
+          numberOfLines={2}
+          fontWeight="bold"
+          color={theme.onSurface}
+          padding={Spacing.XS}
+          size={12}>
+          {novel.title}
+        </Text>
+      </Pressable>
+    </View>
   );
 };
 
@@ -48,10 +54,17 @@ export default NovelItem;
 
 const styles = StyleSheet.create({
   novelCtn: {
+    flex: 1 / 3,
+    borderRadius: 6,
+    overflow: 'hidden',
+  },
+  pressable: {
     flex: 1,
-    margin: Spacing.XS,
+    padding: Spacing.S,
+    paddingBottom: Spacing.XS,
   },
   cover: {
     borderRadius: 4,
+    backgroundColor: IMAGE_PLACEHOLDER_COLOR,
   },
 });

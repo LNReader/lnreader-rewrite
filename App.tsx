@@ -18,8 +18,7 @@ const App = () => {
 
   return (
     <AppErrorBoundary>
-      <NavigationContainer
-        theme={{colors: {background: theme.background}} as Theme}>
+      <NavigationContainer theme={{colors: theme} as unknown as Theme}>
         <StatusBar translucent backgroundColor="transparent" />
         <MainNavigator />
       </NavigationContainer>

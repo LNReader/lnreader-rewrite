@@ -9,13 +9,21 @@ import {
   createDefaultCategoryQuery,
 } from 'database/tables/CategoriesTable';
 import {createChaptersTableQuery} from 'database/tables/ChaptersTable';
+import {txnErrorCallback, txnErrorCallbackWithoutToast} from 'database/utils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
 const useDatabase = () => {
   useEffect(() => {
     db.transaction(tx => {
-      tx.executeSql(createCategoriesTableQuery);
+      tx.executeSql(createCategoriesTableQuery, [], () => {
+        tx.executeSql(
+          createDefaultCategoryQuery,
+          undefined,
+          undefined,
+          txnErrorCallbackWithoutToast,
+        );
+      });
       tx.executeSql(createNovelsTableQuery);
       tx.executeSql(createChaptersTableQuery);
     });

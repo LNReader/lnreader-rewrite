@@ -93,6 +93,14 @@ export class NovelForestParser extends ParsedSource {
       'body > div.layout > div.main-container.book-details > div > div.row.no-gutters > div.col-lg-8 > div.book-info > div.detail > div.meta.box.mt-1.p-10 > p:nth-child(1) > a > span';
     const statusSelector =
       'body > div.layout > div.main-container.book-details > div > div.row.no-gutters > div.col-lg-8 > div.book-info > div.detail > div.meta.box.mt-1.p-10 > p:nth-child(2) > a > span';
+    const genreSelector =
+      'body > div.layout > div.main-container.book-details > div > div.row.no-gutters > div.col-lg-8 > div.book-info > div.detail > div.meta.box.mt-1.p-10 > p:nth-child(3)';
+
+    const genre = $(genreSelector)
+      .text()
+      ?.replace('Genres :', '')
+      .replace(/[\s\n]+/g, ' ')
+      .trim();
 
     const status =
       $(statusSelector).text() === 'Ongoing'
@@ -107,6 +115,7 @@ export class NovelForestParser extends ParsedSource {
       description: $(descSelector).text().trim(),
       author: $(authorSelector).text(),
       status,
+      genre,
       chapters: [],
     };
 

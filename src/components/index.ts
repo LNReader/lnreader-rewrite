@@ -9,3 +9,4 @@ export {ScreenContainer, Row} from './Layout/Layout';
 export {default as ErrorScreen} from './ErrorScreen/ErrorScreen';
 export {default as ChapterCard} from './ChapterCard/ChapterCard';
 export {default as SourceCard} from './SourceCard/SourceCard';
+export {default as Chip} from './Chip/Chip';

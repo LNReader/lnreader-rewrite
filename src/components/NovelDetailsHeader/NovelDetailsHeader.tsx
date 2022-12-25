@@ -1,40 +1,57 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import {NovelStatus} from 'database/types';
-import {CoverImage, SubHeader} from './Components';
-import {Row, Text} from '..';
+import {CoverImage, Description, SubHeader} from './Components';
+import {Row, Text, IconButton} from 'components/index';
 import {IMAGE_PLACEHOLDER_COLOR, Spacing} from 'theme/constants';
 import {useTheme} from 'hooks/useTheme';
 import SourceFactory from 'sources/SourceFactory';
 import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
+import {useNavigation} from '@react-navigation/native';
 
 const NovelDetailsHeader: React.FC = () => {
   const {theme} = useTheme();
-  const {novel} = useNovelDetailsContext();
+  const {goBack} = useNavigation();
+  const {novel, chapters} = useNovelDetailsContext();
 
   const sourceName = SourceFactory.getSource(novel.sourceId)?.name;
+  const coverUrl = novel.coverUrl || undefined;
 
   return (
     <>
-      <CoverImage source={{uri: novel.coverUrl}}>
+      <CoverImage source={{uri: coverUrl}}>
+        <IconButton
+          name="arrow-left"
+          containerStyle={styles.backHandler}
+          onPress={goBack}
+        />
         <Row style={styles.headerCtn}>
-          <FastImage source={{uri: novel.coverUrl}} style={styles.coverCtn} />
+          <FastImage source={{uri: coverUrl}} style={styles.coverCtn} />
           <View style={styles.detailsCtn}>
             <Text size={16} color={theme.onSurface}>
               {novel.title}
             </Text>
-            <Text numberOfLines={1} color={theme.onSurfaceVariant}>
+            <Text
+              numberOfLines={1}
+              color={theme.onSurfaceVariant}
+              padding={{vertical: Spacing.TINY}}>
               {novel.author}
             </Text>
             <Text numberOfLines={1} color={theme.onSurfaceVariant}>{`${
               novel.status || NovelStatus.UNKNOWN
-            }${sourceName ? ' • ' + sourceName : ''}`}</Text>
+            } • ${sourceName}`}</Text>
           </View>
         </Row>
       </CoverImage>
       <SubHeader />
+      <Description />
+      <Pressable
+        style={styles.chaptersCtn}
+        android_ripple={{color: theme.rippleColor}}>
+        <Text fontWeight="bold">{`${chapters?.length} Chapters`}</Text>
+      </Pressable>
     </>
   );
 };
@@ -55,5 +72,14 @@ const styles = StyleSheet.create({
   detailsCtn: {
     flex: 1,
     padding: Spacing.M,
+  },
+  chaptersCtn: {
+    paddingHorizontal: Spacing.M,
+    paddingVertical: Spacing.S,
+  },
+  backHandler: {
+    position: 'absolute',
+    top: Spacing.XXL,
+    left: Spacing.XS,
   },
 });

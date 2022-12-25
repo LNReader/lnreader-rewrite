@@ -17,7 +17,7 @@ export interface DatabaseNovel extends SourceNovelDetails {
   nextUpdate?: number;
   initialized?: number;
   dateAdded?: number;
-  categoryIds: number[];
+  categoryIds: string;
 }
 
 export interface DatabaseChapter {
@@ -31,4 +31,11 @@ export interface DatabaseChapter {
   bookmark?: number;
   read?: number;
   downloaded?: number;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  sort?: number | null;
+  flags: number;
 }

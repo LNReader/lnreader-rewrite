@@ -1,3 +1,4 @@
+import {useTheme} from 'hooks/useTheme';
 import {isNumber} from 'lodash';
 import React from 'react';
 import {
@@ -19,6 +20,8 @@ interface TextProps extends RNTextProps {
 }
 
 const Text: React.FC<TextProps> = props => {
+  const {theme} = useTheme();
+
   const padding: TextStyle = isNumber(props.padding)
     ? {padding: props.padding}
     : {
@@ -26,19 +29,17 @@ const Text: React.FC<TextProps> = props => {
         paddingVertical: props.padding?.vertical,
       };
 
-  const fontWeight = props.fontWeight || 'normal';
-
   return (
     <RNText
       {...props}
       style={[
         props.style,
-        {
-          color: props.color,
-          fontSize: props.size,
-          fontWeight,
-        },
         padding,
+        {
+          color: props.color || theme.onSurface,
+          fontSize: props.size,
+          fontWeight: props.fontWeight || 'normal',
+        },
       ]}>
       {props.children}
     </RNText>

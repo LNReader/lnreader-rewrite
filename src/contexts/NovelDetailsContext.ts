@@ -1,6 +1,6 @@
 import {createContext, useContext} from 'react';
 
-import {DatabaseChapter, DatabaseNovel} from 'database/types';
+import {DatabaseChapter, DatabaseNovel, NovelStatus} from 'database/types';
 
 interface NovelContextProps {
   loading: boolean;
@@ -12,6 +12,10 @@ interface NovelContextProps {
 
 const novelDetails = {
   loading: true,
+  novel: {
+    author: 'Unknown author',
+    status: NovelStatus.UNKNOWN,
+  },
 };
 
 export const NovelDetailsContext = createContext<NovelContextProps>(
