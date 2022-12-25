@@ -10,6 +10,7 @@ import {useTheme} from 'hooks/useTheme';
 import Color from 'color';
 import {Spacing} from 'theme/constants';
 import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
+import {defaultTo} from 'lodash';
 
 export const CoverImage: React.FC<FastImageProps> = props => {
   const {theme} = useTheme();
@@ -89,7 +90,7 @@ export const Description = () => {
   } = useNovelDetailsContext();
 
   const [expanded, setExpanded] = useState(!favorite);
-  const isExpanded = expanded || !favorite;
+  const isExpanded = defaultTo(expanded, !favorite);
 
   const handleOnPress = () => setExpanded(prevVal => !prevVal);
 
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     flex: 1,
-    paddingTop: 72,
+    paddingTop: 90,
   },
   buttonCtn: {
     paddingHorizontal: Spacing.M,
@@ -161,6 +162,7 @@ const styles = StyleSheet.create({
   },
   descriptionCtn: {
     padding: Spacing.M,
+    paddingTop: Spacing.S,
   },
   iconCtn: {
     alignItems: 'center',

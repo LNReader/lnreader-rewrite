@@ -16,6 +16,11 @@ interface SearchbarProps extends TextInputProps {
   onChangeText: (text: string) => void;
   onClearSearchbar?: () => void;
   useBackAction?: boolean;
+  actions?: Array<{
+    icon: string;
+    onPress?: () => void;
+    disabled?: boolean;
+  }>;
 }
 
 const Searchbar: React.FC<SearchbarProps> = props => {
@@ -57,6 +62,13 @@ const Searchbar: React.FC<SearchbarProps> = props => {
         {props.value ? (
           <IconButton name="close" onPress={onClearSearchBar} />
         ) : null}
+        {props.actions?.map(action => (
+          <IconButton
+            key={action.icon}
+            name={action.icon}
+            onPress={action.onPress}
+          />
+        ))}
       </Pressable>
     </View>
   );

@@ -1,22 +1,28 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useState} from 'react';
 
 import {getLibraryNovels} from 'database/queries/NovelQueries';
-import {Category, DatabaseNovel} from 'database/types';
+import {Category, LibraryNovel} from 'database/types';
 import {useFocusEffect} from '@react-navigation/native';
 import {getCategories} from 'database/queries/CategoryQueries';
+import useAppSettings from './useAppSettings';
 
-type Library = Category & {novels: DatabaseNovel[]};
+export type Library = Category & {novels: LibraryNovel[]};
 
-export const useLibrary = () => {
+interface UseLibraryProps {
+  searchTerm?: string;
+}
+
+export const useLibrary = ({searchTerm}: UseLibraryProps) => {
   const [loading, setLoading] = useState(true);
   const [library, setLibrary] = useState<Library[]>([]);
   const [error, setError] = useState('');
+  const {LIBRARY_FILTERS} = useAppSettings();
 
   const getNovels = async () => {
     try {
       const [dbCatgories, dbNovels] = await Promise.all([
         getCategories(),
-        getLibraryNovels(),
+        getLibraryNovels(searchTerm),
       ]);
 
       const data = dbCatgories.map(category => {
@@ -45,7 +51,7 @@ export const useLibrary = () => {
   useFocusEffect(
     useCallback(() => {
       getNovels();
-    }, []),
+    }, [searchTerm, LIBRARY_FILTERS]),
   );
 
   return {

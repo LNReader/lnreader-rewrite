@@ -5,7 +5,9 @@ export const txnErrorCallback = (
   _txnObj: SQLTransaction,
   error: SQLError,
 ): boolean => {
-  console.log(error.message.slice(0, 300));
+  if (__DEV__) {
+    console.log(error.message);
+  }
   ToastAndroid.show(error.message, ToastAndroid.SHORT);
   return false;
 };

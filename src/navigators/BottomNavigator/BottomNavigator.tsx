@@ -6,6 +6,8 @@ import {useTheme} from 'hooks/useTheme';
 import LibraryScreen from 'screens/LibraryScreen/LibraryScreen';
 import BrowseScreen from 'screens/BrowseScreen/BrowseScreen';
 import MoreScreen from 'screens/MoreScreen/MoreScreen';
+import UpdatesScreen from 'screens/UpdatesScreen/UpdatesScreen';
+import HistoryScreen from 'screens/HistoryScreen/HistoryScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -24,12 +26,12 @@ const BottomNavigator = () => {
       />
       <Tab.Screen
         name="UpdatesScreen"
-        component={LibraryScreen}
+        component={UpdatesScreen}
         options={{tabBarIcon: 'alert-decagram-outline', tabBarLabel: 'Updates'}}
       />
       <Tab.Screen
         name="HistoryScreen"
-        component={LibraryScreen}
+        component={HistoryScreen}
         options={{tabBarIcon: 'history', tabBarLabel: 'History'}}
       />
       <Tab.Screen

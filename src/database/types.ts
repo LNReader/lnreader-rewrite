@@ -20,6 +20,11 @@ export interface DatabaseNovel extends SourceNovelDetails {
   categoryIds: string;
 }
 
+export interface LibraryNovel extends DatabaseNovel {
+  chaptersDownloaded: number | null;
+  chaptersUnread: number | null;
+}
+
 export interface DatabaseChapter {
   id: number;
   url: string;

@@ -18,6 +18,7 @@ module.exports = {
           screens: './src/screens',
           sources: './src/sources',
           theme: './src/theme',
+          types: './src/types',
           utils: './src/utils',
         },
       },

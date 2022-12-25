@@ -16,7 +16,7 @@ const NovelDetailsHeader: React.FC = () => {
   const {goBack} = useNavigation();
   const {novel, chapters} = useNovelDetailsContext();
 
-  const sourceName = SourceFactory.getSource(novel.sourceId)?.name;
+  const sourceName = SourceFactory.getSourceName(novel.sourceId);
   const coverUrl = novel.coverUrl || undefined;
 
   return (
@@ -30,7 +30,7 @@ const NovelDetailsHeader: React.FC = () => {
         <Row style={styles.headerCtn}>
           <FastImage source={{uri: coverUrl}} style={styles.coverCtn} />
           <View style={styles.detailsCtn}>
-            <Text size={16} color={theme.onSurface}>
+            <Text size={18} color={theme.onSurface}>
               {novel.title}
             </Text>
             <Text
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   headerCtn: {
     flex: 1,
     padding: Spacing.M,
+    paddingBottom: Spacing.S,
   },
   detailsCtn: {
     flex: 1,
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
   },
   backHandler: {
     position: 'absolute',
-    top: Spacing.XXL,
+    top: Spacing.HUGE,
     left: Spacing.XS,
   },
 });

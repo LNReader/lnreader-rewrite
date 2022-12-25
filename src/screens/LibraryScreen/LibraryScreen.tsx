@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {StyleSheet, useWindowDimensions, View} from 'react-native';
 import {
   NavigationState,
@@ -20,6 +20,8 @@ import {useLibrary} from 'hooks/useLibrary';
 import {useTheme} from 'hooks/useTheme';
 import LibraryView from 'components/LibraryView/LibraryView';
 import {Spacing} from 'theme/constants';
+import {BottomSheetType} from 'components/BottomSheet/BottomSheet';
+import LibraryBottomSheet from 'components/LibraryBottomSheet/LibraryBottomSheet';
 
 type State = NavigationState<{
   key: string;
@@ -28,11 +30,11 @@ type State = NavigationState<{
 
 const LibraryScreen = () => {
   const {theme} = useTheme();
-  const {searchText, setSearchText} = useSearchText();
-
-  const {error, loading, library} = useLibrary();
-
   const layout = useWindowDimensions();
+
+  const {searchText, setSearchText} = useSearchText();
+  const {error, loading, library} = useLibrary({searchTerm: searchText});
+  const bottomSheetRef = useRef<BottomSheetType>(null);
 
   const [index, setIndex] = useState(0);
 
@@ -71,30 +73,39 @@ const LibraryScreen = () => {
         value={searchText}
         onChangeText={setSearchText}
         placeholder="Search library"
+        actions={[
+          {
+            icon: 'filter-variant',
+            onPress: () => bottomSheetRef.current?.show(),
+          },
+        ]}
       />
-      <TabView
-        lazy
-        navigationState={{
-          index,
-          routes: library.map(category => ({
-            key: String(category.id),
-            title: category.name,
-            ...category,
-          })),
-        }}
-        renderTabBar={renderTabBar}
-        renderScene={({route}) =>
-          loading ? (
-            <LoadingScreen />
-          ) : error ? (
-            <ErrorScreen error={error} />
-          ) : (
-            <LibraryView categoryId={route.id} novels={route.novels} />
-          )
-        }
-        onIndexChange={setIndex}
-        initialLayout={{width: layout.width}}
-      />
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <TabView
+          lazy
+          navigationState={{
+            index,
+            routes: library.map(category => ({
+              key: String(category.id),
+              title: category.name,
+              ...category,
+            })),
+          }}
+          renderTabBar={renderTabBar}
+          renderScene={({route}) =>
+            error ? (
+              <ErrorScreen error={error} />
+            ) : (
+              <LibraryView categoryId={route.id} novels={route.novels} />
+            )
+          }
+          onIndexChange={setIndex}
+          initialLayout={{width: layout.width}}
+        />
+      )}
+      <LibraryBottomSheet bottomSheetRef={bottomSheetRef} />
     </>
   );
 };

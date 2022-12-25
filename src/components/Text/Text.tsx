@@ -33,8 +33,8 @@ const Text: React.FC<TextProps> = props => {
     <RNText
       {...props}
       style={[
-        props.style,
         padding,
+        props.style,
         {
           color: props.color || theme.onSurface,
           fontSize: props.size,

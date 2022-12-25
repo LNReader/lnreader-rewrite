@@ -10,3 +10,5 @@ export {default as ErrorScreen} from './ErrorScreen/ErrorScreen';
 export {default as ChapterCard} from './ChapterCard/ChapterCard';
 export {default as SourceCard} from './SourceCard/SourceCard';
 export {default as Chip} from './Chip/Chip';
+export {BottomSheet, BottomSheetTabView} from './BottomSheet/BottomSheet';
+export {default as Checkbox} from './Checkbox/Checkbox';

@@ -20,6 +20,7 @@ export class AbstractSourceFactory {
         name: source.name,
         iconUrl: source.iconUrl,
         lang: source.lang,
+        baseUrl: source.baseUrl,
       }),
     );
 
@@ -28,5 +29,13 @@ export class AbstractSourceFactory {
 
   getSource(id: number) {
     return this.sources.get(id);
+  }
+
+  getSourceLang(id: number) {
+    return this.sources.get(id)?.lang;
+  }
+
+  getSourceName(id: number) {
+    return this.sources.get(id)?.name;
   }
 }

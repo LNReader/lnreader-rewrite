@@ -45,7 +45,7 @@ export default ChapterCard;
 const styles = StyleSheet.create({
   cardCtn: {
     paddingHorizontal: Spacing.M,
-    paddingVertical: Spacing.S,
+    paddingVertical: Spacing.XM,
   },
   dateCtn: {
     marginTop: Spacing.TINY,
