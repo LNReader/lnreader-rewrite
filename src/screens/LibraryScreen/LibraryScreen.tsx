@@ -22,6 +22,7 @@ import LibraryView from 'components/LibraryView/LibraryView';
 import {Spacing} from 'theme/constants';
 import {BottomSheetType} from 'components/BottomSheet/BottomSheet';
 import LibraryBottomSheet from 'components/LibraryBottomSheet/LibraryBottomSheet';
+import useAppSettings from 'hooks/useAppSettings';
 
 type State = NavigationState<{
   key: string;
@@ -31,6 +32,7 @@ type State = NavigationState<{
 const LibraryScreen = () => {
   const {theme} = useTheme();
   const layout = useWindowDimensions();
+  const {LIBRARY_SHOW_NUMBER_OF_ITEMS} = useAppSettings();
 
   const {searchText, setSearchText} = useSearchText();
   const {error, loading, library} = useLibrary({searchTerm: searchText});
@@ -57,7 +59,9 @@ const LibraryScreen = () => {
           <Text style={{color}}>{route.title}</Text>
           <View
             style={[styles.badgeCtn, {backgroundColor: theme.surfaceVariant}]}>
-            <Text size={12}>{(route as any)?.novels.length}</Text>
+            {LIBRARY_SHOW_NUMBER_OF_ITEMS && (
+              <Text size={12}>{(route as any)?.novels.length}</Text>
+            )}
           </View>
         </Row>
       )}

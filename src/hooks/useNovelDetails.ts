@@ -38,8 +38,14 @@ export const useNovelDetails = ({
 
   const getNovelDetails = async () => {
     try {
-      let dbNovel = await getNovel(sourceId, url);
       let dbNovelId = novelId;
+      let dbNovel;
+
+      if (dbNovelId) {
+        dbNovel = await getNovelById(dbNovelId);
+      } else {
+        dbNovel = await getNovel(sourceId, url);
+      }
 
       let dbChapters: DatabaseChapter[] = [];
 

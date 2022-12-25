@@ -1,9 +1,9 @@
 import React, {useMemo, useState} from 'react';
-import {Animated, StyleSheet, Text, View} from 'react-native';
+import {Animated, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {SceneMap} from 'react-native-tab-view';
 
-import {BottomSheetTabView, Checkbox} from 'components/index';
+import {BottomSheetTabView, Checkbox, Text} from 'components/index';
 import {BottomSheetRef} from 'components/BottomSheet/BottomSheet';
 import useAppSettings from 'hooks/useAppSettings';
 import {
@@ -24,12 +24,13 @@ export const FilterRoute = () => {
   const {LIBRARY_FILTERS, setAppSettings} = useAppSettings();
 
   const onPress = (filter: LibraryFilters) =>
-    setAppSettings('LIBRARY_FILTERS', xor(LIBRARY_FILTERS, [filter]));
+    setAppSettings(Setting.LIBRARY_FILTERS, xor(LIBRARY_FILTERS, [filter]));
 
   return (
     <View>
       {Object.values(LibraryFilters).map(filter => (
         <Checkbox
+          key={filter}
           status={LIBRARY_FILTERS?.includes(filter)}
           label={libraryFilterLabels[filter]}
           onPress={() => {
@@ -51,6 +52,7 @@ export const SortRoute = () => {
     <View>
       {librarySortOrderList.map(sortOrder => (
         <SortItem
+          key={sortOrder.ASC}
           status={
             LIBRARY_SORT_ORDER === sortOrder.ASC
               ? 'ASC'
@@ -73,7 +75,49 @@ export const SortRoute = () => {
 };
 
 export const DisplayRoute = () => {
-  return <Text>DisplayRoute</Text>;
+  const {
+    LIBRARY_SHOW_DOWNLOADS_BADGE = true,
+    LIBRARY_SHOW_UNREAD_BADGE = true,
+    LIBRARY_SHOW_NUMBER_OF_ITEMS,
+    setAppSettings,
+  } = useAppSettings();
+
+  return (
+    <View>
+      <Text style={styles.sectionHeader}>Badges</Text>
+      <Checkbox
+        status={LIBRARY_SHOW_DOWNLOADS_BADGE}
+        label="Downloaded chapters"
+        onPress={() =>
+          setAppSettings(
+            Setting.LIBRARY_SHOW_DOWNLOADS_BADGE,
+            !LIBRARY_SHOW_DOWNLOADS_BADGE,
+          )
+        }
+      />
+      <Checkbox
+        status={LIBRARY_SHOW_UNREAD_BADGE}
+        label="Unread chapters"
+        onPress={() =>
+          setAppSettings(
+            Setting.LIBRARY_SHOW_UNREAD_BADGE,
+            !LIBRARY_SHOW_UNREAD_BADGE,
+          )
+        }
+      />
+      <Text style={styles.sectionHeader}>Tabs</Text>
+      <Checkbox
+        status={LIBRARY_SHOW_NUMBER_OF_ITEMS}
+        label="Show number of items"
+        onPress={() =>
+          setAppSettings(
+            Setting.LIBRARY_SHOW_NUMBER_OF_ITEMS,
+            !LIBRARY_SHOW_NUMBER_OF_ITEMS,
+          )
+        }
+      />
+    </View>
+  );
 };
 
 const LibraryBottomSheet: React.FC<LibraryBottomSheetProps> = ({
@@ -114,4 +158,9 @@ const LibraryBottomSheet: React.FC<LibraryBottomSheetProps> = ({
 
 export default LibraryBottomSheet;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  sectionHeader: {
+    padding: 16,
+    paddingBottom: 8,
+  },
+});

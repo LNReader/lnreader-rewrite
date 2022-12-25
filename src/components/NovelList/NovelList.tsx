@@ -1,11 +1,10 @@
 import React, {useCallback} from 'react';
 import {FlatList, FlatListProps, StyleSheet} from 'react-native';
-import {FlashList, FlashListProps} from '@shopify/flash-list';
 
 import {LibraryNovel} from 'database/types';
 import {SourceNovel} from 'sources/types';
 
-import {NovelItem} from 'components/index';
+import {NovelItem, EmptyView} from 'components/index';
 
 import {Spacing} from 'theme/constants';
 
@@ -26,6 +25,7 @@ const NovelList: React.FC<
       contentContainerStyle={styles.contentCtnStyle}
       {...props}
       renderItem={({item}) => <NovelItem novel={item} />}
+      ListEmptyComponent={<EmptyView />}
     />
   );
 };

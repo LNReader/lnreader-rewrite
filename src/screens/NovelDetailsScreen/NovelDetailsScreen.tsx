@@ -14,10 +14,6 @@ import {
   NovelDetailsContext,
   useNovelDetailsContext,
 } from 'contexts/NovelDetailsContext';
-import {
-  setMangaFavorite,
-  toggleNovelFavorite,
-} from 'database/queries/NovelQueries';
 
 type NovelDetailsScreenRouteProps = RouteProp<{
   params: SourceNovelDetails & {id?: number};

@@ -7,16 +7,16 @@ import {Source} from 'sources/types';
 import Text from 'components/Text/Text';
 import {IMAGE_PLACEHOLDER_COLOR, Spacing} from 'theme/constants';
 import {useNavigation} from '@react-navigation/native';
-import SourceFactory from 'sources/SourceFactory';
 import {MMKVStorage} from 'utils/mmkv/mmkv';
-import {SourceSettingTypes} from 'utils/settings/constants';
-import {useMMKVObject, useMMKVString} from 'react-native-mmkv';
+import {useMMKVObject} from 'react-native-mmkv';
 import IconButton from 'components/IconButton/IconButton';
 import {xor} from 'lodash';
 
 interface SourceCardProps {
   source: Source;
 }
+
+export const PINNED_SOURCES = 'PINNED_SOURCES';
 
 const SourceCard: React.FC<SourceCardProps> = ({source}) => {
   const {id, name, lang, iconUrl} = source;
@@ -28,7 +28,7 @@ const SourceCard: React.FC<SourceCardProps> = ({source}) => {
   const onPress = () => navigate('SourceScreen', {sourceId: source.id});
 
   const [pinnedSources, setPinnedSources] = useMMKVObject<number[]>(
-    SourceSettingTypes.PINNED_SOURCES,
+    PINNED_SOURCES,
     MMKVStorage,
   );
 
@@ -39,7 +39,10 @@ const SourceCard: React.FC<SourceCardProps> = ({source}) => {
   const isPinned = pinnedSources?.includes(id);
 
   return (
-    <Pressable style={styles.sourceCardCtn} onPress={onPress}>
+    <Pressable
+      style={styles.sourceCardCtn}
+      onPress={onPress}
+      android_ripple={{color: theme.rippleColor}}>
       <Image source={{uri: iconUrl}} style={styles.icon} />
       <View style={styles.infoCtn}>
         <Text color={theme.onSurface}>{name}</Text>

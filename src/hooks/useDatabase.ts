@@ -10,6 +10,8 @@ import {
 } from 'database/tables/CategoriesTable';
 import {createChaptersTableQuery} from 'database/tables/ChaptersTable';
 import {txnErrorCallback, txnErrorCallbackWithoutToast} from 'database/utils';
+import {createHistoryTableQuery} from 'database/tables/HistoryTable';
+import {noop} from 'lodash';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -26,6 +28,7 @@ const useDatabase = () => {
       });
       tx.executeSql(createNovelsTableQuery);
       tx.executeSql(createChaptersTableQuery);
+      tx.executeSql(createHistoryTableQuery);
     });
   }, []);
 
@@ -34,10 +37,9 @@ const useDatabase = () => {
   //     tx.executeSql('DROP TABLE novels');
   //     tx.executeSql('DROP TABLE chapters');
   //     tx.executeSql('DROP TABLE categories');
+  //     tx.executeSql('DROP TABLE history');
   //   });
   // }, []);
-
-  return true;
 };
 
 export default useDatabase;

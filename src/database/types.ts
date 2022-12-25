@@ -44,3 +44,18 @@ export interface Category {
   sort?: number | null;
   flags: number;
 }
+
+export interface History {
+  id: number;
+  lastRead: number;
+  timeRead: number | null;
+
+  chapterId: number;
+  name: string;
+  url: string;
+  coverUrl?: string;
+
+  novelId: number;
+  sourceId: number;
+  title: string;
+}

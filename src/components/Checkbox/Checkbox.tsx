@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: Spacing.XM,
-    paddingVertical: Spacing.XS,
+    paddingVertical: Spacing.S,
   },
   label: {
     marginLeft: Spacing.S,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: Spacing.XM,
-    paddingVertical: Spacing.XM,
+    paddingVertical: Spacing.M,
     paddingLeft: 56,
   },
   icon: {

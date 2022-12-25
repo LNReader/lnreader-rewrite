@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import WebView from 'react-native-webview';
 import useChapter from 'hooks/useChapter';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -7,6 +7,7 @@ import {DatabaseChapter} from 'database/types';
 import {ErrorScreen, LoadingScreen} from 'components/index';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTheme} from 'hooks/useTheme';
+import {insertChapterInHistory} from 'database/queries/HistoryQueries';
 
 type ReaderScreenRouteProps = RouteProp<{
   params: {
@@ -19,6 +20,13 @@ const ReaderScreen = () => {
   const {theme} = useTheme();
   const {params: readerParams} = useRoute<ReaderScreenRouteProps>();
   const {chapter, error, loading} = useChapter(readerParams);
+
+  useEffect(() => {
+    insertChapterInHistory(
+      readerParams.chapter.novelId,
+      readerParams.chapter.id,
+    );
+  }, []);
 
   const {top: topInset} = useSafeAreaInsets();
   const paddingTop = topInset + 16;

@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 
 import {DATABASE_NAME} from 'database/constants';
-import {DatabaseNovel} from 'database/types';
+import {DatabaseNovel, LibraryNovel} from 'database/types';
 
 import {txnErrorCallback} from 'database/utils';
 import {SourceNovelDetails} from 'sources/types';
@@ -36,7 +36,7 @@ WHERE
 
 export const getLibraryNovels = (
   searchTerm?: string,
-): Promise<DatabaseNovel[]> => {
+): Promise<LibraryNovel[]> => {
   let query = getLibraryNovelsQuery;
 
   const rawSettings = MMKVStorage.getString(APP_SETTINGS) || '{}';

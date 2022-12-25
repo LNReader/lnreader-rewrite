@@ -12,3 +12,4 @@ export {default as SourceCard} from './SourceCard/SourceCard';
 export {default as Chip} from './Chip/Chip';
 export {BottomSheet, BottomSheetTabView} from './BottomSheet/BottomSheet';
 export {default as Checkbox} from './Checkbox/Checkbox';
+export {default as EmptyView} from './EmptyView/EmptyView';
