@@ -34,6 +34,7 @@ export default NovelList;
 
 const styles = StyleSheet.create({
   contentCtnStyle: {
+    flexGrow: 1,
     padding: Spacing.XS,
   },
 });

@@ -12,6 +12,7 @@ import {AMOLED_HEX, Opacity} from 'theme/constants';
 
 interface ExtendedThemeColors extends ThemeColors {
   rippleColor?: string;
+  onSurfaceDisabled?: string;
   surface1?: string;
   surface2?: string;
   surface3?: string;
@@ -85,6 +86,10 @@ export const useTheme = (): UseThemeReturn => {
     colors = {
       ...colors,
       rippleColor: Color(colors.primary).alpha(Opacity.level2).toString(),
+      onSurfaceDisabled: Color(colors.onSurface)
+        .alpha(Opacity.level4)
+        .rgb()
+        .string(),
       surface1: getElevationColor(colors, Opacity.level1),
       surface2: getElevationColor(colors, Opacity.level2),
       surface3: getElevationColor(colors, Opacity.level3),

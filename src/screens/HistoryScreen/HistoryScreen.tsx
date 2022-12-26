@@ -40,7 +40,7 @@ const HistoryScreen = () => {
           sections={groupHistoryByDate(history)}
           renderSectionHeader={({section: {date}}) => (
             <Text padding={{horizontal: 16, vertical: 8}}>
-              {moment(date).calendar()}
+              {moment(new Date(date)).calendar()}
             </Text>
           )}
           renderItem={({item}) => (

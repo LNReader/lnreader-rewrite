@@ -51,7 +51,6 @@ export const insertChapterInHistory = async (
   novelId: number,
   chapterId: number,
 ) => {
-  console.log(novelId, chapterId);
   db.transaction(tx =>
     tx.executeSql(
       insertChapterInHistoryQuery,
@@ -63,7 +62,6 @@ export const insertChapterInHistory = async (
 };
 
 export const removeHistoryById = async (historyId: number) => {
-  console.log(historyId);
   db.transaction(tx => {
     tx.executeSql(
       'DELETE FROM history WHERE id = ?',

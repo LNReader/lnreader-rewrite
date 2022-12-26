@@ -1,11 +1,23 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {
+  Button as PaperButton,
+  ButtonProps as PaperButtonProps,
+} from 'react-native-paper';
 
-const Button = () => {
+import {useTheme} from 'hooks/useTheme';
+
+interface ButtonProps extends Omit<PaperButtonProps, 'children' | 'theme'> {
+  title?: string;
+}
+
+const Button: React.FC<ButtonProps> = props => {
+  const {theme} = useTheme();
+
   return (
-    <View>
-      <Text>Button</Text>
-    </View>
+    <PaperButton {...props} theme={{colors: theme}}>
+      {props.title}
+    </PaperButton>
   );
 };
 

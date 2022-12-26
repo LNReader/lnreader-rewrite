@@ -15,6 +15,7 @@ import {
   getChaptersByNovelId,
   insertChapters,
 } from 'database/queries/ChapterQueries';
+import useNovelStorage from './useNovelStorage';
 
 interface UseNovelDetailsProps {
   novelId?: number;
@@ -35,6 +36,8 @@ export const useNovelDetails = ({
   );
   const [chapters, setChapters] = useState<DatabaseChapter[]>([]);
   const [error, setError] = useState('');
+
+  const {FILTERS, SORT_ORDER} = useNovelStorage(novelId || novel.id);
 
   const getNovelDetails = async () => {
     try {
@@ -81,7 +84,7 @@ export const useNovelDetails = ({
 
   useEffect(() => {
     getNovelDetails();
-  }, []);
+  }, [FILTERS, SORT_ORDER]);
 
   return {
     novel,

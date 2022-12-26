@@ -7,6 +7,8 @@ import {useTheme} from 'hooks/useTheme';
 import {DatabaseChapter} from 'database/types';
 import {Spacing} from 'theme/constants';
 import {useNavigation} from '@react-navigation/native';
+import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
+import useNovelStorage from 'hooks/useNovelStorage';
 
 interface ChapterCardProps {
   chapter: DatabaseChapter;
@@ -16,8 +18,15 @@ interface ChapterCardProps {
 const ChapterCard: React.FC<ChapterCardProps> = ({chapter, sourceId}) => {
   const {theme} = useTheme();
   const {navigate} = useNavigation();
+  const {novel} = useNovelDetailsContext();
+  const {SHOW_CHAPTER_NUMBERS = false} = useNovelStorage(novel.id);
 
-  const navigateToReader = () => navigate('ReaderScreen', {chapter, sourceId});
+  const navigateToReader = () =>
+    navigate('ReaderScreen', {
+      chapter,
+      sourceId,
+      novelName: novel.title,
+    });
 
   return (
     <Pressable
@@ -25,7 +34,9 @@ const ChapterCard: React.FC<ChapterCardProps> = ({chapter, sourceId}) => {
       style={styles.cardCtn}
       onPress={navigateToReader}>
       <Text numberOfLines={1} color={theme.onSurface}>
-        {chapter.name}
+        {SHOW_CHAPTER_NUMBERS
+          ? `Chapter ${chapter.chapterNumber}`
+          : chapter.name}
       </Text>
       {chapter.dateUpload ? (
         <Text

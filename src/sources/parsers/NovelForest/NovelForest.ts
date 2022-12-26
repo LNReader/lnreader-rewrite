@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 import {NovelStatus} from 'database/types';
-import {isDate} from 'lodash';
+import {isDate, isNumber} from 'lodash';
 import moment from 'moment';
 
 import {
@@ -138,11 +138,14 @@ export class NovelForestParser extends ParsedSource {
 
       const chapterUrl =
         baseUrl + '/' + $(this).find('a').attr('href')?.substring(1);
+      const name = $(this).find('.chapter-title').text().trim();
+      const chapterNumber = Number(name.match(/chapter (\d+)/i)?.[1]);
 
       novelDetails.chapters?.push({
         sourceId,
         url: chapterUrl,
-        name: $(this).find('.chapter-title').text().trim(),
+        name,
+        chapterNumber,
         dateUpload,
       });
     });
@@ -160,7 +163,7 @@ export class NovelForestParser extends ParsedSource {
     loadedCheerio('#listen-chapter').remove();
     loadedCheerio('#google_translate_element').remove();
 
-    const name = loadedCheerio('#chapter__content > h1').text();
+    const name = loadedCheerio('#chapter__content > h1').text().trim();
     const text = loadedCheerio('.chapter__content').html();
 
     return {

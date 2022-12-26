@@ -23,6 +23,7 @@ import {Spacing} from 'theme/constants';
 import {BottomSheetType} from 'components/BottomSheet/BottomSheet';
 import LibraryBottomSheet from 'components/LibraryBottomSheet/LibraryBottomSheet';
 import useAppSettings from 'hooks/useAppSettings';
+import {Portal} from 'react-native-paper';
 
 type State = NavigationState<{
   key: string;
@@ -109,7 +110,9 @@ const LibraryScreen = () => {
           initialLayout={{width: layout.width}}
         />
       )}
-      <LibraryBottomSheet bottomSheetRef={bottomSheetRef} />
+      <Portal>
+        <LibraryBottomSheet bottomSheetRef={bottomSheetRef} />
+      </Portal>
     </>
   );
 };

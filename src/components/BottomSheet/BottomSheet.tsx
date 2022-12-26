@@ -7,7 +7,7 @@ import {useTheme} from 'hooks/useTheme';
 import {Text} from '..';
 import {Portal} from 'react-native-paper';
 
-export type BottomSheetRef = React.LegacyRef<SlidingUpPanel> | null;
+export type BottomSheetRef = React.LegacyRef<SlidingUpPanel>;
 export type BottomSheetType = SlidingUpPanel | null;
 
 type BottomSheetProps = SlidingUpPanelProps & {
@@ -72,25 +72,22 @@ export const BottomSheetTabView: React.FC<BottomSheetTabViewProps> = props => {
   );
 
   return (
-    <Portal>
-      <SlidingUpPanel
-        {...props}
-        showBackdrop={props.showBackdrop ?? true}
-        backdropOpacity={props.backdropOpacity ?? 0.3}
-        ref={props.bottomSheetRef}>
-        <View
-          style={[styles.bottomSheetCtn, {backgroundColor: theme.surface1}]}>
-          <TabView
-            navigationState={{index, routes: props.routes}}
-            renderTabBar={renderTabBar}
-            renderScene={props.renderScene}
-            onIndexChange={setIndex}
-            initialLayout={{width: layout.width}}
-            style={styles.tabView}
-          />
-        </View>
-      </SlidingUpPanel>
-    </Portal>
+    <SlidingUpPanel
+      {...props}
+      showBackdrop={props.showBackdrop ?? true}
+      backdropOpacity={props.backdropOpacity ?? 0.3}
+      ref={props.bottomSheetRef}>
+      <View style={[styles.bottomSheetCtn, {backgroundColor: theme.surface1}]}>
+        <TabView
+          navigationState={{index, routes: props.routes}}
+          renderTabBar={renderTabBar}
+          renderScene={props.renderScene}
+          onIndexChange={setIndex}
+          initialLayout={{width: layout.width}}
+          style={styles.tabView}
+        />
+      </View>
+    </SlidingUpPanel>
   );
 };
 

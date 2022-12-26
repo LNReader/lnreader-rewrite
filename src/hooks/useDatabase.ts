@@ -22,7 +22,7 @@ const useDatabase = () => {
         tx.executeSql(
           createDefaultCategoryQuery,
           undefined,
-          undefined,
+          noop,
           txnErrorCallbackWithoutToast,
         );
       });

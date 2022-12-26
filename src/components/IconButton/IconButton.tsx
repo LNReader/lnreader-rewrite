@@ -58,5 +58,6 @@ const styles = StyleSheet.create({
   },
   pressableCtn: {
     padding: 8,
+    alignItems: 'center',
   },
 });

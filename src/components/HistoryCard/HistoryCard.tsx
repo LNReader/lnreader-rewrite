@@ -28,6 +28,7 @@ const HistoryCard: React.FC<Props> = ({history, removeHistory}) => {
         url: history.url,
       },
       sourceId: history.sourceId,
+      novelName: history.title,
     });
 
   const navigateToNovel = () =>

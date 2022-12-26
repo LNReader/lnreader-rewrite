@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
@@ -10,14 +10,39 @@ import {useTheme} from 'hooks/useTheme';
 import SourceFactory from 'sources/SourceFactory';
 import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
 import {useNavigation} from '@react-navigation/native';
+import Button from 'components/Button/Button';
+import {useHistory} from 'hooks/useHistory';
+import {BottomSheetType} from 'components/BottomSheet/BottomSheet';
 
-const NovelDetailsHeader: React.FC = () => {
+interface Props {
+  bottomSheetRef: React.MutableRefObject<BottomSheetType>;
+}
+
+const NovelDetailsHeader: React.FC<Props> = ({bottomSheetRef}) => {
   const {theme} = useTheme();
-  const {goBack} = useNavigation();
-  const {novel, chapters} = useNovelDetailsContext();
+  const {goBack, navigate} = useNavigation();
+  const {loading, novel, chapters} = useNovelDetailsContext();
+  const {getLastReadNovelChapter} = useHistory({});
 
   const sourceName = SourceFactory.getSourceName(novel.sourceId);
   const coverUrl = novel.coverUrl || undefined;
+
+  const lastReadChapter = useMemo(() => {
+    const lastReadChapterId = getLastReadNovelChapter(novel.id);
+
+    if (lastReadChapterId) {
+      return chapters?.find(chapter => chapter.id === lastReadChapterId);
+    } else {
+      return chapters?.[0];
+    }
+  }, [novel.id, getLastReadNovelChapter]);
+
+  const navigateToReader = () =>
+    navigate('ReaderScreen', {
+      chapter: lastReadChapter,
+      sourceId: novel.sourceId,
+      novelName: novel.title,
+    });
 
   return (
     <>
@@ -47,9 +72,18 @@ const NovelDetailsHeader: React.FC = () => {
       </CoverImage>
       <SubHeader />
       <Description />
+      {!loading && lastReadChapter && (
+        <Button
+          mode="contained"
+          title={lastReadChapter?.name}
+          style={styles.lastReadBtn}
+          onPress={navigateToReader}
+        />
+      )}
       <Pressable
         style={styles.chaptersCtn}
-        android_ripple={{color: theme.rippleColor}}>
+        android_ripple={{color: theme.rippleColor}}
+        onPress={() => bottomSheetRef.current?.show()}>
         <Text fontWeight="bold">{`${chapters?.length} Chapters`}</Text>
       </Pressable>
     </>
@@ -76,11 +110,14 @@ const styles = StyleSheet.create({
   },
   chaptersCtn: {
     paddingHorizontal: Spacing.M,
-    paddingVertical: Spacing.S,
+    paddingVertical: Spacing.XM,
   },
   backHandler: {
     position: 'absolute',
     top: Spacing.HUGE,
     left: Spacing.XS,
+  },
+  lastReadBtn: {
+    margin: Spacing.M,
   },
 });

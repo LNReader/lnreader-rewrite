@@ -39,6 +39,7 @@ export interface SourceNovelChapter {
   sourceId: number;
   url: string;
   name: string;
+  chapterNumber?: number;
   dateUpload?: number;
   scanlator?: string;
 }

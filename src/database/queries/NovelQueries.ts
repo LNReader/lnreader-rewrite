@@ -8,6 +8,7 @@ import {SourceNovelDetails} from 'sources/types';
 import {MMKVStorage} from 'utils/mmkv/mmkv';
 import {APP_SETTINGS} from 'hooks/useAppSettings';
 import {SettingTypes} from 'types/SettingTypes';
+import {LibrarySortOrder} from 'utils/libraryUtils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -41,13 +42,15 @@ export const getLibraryNovels = (
 
   const rawSettings = MMKVStorage.getString(APP_SETTINGS) || '{}';
   const parsedSettings: Partial<SettingTypes> = JSON.parse(rawSettings);
+  const {LIBRARY_FILTERS, LIBRARY_SORT_ORDER = LibrarySortOrder.DateAdded_ASC} =
+    parsedSettings;
 
-  if (parsedSettings.LIBRARY_FILTERS) {
-    query += parsedSettings.LIBRARY_FILTERS?.join('');
+  if (LIBRARY_FILTERS) {
+    query += LIBRARY_FILTERS?.join('');
   }
 
-  if (parsedSettings.LIBRARY_SORT_ORDER) {
-    query += ' ORDER BY  ' + parsedSettings.LIBRARY_SORT_ORDER;
+  if (LIBRARY_SORT_ORDER) {
+    query += ' ORDER BY  ' + LIBRARY_SORT_ORDER;
   }
 
   if (searchTerm) {

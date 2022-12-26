@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {RefreshControl} from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
@@ -14,6 +14,8 @@ import {
   NovelDetailsContext,
   useNovelDetailsContext,
 } from 'contexts/NovelDetailsContext';
+import {BottomSheetType} from 'components/BottomSheet/BottomSheet';
+import NovelDetailsBottomSheet from 'components/NovelDetailsBottomSheet/NovelDetailsBottomSheet';
 
 type NovelDetailsScreenRouteProps = RouteProp<{
   params: SourceNovelDetails & {id?: number};
@@ -25,30 +27,35 @@ interface NovelDetailsProps {
 
 const NovelDetails: React.FC<NovelDetailsProps> = ({sourceId}) => {
   const {theme} = useTheme();
+  const bottomSheetRef = useRef<BottomSheetType>(null);
 
   const {top: topInset} = useSafeAreaInsets();
-
   const progressViewOffset = topInset + 16;
 
   const {chapters, loading} = useNovelDetailsContext();
 
   return (
-    <FlashList
-      data={chapters}
-      ListHeaderComponent={<NovelDetailsHeader />}
-      renderItem={({item}) => (
-        <ChapterCard chapter={item} sourceId={sourceId} />
-      )}
-      estimatedItemSize={100}
-      refreshControl={
-        <RefreshControl
-          progressViewOffset={progressViewOffset}
-          refreshing={loading}
-          colors={[theme.primary]}
-          progressBackgroundColor={theme.onPrimary}
-        />
-      }
-    />
+    <>
+      <FlashList
+        data={chapters}
+        ListHeaderComponent={
+          <NovelDetailsHeader bottomSheetRef={bottomSheetRef} />
+        }
+        renderItem={({item}) => (
+          <ChapterCard chapter={item} sourceId={sourceId} />
+        )}
+        estimatedItemSize={100}
+        refreshControl={
+          <RefreshControl
+            progressViewOffset={progressViewOffset}
+            refreshing={loading}
+            colors={[theme.primary]}
+            progressBackgroundColor={theme.onPrimary}
+          />
+        }
+      />
+      <NovelDetailsBottomSheet bottomSheetRef={bottomSheetRef} />
+    </>
   );
 };
 

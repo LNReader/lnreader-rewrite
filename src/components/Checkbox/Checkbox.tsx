@@ -22,7 +22,12 @@ const Checkbox: React.FC<Props> = props => {
       style={styles.checkboxCtn}
       android_ripple={{color: theme.rippleColor}}
       onPress={props.onPress}>
-      <PaperCheckbox status={status} />
+      <PaperCheckbox
+        status={status}
+        color={theme.primary}
+        uncheckedColor={theme.onSurfaceVariant}
+        theme={{colors: theme}}
+      />
       <Text style={styles.label}>{props.label}</Text>
     </Pressable>
   );

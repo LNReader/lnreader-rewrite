@@ -36,6 +36,7 @@ export interface DatabaseChapter {
   bookmark?: number;
   read?: number;
   downloaded?: number;
+  chapterNumber: number;
 }
 
 export interface Category {

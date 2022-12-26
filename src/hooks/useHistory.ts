@@ -16,7 +16,6 @@ export const useHistory = ({searchText}: UseHistoryProps) => {
   const getHistoryFromDb = async () => {
     try {
       const dbHistory = await getHistory();
-      console.log(JSON.stringify(dbHistory, null, 2));
       setHistory(dbHistory);
     } catch (err) {
       if (err instanceof Error) {
@@ -33,6 +32,10 @@ export const useHistory = ({searchText}: UseHistoryProps) => {
     }, []),
   );
 
+  const getLastReadNovelChapter = (novelId: number): number | undefined => {
+    return history.find(item => item.novelId === novelId)?.chapterId;
+  };
+
   const removeHistory = async (historyId: number) => {
     removeHistoryById(historyId);
     getHistoryFromDb();
@@ -47,5 +50,6 @@ export const useHistory = ({searchText}: UseHistoryProps) => {
     loading,
     error,
     removeHistory,
+    getLastReadNovelChapter,
   };
 };
