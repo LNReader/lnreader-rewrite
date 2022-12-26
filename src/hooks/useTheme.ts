@@ -18,6 +18,7 @@ interface ExtendedThemeColors extends ThemeColors {
   surface3?: string;
   surface4?: string;
   surface5?: string;
+  surfaceReader?: string;
 }
 
 enum ThemePreferences {
@@ -95,6 +96,7 @@ export const useTheme = (): UseThemeReturn => {
       surface3: getElevationColor(colors, Opacity.level3),
       surface4: getElevationColor(colors, Opacity.level4),
       surface5: getElevationColor(colors, Opacity.level5),
+      surfaceReader: Color(colors.surface).alpha(0.9).toString(),
     };
 
     return colors;

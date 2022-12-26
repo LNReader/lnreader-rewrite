@@ -9,6 +9,7 @@ import {insertChapterInHistory} from 'database/queries/HistoryQueries';
 import ReaderAppbar from 'components/ReaderAppbar/ReaderAppbar';
 import WebViewReader from 'components/WebViewReader/WebViewReader';
 import ReaderFooter from 'components/ReaderFooter/ReaderFooter';
+import ReaderProgressBar from 'components/ReaderProgressBar/ReaderProgressBar';
 
 type ReaderScreenRouteProps = RouteProp<{
   params: {
@@ -31,6 +32,8 @@ const ReaderScreen = () => {
     );
   }, []);
 
+  const handleShowMenu = () => setMenuVisible(prevVal => !prevVal);
+
   return loading ? (
     <LoadingScreen />
   ) : error ? (
@@ -38,9 +41,11 @@ const ReaderScreen = () => {
   ) : (
     <>
       <WebViewReader
-        html={chapter?.text}
-        onPress={() => setMenuVisible(prevVal => !prevVal)}
+        chapterId={readerParams.chapter.id}
+        chapter={chapter}
+        onPress={handleShowMenu}
       />
+      <ReaderProgressBar chapterId={readerParams.chapter.id} />
       <ReaderAppbar
         visible={menuVisible}
         chapter={chapter}

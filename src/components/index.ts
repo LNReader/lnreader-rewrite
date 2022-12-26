@@ -13,3 +13,4 @@ export {default as Chip} from './Chip/Chip';
 export {BottomSheet, BottomSheetTabView} from './BottomSheet/BottomSheet';
 export {default as Checkbox} from './Checkbox/Checkbox';
 export {default as EmptyView} from './EmptyView/EmptyView';
+export {default as Switch} from './Switch/Switch';

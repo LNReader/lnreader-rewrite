@@ -9,6 +9,7 @@ import {Spacing} from 'theme/constants';
 import {useNavigation} from '@react-navigation/native';
 import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
 import useNovelStorage from 'hooks/useNovelStorage';
+import useChapterStorage from 'hooks/useChapterStorage';
 
 interface ChapterCardProps {
   chapter: DatabaseChapter;
@@ -20,6 +21,7 @@ const ChapterCard: React.FC<ChapterCardProps> = ({chapter, sourceId}) => {
   const {navigate} = useNavigation();
   const {novel} = useNovelDetailsContext();
   const {SHOW_CHAPTER_NUMBERS = false} = useNovelStorage(novel.id);
+  const {PROGRESS = 0} = useChapterStorage(chapter.id);
 
   const navigateToReader = () =>
     navigate('ReaderScreen', {
@@ -45,6 +47,9 @@ const ChapterCard: React.FC<ChapterCardProps> = ({chapter, sourceId}) => {
           size={12}
           style={styles.dateCtn}>
           {moment.unix(chapter.dateUpload).format('Do MMM, YYYY')}
+          {PROGRESS > 0 && PROGRESS < 100 && (
+            <Text color={theme.outline}>{`  •  Progress ${PROGRESS}%`}</Text>
+          )}
         </Text>
       ) : null}
     </Pressable>

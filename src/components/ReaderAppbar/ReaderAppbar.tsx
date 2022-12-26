@@ -27,17 +27,21 @@ const ReaderAppbar = (props: Props) => {
 
   return (
     <Animated.View
-      entering={FadeIn.duration(500)}
-      exiting={FadeOut.duration(500)}
+      entering={FadeIn.duration(150)}
+      exiting={FadeOut.duration(150)}
       style={[
         styles.appbarCtn,
-        {backgroundColor: theme.surface2, paddingTop: topInset},
+        {backgroundColor: theme.surfaceReader, paddingTop: topInset},
       ]}>
       <Row style={styles.contentCtn}>
         <IconButton name="arrow-left" onPress={goBack} />
         <View style={styles.flex}>
-          <Text size={20}>{props.novelName}</Text>
-          <Text size={16}>{props.chapter?.name}</Text>
+          <Text numberOfLines={1} size={20}>
+            {props.novelName}
+          </Text>
+          <Text numberOfLines={1} size={16}>
+            {props.chapter?.name}
+          </Text>
         </View>
         <IconButton name="earth" onPress={goBack} />
       </Row>
@@ -60,6 +64,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentCtn: {
-    paddingVertical: Spacing.S,
+    paddingVertical: Spacing.XM,
   },
 });

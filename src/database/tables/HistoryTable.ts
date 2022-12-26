@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS history (
   );
 `;
 
-export const createChapterIdIndexQuery =
+export const createHistoryChapterIdIndexQuery =
   'CREATE INDEX IF NOT EXISTS historyChapterIdIndex ON history (chapterId)';

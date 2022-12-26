@@ -15,3 +15,9 @@ CREATE TABLE IF NOT EXISTS chapters (
     FOREIGN KEY (novelId) REFERENCES novels(id) ON DELETE CASCADE
   )
 `;
+
+export const createChaptersNovelIdIndex =
+  'CREATE INDEX IF NOT EXISTS chaptersNovelIdIndex ON chapters (novelId)';
+
+export const createChaptersUnreadByNovelIndex =
+  'CREATE INDEX IF NOT EXISTS chaptersUnreadByNovelIndex ON chapters(novelId, `read`) WHERE read = 0;';

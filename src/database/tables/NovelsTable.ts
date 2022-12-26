@@ -21,3 +21,7 @@ CREATE TABLE IF NOT EXISTS novels (
     categoryIds TEXT DEFAULT "${JSON.stringify(DEFAULT_CATEGORIES)}"
   )
 `;
+
+export const createLibraryFavoriteIndex =
+  'CREATE INDEX libraryFavoriteIndex ON mangas(favorite) WHERE favorite = 1';
+export const createNovelUrlIndex = 'CREATE INDEX novelUrlIndex ON novels(url)';

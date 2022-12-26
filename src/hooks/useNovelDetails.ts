@@ -16,6 +16,7 @@ import {
   insertChapters,
 } from 'database/queries/ChapterQueries';
 import useNovelStorage from './useNovelStorage';
+import useIsFirstRender from './useIsFirstRender';
 
 interface UseNovelDetailsProps {
   novelId?: number;
@@ -27,6 +28,7 @@ export const useNovelDetails = ({
   novelId,
 }: UseNovelDetailsProps) => {
   const {sourceId, url} = novelParams;
+  const isFirstRender = useIsFirstRender();
 
   const source = SourceFactory.getSource(sourceId);
 
@@ -42,15 +44,11 @@ export const useNovelDetails = ({
   const getNovelDetails = async () => {
     try {
       let dbNovelId = novelId;
-      let dbNovel;
+      let dbNovel = novel;
 
-      if (dbNovelId) {
-        dbNovel = await getNovelById(dbNovelId);
-      } else {
+      if (!dbNovelId) {
         dbNovel = await getNovel(sourceId, url);
       }
-
-      let dbChapters: DatabaseChapter[] = [];
 
       if (!dbNovelId && isUndefined(dbNovel)) {
         const sourceNovel = await source?.getNovelDetails({url});
@@ -64,7 +62,7 @@ export const useNovelDetails = ({
         dbNovel = await getNovelById(dbNovelId);
       }
 
-      dbChapters = await getChaptersByNovelId(dbNovel.id);
+      const dbChapters = await getChaptersByNovelId(dbNovel.id);
 
       setNovel(dbNovel);
       setChapters(dbChapters);
@@ -77,6 +75,17 @@ export const useNovelDetails = ({
     }
   };
 
+  const getFilteredChapters = async () => {
+    try {
+      const dbChapters = await getChaptersByNovelId(novel.id);
+      setChapters(dbChapters);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
+  };
+
   const handleSetNovelFavorite = (val: boolean) => {
     setNovel(prevVal => ({...prevVal, favorite: +val}));
     setNovelFavorite(novel.id, val);
@@ -84,6 +93,12 @@ export const useNovelDetails = ({
 
   useEffect(() => {
     getNovelDetails();
+  }, []);
+
+  useEffect(() => {
+    if (!isFirstRender) {
+      getFilteredChapters();
+    }
   }, [FILTERS, SORT_ORDER]);
 
   return {

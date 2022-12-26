@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import Button from 'components/Button/Button';
 import {useHistory} from 'hooks/useHistory';
 import {BottomSheetType} from 'components/BottomSheet/BottomSheet';
+import {sortBy} from 'lodash';
 
 interface Props {
   bottomSheetRef: React.MutableRefObject<BottomSheetType>;
@@ -23,17 +24,16 @@ const NovelDetailsHeader: React.FC<Props> = ({bottomSheetRef}) => {
   const {goBack, navigate} = useNavigation();
   const {loading, novel, chapters} = useNovelDetailsContext();
   const {getLastReadNovelChapter} = useHistory({});
+  const lastReadChapterId = getLastReadNovelChapter(novel.id);
 
   const sourceName = SourceFactory.getSourceName(novel.sourceId);
   const coverUrl = novel.coverUrl || undefined;
 
   const lastReadChapter = useMemo(() => {
-    const lastReadChapterId = getLastReadNovelChapter(novel.id);
-
     if (lastReadChapterId) {
       return chapters?.find(chapter => chapter.id === lastReadChapterId);
     } else {
-      return chapters?.[0];
+      return sortBy(chapters, 'id')[0];
     }
   }, [novel.id, getLastReadNovelChapter]);
 
@@ -55,7 +55,7 @@ const NovelDetailsHeader: React.FC<Props> = ({bottomSheetRef}) => {
         <Row style={styles.headerCtn}>
           <FastImage source={{uri: coverUrl}} style={styles.coverCtn} />
           <View style={styles.detailsCtn}>
-            <Text size={18} color={theme.onSurface}>
+            <Text size={20} color={theme.onSurface}>
               {novel.title}
             </Text>
             <Text
@@ -75,7 +75,9 @@ const NovelDetailsHeader: React.FC<Props> = ({bottomSheetRef}) => {
       {!loading && lastReadChapter && (
         <Button
           mode="contained"
-          title={lastReadChapter?.name}
+          title={`${lastReadChapterId ? 'Continue' : 'Start'} reading ${
+            lastReadChapter?.name
+          }`}
           style={styles.lastReadBtn}
           onPress={navigateToReader}
         />
