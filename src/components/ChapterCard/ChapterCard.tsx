@@ -51,7 +51,7 @@ const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, sourceId }) => {
           style={styles.dateCtn}
         >
           {moment.unix(chapter.dateUpload).format('Do MMM, YYYY')}
-          {PROGRESS > 0 && PROGRESS < 100 && (
+          {!chapter.read && PROGRESS > 0 && PROGRESS < 100 && (
             <Text color={theme.outline}>{`  •  Progress ${PROGRESS}%`}</Text>
           )}
         </Text>

@@ -15,7 +15,7 @@ const useChapter = ({ chapter: { url }, sourceId }: UseChapterParams) => {
   const source = SourceFactory.getSource(sourceId);
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<Error>();
   const [chapter, setChapter] = useState<SourceChapter>();
 
   const getChapter = async () => {
@@ -30,7 +30,7 @@ const useChapter = ({ chapter: { url }, sourceId }: UseChapterParams) => {
       });
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setError(err);
       }
     } finally {
       setLoading(false);

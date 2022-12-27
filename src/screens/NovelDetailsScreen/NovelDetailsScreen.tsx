@@ -15,6 +15,7 @@ import { SourceNovelDetails } from '@sources/types';
 import NovelDetailsHeader from '@components/NovelDetailsHeader/NovelDetailsHeader';
 import NovelDetailsBottomSheet from '@components/NovelDetailsBottomSheet/NovelDetailsBottomSheet';
 import ChapterCard from '@components/ChapterCard/ChapterCard';
+import SettingBanners from '@components/SettingBanners/SettingBanners';
 
 type NovelDetailsScreenRouteProps = RouteProp<{
   params: SourceNovelDetails & { id?: number };
@@ -66,9 +67,12 @@ const NovelDetailsScreen = () => {
   });
 
   return (
-    <NovelDetailsContext.Provider value={novelDetails}>
-      <NovelDetails sourceId={novelParams.sourceId} />
-    </NovelDetailsContext.Provider>
+    <>
+      <SettingBanners />
+      <NovelDetailsContext.Provider value={novelDetails}>
+        <NovelDetails sourceId={novelParams.sourceId} />
+      </NovelDetailsContext.Provider>
+    </>
   );
 };
 

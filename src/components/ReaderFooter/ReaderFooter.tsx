@@ -2,16 +2,13 @@ import React, { useRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { BottomSheetType } from '@lnreader/core';
 import { useTheme } from '@hooks';
 import { SourceChapter } from '@sources/types';
 
-import { IconButton, Text, Row } from '@lnreader/core';
-import { Spacing } from '@theme/constants';
-import ReaderBottomSheet from 'components/ReaderBottomSheet/ReaderBottomSheet';
-import { BottomSheetType } from 'components/BottomSheet/BottomSheet';
+import ReaderBottomSheet from '@components/ReaderBottomSheet/ReaderBottomSheet';
 
 type Props = {
   visible: boolean;

@@ -19,7 +19,6 @@ export const ScreenContainer: React.FC<ViewProps> = props => {
 
 const styles = StyleSheet.create({
   rowCtn: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
   },

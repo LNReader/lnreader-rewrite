@@ -14,7 +14,7 @@ interface UseHistoryProps {
 export const useHistory = ({ searchText }: UseHistoryProps) => {
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState<History[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<Error>();
 
   const getHistoryFromDb = async () => {
     try {
@@ -22,7 +22,7 @@ export const useHistory = ({ searchText }: UseHistoryProps) => {
       setHistory(dbHistory);
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setError(err);
       }
     } finally {
       setLoading(false);

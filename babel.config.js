@@ -14,7 +14,7 @@ module.exports = {
           '@components': './src/components',
           '@contexts': './src/contexts',
           '@database': './src/database',
-          '@hooks': './src/hooks/index',
+          '@hooks': './src/hooks',
           '@navigators': './src/navigators',
           '@screens': './src/screens',
           '@sources': './src/sources',

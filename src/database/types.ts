@@ -23,6 +23,7 @@ export interface DatabaseNovel extends SourceNovelDetails {
 export interface LibraryNovel extends DatabaseNovel {
   chaptersDownloaded: number | null;
   chaptersUnread: number | null;
+  lastRead: number | null;
 }
 
 export interface DatabaseChapter {

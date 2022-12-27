@@ -1,12 +1,15 @@
 import * as SQLite from 'expo-sqlite';
+import { escape, noop } from 'lodash';
+
+import { NovelStorageMap, NOVEL_STORAGE } from '@hooks/useNovelStorage';
 
 import { DATABASE_NAME } from '@database/constants';
 import { DatabaseChapter } from '@database/types';
 import { txnErrorCallback } from '@database/utils';
+
 import { SourceNovelChapter } from '@sources/types';
-import { escape, noop } from 'lodash';
+
 import { MMKVStorage } from '@utils/mmkv/mmkv';
-import { NovelStorageMap, NOVEL_STORAGE } from 'hooks/useNovelStorage';
 import { NovelSortOrder } from '@utils/novelUtils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);

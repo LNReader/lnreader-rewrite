@@ -1,21 +1,27 @@
 import React, { useMemo } from 'react';
 import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
-
+import { useNavigation } from '@react-navigation/native';
 import Image from 'react-native-fast-image';
+import { LinearGradient } from 'expo-linear-gradient';
 
+import { Text, Row, TextProps } from '@lnreader/core';
+import { useTheme, useAppSettings } from '@hooks';
 import { LibraryNovel } from '@database/types';
 import { SourceNovel } from '@sources/types';
 
-import { Text, Row } from '@lnreader/core';
-
-import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
-import { useTheme } from '@hooks';
-import { useNavigation } from '@react-navigation/native';
-import useAppSettings from 'hooks/useAppSettings';
+import { IMAGE_PLACEHOLDER_COLOR, Spacing, WHITE_HEX } from '@theme/constants';
+import { LibraryDisplayModes } from '@utils/libraryUtils';
 
 interface NovelItemProps {
   novel: SourceNovel | LibraryNovel;
 }
+
+const titleProps: TextProps = {
+  numberOfLines: 2,
+  fontWeight: 'bold',
+  padding: Spacing.XS,
+  size: 12,
+};
 
 const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
   const { theme } = useTheme();
@@ -25,6 +31,7 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
   const {
     LIBRARY_SHOW_UNREAD_BADGE = true,
     LIBRARY_SHOW_DOWNLOADS_BADGE = true,
+    LIBRARY_DISPLAY_MODE = LibraryDisplayModes.Comfortable,
   } = useAppSettings();
 
   const coverHeight = useMemo(() => (window.width / 3) * (4 / 3), []);
@@ -38,6 +45,10 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
     isDbNovel && LIBRARY_SHOW_DOWNLOADS_BADGE && !!novel.chaptersDownloaded;
   const showUnreadBadge =
     isDbNovel && LIBRARY_SHOW_UNREAD_BADGE && !!novel.chaptersUnread;
+
+  if (LIBRARY_DISPLAY_MODE === LibraryDisplayModes.List) {
+    return <NovelListItem novel={novel} handleOnPress={handleOnPress} />;
+  }
 
   return (
     <View style={styles.novelCtn}>
@@ -77,18 +88,58 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
         <Image
           source={{ uri: novel.coverUrl || undefined }}
           style={[styles.cover, { height: coverHeight }]}
-        />
-        <Text
-          numberOfLines={2}
-          fontWeight="bold"
-          color={theme.onSurface}
-          padding={Spacing.XS}
-          size={12}
         >
-          {novel.title}
-        </Text>
+          {LIBRARY_DISPLAY_MODE === LibraryDisplayModes.Compact && (
+            <View style={styles.compactTitleCtn}>
+              <LinearGradient
+                colors={['transparent', 'rgba(0,0,0,0.7)']}
+                style={styles.linearGradient}
+              >
+                <Text
+                  {...titleProps}
+                  color={WHITE_HEX}
+                  style={styles.compactTitle}
+                >
+                  {novel.title}
+                </Text>
+              </LinearGradient>
+            </View>
+          )}
+        </Image>
+        {LIBRARY_DISPLAY_MODE === LibraryDisplayModes.Comfortable && (
+          <Text color={theme.onSurface} {...titleProps}>
+            {novel.title}
+          </Text>
+        )}
       </Pressable>
     </View>
+  );
+};
+
+const NovelListItem: React.FC<{
+  novel: NovelItemProps['novel'];
+  handleOnPress: () => void;
+}> = ({ novel, handleOnPress }) => {
+  const { theme } = useTheme();
+
+  return (
+    <Pressable
+      style={styles.listItemCtn}
+      onPress={handleOnPress}
+      android_ripple={{ color: theme.rippleColor }}
+    >
+      <Image
+        source={{ uri: novel.coverUrl || undefined }}
+        style={[styles.smallIcon]}
+      />
+      <Text
+        padding={{ horizontal: 8 }}
+        style={[{ color: theme.primary }]}
+        numberOfLines={1}
+      >
+        {novel.title}
+      </Text>
+    </Pressable>
   );
 };
 
@@ -126,5 +177,33 @@ const styles = StyleSheet.create({
   borderLefttNone: {
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
+  },
+  linearGradient: {
+    borderRadius: 4,
+    padding: 4,
+  },
+  compactTitleCtn: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  compactTitle: {
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  },
+  smallIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 4,
+    backgroundColor: IMAGE_PLACEHOLDER_COLOR,
+  },
+  listItemCtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 12,
   },
 });

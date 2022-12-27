@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
 import { WebViewScrollEvent } from 'react-native-webview/lib/WebViewTypes';
 
-import { useChapterStorage } from '@hooks';
+import { useAppSettings, useChapterStorage } from '@hooks';
 import { setChapterRead } from '@database/queries/ChapterQueries';
 import { SourceChapter } from '@sources/types';
 
@@ -42,23 +42,26 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
   const { top: topInset } = useSafeAreaInsets();
   const paddingTop = topInset + 16;
 
+  const { INCOGNITO_MODE } = useAppSettings();
   const webViewRef = useRef<WebView>(null);
 
   const { PROGRESS = 0, setChapterProgress } = useChapterStorage(chapterId);
 
   const onScroll = (e: WebViewScrollEvent) => {
-    const {
-      nativeEvent: { contentOffset, contentSize, layoutMeasurement },
-    } = e;
+    if (!INCOGNITO_MODE) {
+      const {
+        nativeEvent: { contentOffset, contentSize, layoutMeasurement },
+      } = e;
 
-    const offsetY = contentOffset.y;
-    const position = offsetY + layoutMeasurement.height;
-    const percentage = Math.round((position / contentSize.height) * 100);
+      const offsetY = contentOffset.y;
+      const position = offsetY + layoutMeasurement.height;
+      const percentage = Math.round((position / contentSize.height) * 100);
 
-    setChapterProgress(percentage);
+      setChapterProgress(percentage);
 
-    if (isCloseToBottom(e)) {
-      setChapterRead(chapterId);
+      if (isCloseToBottom(e)) {
+        setChapterRead(chapterId);
+      }
     }
   };
 

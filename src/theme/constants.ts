@@ -1,4 +1,5 @@
 export const AMOLED_HEX = '#000000';
+export const WHITE_HEX = '#FFFFFF';
 export const IMAGE_PLACEHOLDER_COLOR = '#8888881F';
 
 export const Spacing = {

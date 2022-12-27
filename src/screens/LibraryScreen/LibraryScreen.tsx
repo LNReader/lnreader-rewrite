@@ -22,6 +22,7 @@ import LibraryView from '@components/LibraryView/LibraryView';
 import LibraryBottomSheet from '@components/LibraryBottomSheet/LibraryBottomSheet';
 
 import { Spacing } from '@theme/constants';
+import SettingBanners from '@components/SettingBanners/SettingBanners';
 
 type State = NavigationState<{
   key: string;
@@ -73,6 +74,7 @@ const LibraryScreen = () => {
 
   return (
     <>
+      <SettingBanners />
       <Searchbar
         value={searchText}
         onChangeText={setSearchText}
@@ -80,7 +82,7 @@ const LibraryScreen = () => {
         actions={[
           {
             icon: 'filter-variant',
-            onPress: () => bottomSheetRef.current?.show(),
+            onPress: () => bottomSheetRef.current?.show(400),
           },
         ]}
       />

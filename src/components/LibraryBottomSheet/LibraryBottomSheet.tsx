@@ -13,6 +13,8 @@ import {
   SortItem,
 } from '@lnreader/core';
 import {
+  LibraryDisplayModes,
+  libraryDisplayModesList,
   libraryFilterLabels,
   LibraryFilters,
   LibrarySortOrder,
@@ -47,7 +49,10 @@ export const FilterRoute = () => {
 };
 
 export const SortRoute = () => {
-  const { LIBRARY_SORT_ORDER, setAppSettings } = useAppSettings();
+  const {
+    LIBRARY_SORT_ORDER = LibrarySortOrder.DateAdded_ASC,
+    setAppSettings,
+  } = useAppSettings();
 
   const onPress = (sortOrder: LibrarySortOrder) =>
     setAppSettings(Setting.LIBRARY_SORT_ORDER, sortOrder);
@@ -83,11 +88,24 @@ export const DisplayRoute = () => {
     LIBRARY_SHOW_DOWNLOADS_BADGE = true,
     LIBRARY_SHOW_UNREAD_BADGE = true,
     LIBRARY_SHOW_NUMBER_OF_ITEMS,
+    LIBRARY_DISPLAY_MODE = LibraryDisplayModes.Comfortable,
     setAppSettings,
   } = useAppSettings();
 
   return (
     <View>
+      <Text style={styles.sectionHeader}>Display mode</Text>
+      {libraryDisplayModesList.map(displayMode => (
+        <Checkbox
+          key={displayMode.value}
+          status={displayMode.value === LIBRARY_DISPLAY_MODE}
+          label={displayMode.label}
+          onPress={() =>
+            setAppSettings(Setting.LIBRARY_DISPLAY_MODE, displayMode.value)
+          }
+        />
+      ))}
+
       <Text style={styles.sectionHeader}>Badges</Text>
       <Checkbox
         status={LIBRARY_SHOW_DOWNLOADS_BADGE}
@@ -145,7 +163,7 @@ const LibraryBottomSheet: React.FC<LibraryBottomSheetProps> = ({
     third: DisplayRoute,
   });
 
-  const bottomSheetHeight = 400 + bottomInset;
+  const bottomSheetHeight = 600 + bottomInset;
 
   return (
     <BottomSheetTabView
@@ -154,7 +172,7 @@ const LibraryBottomSheet: React.FC<LibraryBottomSheetProps> = ({
       bottomSheetRef={bottomSheetRef}
       animatedValue={animatedValue}
       draggableRange={{ top: bottomSheetHeight, bottom: 0 }}
-      snappingPoints={[0, bottomSheetHeight]}
+      snappingPoints={[0, 400, bottomSheetHeight]}
       height={bottomSheetHeight}
     />
   );

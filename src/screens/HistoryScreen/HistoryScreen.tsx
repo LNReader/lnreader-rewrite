@@ -13,6 +13,7 @@ import { useTheme, useHistory, useSearchText } from '@hooks';
 import { groupHistoryByDate } from '@utils/historyUtils';
 
 import HistoryCard from '@components/HistoryCard/HistoryCard';
+import SettingBanners from '@components/SettingBanners/SettingBanners';
 
 const HistoryScreen = () => {
   const { theme } = useTheme();
@@ -23,6 +24,7 @@ const HistoryScreen = () => {
 
   return (
     <>
+      <SettingBanners />
       <Searchbar
         placeholder="Search history"
         value={searchText}

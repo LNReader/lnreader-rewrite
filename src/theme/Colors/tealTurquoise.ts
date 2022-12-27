@@ -1,7 +1,8 @@
 import { ThemeType } from '@theme/types';
 
-export const defaultColors: ThemeType = {
+export const tealTurquoise: ThemeType = {
   id: 2,
+  name: 'Teal & Turquoise',
   light: {
     primary: 'rgb(0, 106, 106)',
     onPrimary: 'rgb(255, 255, 255)',

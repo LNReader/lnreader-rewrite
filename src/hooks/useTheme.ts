@@ -8,7 +8,9 @@ import { MMKVStorage } from '@utils/mmkv/mmkv';
 
 import { defaultColors } from '@theme/colors/default';
 import { AMOLED_HEX, Opacity } from '@theme/constants';
-import { ThemeColors } from '@theme/types';
+import { ThemeColors, ThemeType } from '@theme/types';
+import { tealTurquoise } from '@theme/colors/tealTurquoise';
+import { yotsubaColors } from '@theme/colors/yotsuba';
 
 interface ExtendedThemeColors extends ThemeColors {
   rippleColor?: string;
@@ -36,8 +38,10 @@ interface UseThemeReturn {
   setAmoledBlack: (val: boolean) => void;
 }
 
-const ThemesMap = {
+const ThemesMap: Record<number, ThemeType> = {
   1: defaultColors,
+  2: tealTurquoise,
+  3: yotsubaColors,
 };
 
 const getElevationColor = (colors: ExtendedThemeColors, elevation: number) => {

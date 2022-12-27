@@ -2,30 +2,43 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { List, IconAppbar, Switch } from '@lnreader/core';
-import { useTheme } from '@hooks';
+import { List, IconAppbar, Switch, Text } from '@lnreader/core';
+import { useAppSettings, useTheme } from '@hooks';
+import { Setting } from 'types/SettingTypes';
+import SettingBanners from '@components/SettingBanners/SettingBanners';
 
 const MoreScreen = () => {
   const { navigate } = useNavigation();
-  const { setDarkMode, isDarkMode, setAmoledBlack, isAmoledBlack } = useTheme();
+  const {
+    setDarkMode,
+    isDarkMode,
+    setAmoledBlack,
+    isAmoledBlack,
+    setAppTheme,
+  } = useTheme();
+  const { INCOGNITO_MODE, DOWNLOADED_ONLY_MODE, toggleSetting } =
+    useAppSettings();
 
   return (
     <>
+      <SettingBanners />
       <IconAppbar />
       <Switch
-        value={isDarkMode}
-        label="Dark mode"
-        onPress={() => setDarkMode(!isDarkMode)}
-        textSize={16}
+        icon="cloud-off-outline"
+        value={DOWNLOADED_ONLY_MODE}
+        title="Downloaded only"
+        description="Filters all novels in your library"
+        onPress={() => toggleSetting(Setting.DOWNLOADED_ONLY_MODE)}
+        size="large"
       />
-      {isDarkMode && (
-        <Switch
-          value={isAmoledBlack}
-          label="Pure black dark mode"
-          onPress={() => setAmoledBlack(!isAmoledBlack)}
-          textSize={16}
-        />
-      )}
+      <Switch
+        icon="incognito"
+        value={INCOGNITO_MODE}
+        title="Incognito mode"
+        description="Pauses reading history"
+        onPress={() => toggleSetting(Setting.INCOGNITO_MODE)}
+        size="large"
+      />
       <List.Divider />
       <List.Item
         title="Settings"
@@ -45,6 +58,27 @@ const MoreScreen = () => {
           })
         }
       />
+      <List.Divider />
+      <Switch
+        value={isDarkMode}
+        title="Dark mode"
+        onPress={() => setDarkMode(!isDarkMode)}
+        size="large"
+      />
+
+      <Text
+        onPress={() => setAppTheme(Math.round(Math.random() * (3 - 1) + 1))}
+      >
+        Random Theme
+      </Text>
+      {isDarkMode && (
+        <Switch
+          value={isAmoledBlack}
+          title="Pure black dark mode"
+          onPress={() => setAmoledBlack(!isAmoledBlack)}
+          size="large"
+        />
+      )}
     </>
   );
 };

@@ -2,12 +2,11 @@ import React, { useMemo, useState } from 'react';
 import { Animated, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SceneMap } from 'react-native-tab-view';
-
-import { BottomSheetTabView, Switch } from '@lnreader/core';
-import { BottomSheetRef } from 'components/BottomSheet/BottomSheet';
-
 import { Portal } from 'react-native-paper';
-import useAppSettings from 'hooks/useAppSettings';
+
+import { BottomSheetTabView, Switch, BottomSheetRef } from '@lnreader/core';
+import { useAppSettings } from '@hooks';
+
 import { Setting } from 'types/SettingTypes';
 
 interface ReaderBottomSheetProps {

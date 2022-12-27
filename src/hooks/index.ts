@@ -10,3 +10,4 @@ export { default as useNovelStorage } from './useNovelStorage';
 export { useSearchText } from './useSearchText';
 export { default as useSource } from './useSource';
 export { useTheme } from './useTheme';
+export { default as useSourceStorage } from './useSourceStorage';

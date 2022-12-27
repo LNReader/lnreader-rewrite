@@ -23,6 +23,8 @@ export enum LibrarySortOrder {
   TotalChapters_DESC = 'chaptersUnread DESC',
   DateAdded_ASC = 'dateAdded ASC',
   DateAdded_DESC = 'dateAdded DESC',
+  LastRead_ASC = 'lastRead ASC, id ASC',
+  LastRead_DESC = 'lastRead DESC, id DESC',
 }
 
 export const librarySortOrderList = [
@@ -30,6 +32,11 @@ export const librarySortOrderList = [
     label: 'Alphabetically',
     ASC: LibrarySortOrder.Alphabetically_ASC,
     DESC: LibrarySortOrder.Alphabetically_DESC,
+  },
+  {
+    label: 'Last read',
+    ASC: LibrarySortOrder.LastRead_ASC,
+    DESC: LibrarySortOrder.LastRead_DESC,
   },
   {
     label: 'Unread',
@@ -59,3 +66,22 @@ export enum LibraryDisplayModes {
   CoverOnly,
   List,
 }
+
+export const libraryDisplayModesList = [
+  {
+    label: 'Compact grid',
+    value: LibraryDisplayModes.Compact,
+  },
+  {
+    label: 'Comfortable grid',
+    value: LibraryDisplayModes.Comfortable,
+  },
+  {
+    label: 'Cover-only grid',
+    value: LibraryDisplayModes.CoverOnly,
+  },
+  {
+    label: 'List',
+    value: LibraryDisplayModes.List,
+  },
+];

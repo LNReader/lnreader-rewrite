@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 
 import {
   ErrorScreen,
@@ -22,6 +22,7 @@ const SourceScreen: React.FC = () => {
   const {
     params: { sourceId },
   } = useRoute<SourceScreenRouteProps>();
+  const { navigate } = useNavigation();
   const { searchText, setSearchText } = useSearchText();
   const {
     loading,
@@ -39,12 +40,18 @@ const SourceScreen: React.FC = () => {
   return (
     <ScreenContainer>
       <Searchbar
+        useBackAction
         placeholder={`Search ${source?.name}`}
         value={searchText}
         onChangeText={setSearchText}
         onSubmitEditing={searchNovels}
         onClearSearchbar={onClearSearch}
-        useBackAction
+        actions={[
+          {
+            icon: 'earth',
+            onPress: () => navigate('SourceWebviewScreen', { source }),
+          },
+        ]}
       />
       {loading ? (
         <LoadingScreen />

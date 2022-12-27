@@ -9,7 +9,7 @@ import { isNumber } from 'lodash';
 
 import { useTheme } from '@hooks';
 
-interface TextProps extends RNTextProps {
+export interface TextProps extends RNTextProps {
   size?: number;
   color?: string;
   padding?:

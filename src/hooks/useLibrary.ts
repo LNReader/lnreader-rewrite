@@ -15,7 +15,7 @@ interface UseLibraryProps {
 export const useLibrary = ({ searchTerm }: UseLibraryProps) => {
   const [loading, setLoading] = useState(true);
   const [library, setLibrary] = useState<Library[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<Error>();
   const { LIBRARY_FILTERS } = useAppSettings();
 
   const getNovels = async () => {
@@ -41,7 +41,7 @@ export const useLibrary = ({ searchTerm }: UseLibraryProps) => {
       setLibrary(data);
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setError(err);
       }
     } finally {
       setLoading(false);

@@ -20,9 +20,17 @@ const useAppSettings = () => {
     });
   };
 
+  const toggleSetting = (key: keyof SettingTypes): void => {
+    setSettings({
+      ...settings,
+      [key]: !settings?.[key],
+    });
+  };
+
   return {
     ...settings,
     setAppSettings,
+    toggleSetting,
   };
 };
 

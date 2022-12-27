@@ -6,7 +6,7 @@ import { IconAppbar, List } from '@lnreader/core';
 const AboutScreen = () => {
   return (
     <>
-      <IconAppbar />
+      <IconAppbar showBackAction title="About" />
       <List.Item title="Version" description="Preview 0.1" />
     </>
   );

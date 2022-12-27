@@ -30,12 +30,15 @@ export enum Setting {
   SHOW_HISTORY_TAB = 'SHOW_HISTORY_TAB',
   SHOW_UPDATES_TAB = 'SHOW_UPDATES_TAB',
   SHOW_LABELS_IN_NAV = 'SHOW_LABELS_IN_NAV',
+
+  INCOGNITO_MODE = 'INCOGNITO_MODE',
+  DOWNLOADED_ONLY_MODE = 'DOWNLOADED_ONLY_MODE',
 }
 
 export interface SettingTypes {
   [Setting.LIBRARY_SORT_ORDER]: LibrarySortOrder;
   [Setting.LIBRARY_FILTERS]: LibraryFilters[];
-  [Setting.LIBRARY_DISPLAY_MODE]: LibraryDisplayModes[];
+  [Setting.LIBRARY_DISPLAY_MODE]: LibraryDisplayModes;
   [Setting.LIBRARY_SHOW_DOWNLOADS_BADGE]: boolean;
   [Setting.LIBRARY_SHOW_UNREAD_BADGE]: boolean;
   [Setting.LIBRARY_SHOW_NUMBER_OF_ITEMS]: boolean;
@@ -52,4 +55,7 @@ export interface SettingTypes {
   [Setting.SHOW_HISTORY_TAB]: boolean;
   [Setting.SHOW_UPDATES_TAB]: boolean;
   [Setting.SHOW_LABELS_IN_NAV]: boolean;
+
+  [Setting.INCOGNITO_MODE]: boolean;
+  [Setting.DOWNLOADED_ONLY_MODE]: boolean;
 }

@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { ErrorScreen, LoadingScreen } from '@lnreader/core';
-import { useChapter, useTheme } from '@hooks';
+import { useAppSettings, useChapter, useTheme } from '@hooks';
 import { DatabaseChapter } from '@database/types';
 import { insertChapterInHistory } from '@database/queries/HistoryQueries';
 
@@ -25,12 +25,15 @@ const ReaderScreen = () => {
   const { params: readerParams } = useRoute<ReaderScreenRouteProps>();
   const { chapter, error, loading } = useChapter(readerParams);
   const [menuVisible, setMenuVisible] = useState(false);
+  const { INCOGNITO_MODE } = useAppSettings();
 
   useEffect(() => {
-    insertChapterInHistory(
-      readerParams.chapter.novelId,
-      readerParams.chapter.id,
-    );
+    if (!INCOGNITO_MODE) {
+      insertChapterInHistory(
+        readerParams.chapter.novelId,
+        readerParams.chapter.id,
+      );
+    }
   }, []);
 
   const handleShowMenu = () => setMenuVisible(prevVal => !prevVal);

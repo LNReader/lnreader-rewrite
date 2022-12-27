@@ -1,9 +1,9 @@
-import { StyleSheet, View } from 'react-native';
 import React from 'react';
-import useChapterStorage from 'hooks/useChapterStorage';
-import { Text } from '@lnreader/core';
+import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import useAppSettings from 'hooks/useAppSettings';
+
+import { Text } from '@lnreader/core';
+import { useAppSettings, useChapterStorage } from '@hooks';
 
 type Props = {
   chapterId: number;

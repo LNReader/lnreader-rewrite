@@ -1,19 +1,18 @@
 import React, { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
-
-import { NovelStatus } from '@database/types';
-import { CoverImage, Description, SubHeader } from './Components';
-import { Row, Text, IconButton } from '@lnreader/core';
-import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
-import { useTheme } from '@hooks';
-import SourceFactory from '@sources/SourceFactory';
-import { useNovelDetailsContext } from 'contexts/NovelDetailsContext';
 import { useNavigation } from '@react-navigation/native';
-import Button from 'components/Button/Button';
-import { useHistory } from 'hooks/useHistory';
-import { BottomSheetType } from 'components/BottomSheet/BottomSheet';
+import FastImage from 'react-native-fast-image';
 import { sortBy } from 'lodash';
+
+import { Row, Text, IconButton, BottomSheetType, Button } from '@lnreader/core';
+import { useTheme, useHistory } from '@hooks';
+import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
+import { NovelStatus } from '@database/types';
+import SourceFactory from '@sources/SourceFactory';
+
+import { CoverImage, Description, SubHeader } from './Components';
+
+import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
 
 interface Props {
   bottomSheetRef: React.MutableRefObject<BottomSheetType>;

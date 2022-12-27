@@ -33,6 +33,7 @@ export interface ThemeColors {
 
 export interface ThemeType {
   id: number;
+  name: string;
   light: ThemeColors;
   dark: ThemeColors;
 }

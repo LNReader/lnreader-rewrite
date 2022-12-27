@@ -1,13 +1,16 @@
 import * as SQLite from 'expo-sqlite';
 
+import { APP_SETTINGS } from '@hooks/useAppSettings';
+
 import { DATABASE_NAME } from '@database/constants';
 import { DatabaseNovel, LibraryNovel } from '@database/types';
-
 import { txnErrorCallback } from '@database/utils';
+
 import { SourceNovelDetails } from '@sources/types';
-import { MMKVStorage } from '@utils/mmkv/mmkv';
-import { APP_SETTINGS } from 'hooks/useAppSettings';
+
 import { SettingTypes } from 'types/SettingTypes';
+
+import { MMKVStorage } from '@utils/mmkv/mmkv';
 import { LibrarySortOrder } from '@utils/libraryUtils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
@@ -31,6 +34,14 @@ LEFT JOIN (
   GROUP BY chapters.novelId
 ) AS D
 ON novels.id = D.novelId
+LEFT JOIN (
+  SELECT history.id as novelId, lastRead
+  FROM history
+  GROUP BY history.id
+  HAVING history.lastRead = MAX(history.lastRead)
+  ORDER BY history.lastRead DESC
+) AS H
+ON novels.id = H.novelId
 WHERE 
   favorite = 1
 `;

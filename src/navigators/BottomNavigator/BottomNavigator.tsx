@@ -1,14 +1,13 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-import { useTheme } from '@hooks';
-import useAppSettings from 'hooks/useAppSettings';
+import { useTheme, useAppSettings } from '@hooks';
 
-import LibraryScreen from 'screens/LibraryScreen/LibraryScreen';
-import BrowseScreen from 'screens/BrowseScreen/BrowseScreen';
-import MoreScreen from 'screens/MoreScreen/MoreScreen';
-import UpdatesScreen from 'screens/UpdatesScreen/UpdatesScreen';
-import HistoryScreen from 'screens/HistoryScreen/HistoryScreen';
+import LibraryScreen from '@screens/LibraryScreen/LibraryScreen';
+import BrowseScreen from '@screens/BrowseScreen/BrowseScreen';
+import MoreScreen from '@screens/MoreScreen/MoreScreen';
+import UpdatesScreen from '@screens/UpdatesScreen/UpdatesScreen';
+import HistoryScreen from '@screens/HistoryScreen/HistoryScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -26,6 +25,7 @@ const BottomNavigator = () => {
         backgroundColor: theme.surface2,
       }}
       labeled={SHOW_LABELS_IN_NAV}
+      activeColor={theme.primary}
     >
       <Tab.Screen
         name="LibraryScreen"

@@ -6,10 +6,10 @@ import { Text } from '@lnreader/core';
 import { Spacing } from '@theme/constants';
 
 interface ErrorScreenProps {
-  error?: string;
+  error?: Error;
 }
 
-const ErrorScreen: React.FC<ErrorScreenProps> = ({ error }) => {
+const ErrorScreen: React.FC<ErrorScreenProps> = ({ error, showErrorStack }) => {
   const { theme } = useTheme();
 
   return (
@@ -18,8 +18,17 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({ error }) => {
         ಥ_ಥ
       </Text>
       <Text color={theme.onSurfaceVariant} style={styles.errorMsg}>
-        {error}
+        {error?.message}
       </Text>
+      {showErrorStack && error?.stack && (
+        <View
+          style={[styles.errorStackCtn, { backgroundColor: theme.surface2 }]}
+        >
+          <Text numberOfLines={10} color={theme.onSurfaceVariant}>
+            {error.stack}
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -36,5 +45,12 @@ const styles = StyleSheet.create({
     marginTop: Spacing.M,
     paddingHorizontal: Spacing.M,
     textAlign: 'center',
+  },
+  errorStackCtn: {
+    borderRadius: 8,
+    lineHeight: 20,
+    margin: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 8,
   },
 });

@@ -10,7 +10,8 @@ import {
   Checkbox,
   SortItem,
 } from '@lnreader/core';
-import useNovelStorage, { NovelStorageSetting } from '@hooks/useNovelStorage';
+import { useNovelStorage } from '@hooks';
+import { NovelStorageSetting } from '@hooks/useNovelStorage';
 import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
 import {
   NovelFilterLabels,

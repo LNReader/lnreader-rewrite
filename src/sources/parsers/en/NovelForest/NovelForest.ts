@@ -15,11 +15,7 @@ import {
 } from '@sources/types';
 import { fetchHtml } from '@utils/fetch/fetch';
 
-export class NovelForestParser extends ParsedSource {
-  constructor() {
-    super();
-  }
-
+export class NovelForestParser implements ParsedSource {
   name = 'NovelForest';
   id = 1;
   iconUrl =

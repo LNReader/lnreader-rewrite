@@ -37,7 +37,7 @@ export const useNovelDetails = ({
     novelParams as DatabaseNovel,
   );
   const [chapters, setChapters] = useState<DatabaseChapter[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<Error>();
 
   const { FILTERS, SORT_ORDER } = useNovelStorage(novelId || novel.id);
 
@@ -48,7 +48,7 @@ export const useNovelDetails = ({
 
       if (!dbNovelId) {
         dbNovel = await getNovel(sourceId, url);
-      } else if (isEmpty(omit(dbNovel, 'id'))) {
+      } else if (isEmpty(omit(dbNovel, ['id', 'sourceId']))) {
         dbNovel = await getNovelById(dbNovelId);
       }
 
@@ -70,7 +70,7 @@ export const useNovelDetails = ({
       setChapters(dbChapters);
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setError(err);
       }
     } finally {
       setLoading(false);
@@ -84,7 +84,7 @@ export const useNovelDetails = ({
       setChapters(dbChapters);
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setError(err);
       }
     }
   };

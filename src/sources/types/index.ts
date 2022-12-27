@@ -3,6 +3,7 @@ import { NovelStatus } from '@database/types';
 export enum Language {
   English = 'English',
   Japanese = 'Japanese',
+  Indonesian = 'Indonesian',
 }
 
 export abstract class Source {

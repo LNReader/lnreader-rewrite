@@ -2,6 +2,7 @@ import { ThemeType } from '@theme/types';
 
 export const defaultColors: ThemeType = {
   id: 1,
+  name: 'Default',
   light: {
     primary: '#6750A4',
     onPrimary: '#FFFFFF',

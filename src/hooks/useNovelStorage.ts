@@ -11,12 +11,12 @@ export enum NovelStorageSetting {
 }
 
 interface NovelStorage {
-  [NovelStorageSetting.SHOW_CHAPTER_NUMBERS]?: boolean;
-  [NovelStorageSetting.FILTERS]?: NovelFilters[];
-  [NovelStorageSetting.SORT_ORDER]?: NovelSortOrder;
+  [NovelStorageSetting.SHOW_CHAPTER_NUMBERS]: boolean;
+  [NovelStorageSetting.FILTERS]: NovelFilters[];
+  [NovelStorageSetting.SORT_ORDER]: NovelSortOrder;
 }
 
-export type NovelStorageMap = Record<number, NovelStorage>;
+export type NovelStorageMap = Record<number, Partial<NovelStorage>>;
 
 const useNovelStorage = (novelId: number) => {
   const [values, setValues] = useMMKVObject<NovelStorageMap>(

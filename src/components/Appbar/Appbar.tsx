@@ -1,28 +1,40 @@
 import React from 'react';
-import { Appbar as PaperAppbar } from 'react-native-paper';
+import {
+  Appbar as PaperAppbar,
+  AppbarHeaderProps as PaperAppbarHeaderProps,
+} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { useTheme } from '@hooks';
 
-interface AppbarProps {
+interface AppbarProps
+  extends Omit<PaperAppbarHeaderProps, 'children' | 'theme'> {
   title: string;
+  actions?: Array<{ icon: string; onPress: () => void }>;
 }
 
-const Appbar: React.FC<AppbarProps> = ({ title }) => {
+const Appbar: React.FC<AppbarProps> = props => {
   const { theme } = useTheme();
   const { goBack } = useNavigation();
 
   return (
-    <PaperAppbar.Header mode="large" theme={{ colors: theme }}>
+    <PaperAppbar.Header mode="large" {...props} theme={{ colors: theme }}>
       <PaperAppbar.BackAction
         onPress={goBack}
         iconColor={theme.onSurfaceVariant}
       />
       <PaperAppbar.Content
-        title={title}
+        title={props.title}
         titleStyle={{ color: theme.onSurface }}
         theme={{ colors: theme }}
       />
+      {props.actions?.map(action => (
+        <PaperAppbar.Action
+          key={action.icon}
+          icon={action.icon}
+          onPress={goBack}
+        />
+      ))}
     </PaperAppbar.Header>
   );
 };

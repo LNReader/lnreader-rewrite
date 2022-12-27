@@ -18,3 +18,4 @@ export type {
   BottomSheetType,
   BottomSheetRef,
 } from './BottomSheet/BottomSheet';
+export type { TextProps } from './Text/Text';

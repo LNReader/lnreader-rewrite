@@ -12,7 +12,7 @@ interface UseSourceParams {
 const useSource = (params: UseSourceParams) => {
   const [loading, setLoading] = useState(true);
   const [novels, setNovels] = useState<SourceNovel[]>([]);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<Error>();
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
 
@@ -29,7 +29,7 @@ const useSource = (params: UseSourceParams) => {
       setTotalPages(defaultTo(res?.totalPages, 1));
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setError(err);
       }
     } finally {
       setLoading(false);
@@ -50,7 +50,7 @@ const useSource = (params: UseSourceParams) => {
       setTotalPages(defaultTo(res?.totalPages, 1));
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setError(err);
       }
     } finally {
       setLoading(false);

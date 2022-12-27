@@ -1,19 +1,24 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Switch as PaperSwitch } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Text } from '@lnreader/core';
+import { Text, Row } from '@lnreader/core';
 import { useTheme } from '@hooks';
 
 type Props = {
+  size?: 'small' | 'large';
   value?: boolean;
-  label?: string;
-  textSize?: number;
+  title?: string;
+  description?: string;
   onPress: () => void;
+  icon?: string;
 };
 
 const Switch: React.FC<Props> = props => {
   const { theme } = useTheme();
+
+  const titleSize = props.size === 'large' ? 16 : 14;
 
   return (
     <Pressable
@@ -21,7 +26,24 @@ const Switch: React.FC<Props> = props => {
       android_ripple={{ color: theme.rippleColor }}
       onPress={props.onPress}
     >
-      <Text size={props.textSize}>{props.label}</Text>
+      <Row>
+        {props.icon && (
+          <Icon
+            style={styles.iconCtn}
+            name={props.icon}
+            size={24}
+            color={theme.primary}
+          />
+        )}
+        <View>
+          <Text size={titleSize}>{props.title}</Text>
+          {props.description && (
+            <Text size={12} color={theme.onSurfaceVariant}>
+              {props.description}
+            </Text>
+          )}
+        </View>
+      </Row>
       <PaperSwitch
         value={props.value}
         onValueChange={props.onPress}
@@ -38,7 +60,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    padding: 16,
+  },
+  iconCtn: {
+    marginRight: 16,
   },
 });
