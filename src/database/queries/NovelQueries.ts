@@ -1,14 +1,14 @@
 import * as SQLite from 'expo-sqlite';
 
-import {DATABASE_NAME} from 'database/constants';
-import {DatabaseNovel, LibraryNovel} from 'database/types';
+import { DATABASE_NAME } from '@database/constants';
+import { DatabaseNovel, LibraryNovel } from '@database/types';
 
-import {txnErrorCallback} from 'database/utils';
-import {SourceNovelDetails} from 'sources/types';
-import {MMKVStorage} from 'utils/mmkv/mmkv';
-import {APP_SETTINGS} from 'hooks/useAppSettings';
-import {SettingTypes} from 'types/SettingTypes';
-import {LibrarySortOrder} from 'utils/libraryUtils';
+import { txnErrorCallback } from '@database/utils';
+import { SourceNovelDetails } from '@sources/types';
+import { MMKVStorage } from '@utils/mmkv/mmkv';
+import { APP_SETTINGS } from 'hooks/useAppSettings';
+import { SettingTypes } from 'types/SettingTypes';
+import { LibrarySortOrder } from '@utils/libraryUtils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -42,8 +42,10 @@ export const getLibraryNovels = (
 
   const rawSettings = MMKVStorage.getString(APP_SETTINGS) || '{}';
   const parsedSettings: Partial<SettingTypes> = JSON.parse(rawSettings);
-  const {LIBRARY_FILTERS, LIBRARY_SORT_ORDER = LibrarySortOrder.DateAdded_ASC} =
-    parsedSettings;
+  const {
+    LIBRARY_FILTERS,
+    LIBRARY_SORT_ORDER = LibrarySortOrder.DateAdded_ASC,
+  } = parsedSettings;
 
   if (LIBRARY_FILTERS) {
     query += LIBRARY_FILTERS?.join('');
@@ -62,7 +64,7 @@ export const getLibraryNovels = (
       tx.executeSql(
         query,
         undefined,
-        (_txObj, {rows: {_array}}) => resolve(_array),
+        (_txObj, { rows: { _array } }) => resolve(_array),
         txnErrorCallback,
       );
     }),
@@ -75,7 +77,7 @@ export const getNovelById = async (id: number): Promise<DatabaseNovel> => {
       tx.executeSql(
         'SELECT * FROM novels WHERE id = ?',
         [id],
-        (_txObj, {rows}) => resolve(rows.item(0)),
+        (_txObj, { rows }) => resolve(rows.item(0)),
         txnErrorCallback,
       );
     }),
@@ -91,7 +93,7 @@ export const getNovel = async (
       tx.executeSql(
         'SELECT * FROM novels WHERE url = ? AND sourceId = ?',
         [url, sourceId],
-        (_txObj, {rows}) => resolve(rows.item(0)),
+        (_txObj, { rows }) => resolve(rows.item(0)),
         txnErrorCallback,
       );
     }),
@@ -138,7 +140,7 @@ export const insertNovel = async (
           novel.artist || null,
           novel.sourceId,
         ],
-        (_txObj, {insertId: novelId}) => {
+        (_txObj, { insertId: novelId }) => {
           if (novelId) {
             resolve(novelId);
           }

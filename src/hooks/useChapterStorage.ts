@@ -1,7 +1,7 @@
-import {debounce} from 'lodash';
-import {useEffect} from 'react';
-import {useMMKVObject} from 'react-native-mmkv';
-import {MMKVStorage} from 'utils/mmkv/mmkv';
+import { useMMKVObject } from 'react-native-mmkv';
+import { debounce } from 'lodash';
+
+import { MMKVStorage } from '@utils/mmkv/mmkv';
 
 export const CHAPTER_STORAGE = 'CHAPTER_STORAGE';
 

@@ -1,24 +1,24 @@
-import React, {useState} from 'react';
-import {FlatList, Pressable, StyleSheet, View} from 'react-native';
-import FastImage, {FastImageProps} from 'react-native-fast-image';
-import {LinearGradient} from 'expo-linear-gradient';
-import {easeGradient} from 'react-native-easing-gradient';
+import React, { useState } from 'react';
+import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import FastImage, { FastImageProps } from 'react-native-fast-image';
+import { LinearGradient } from 'expo-linear-gradient';
+import { easeGradient } from 'react-native-easing-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {Text, Row, IconButton, Chip} from 'components/index';
-import {useTheme} from 'hooks/useTheme';
+import { Text, Row, IconButton, Chip } from '@lnreader/core';
+import { useTheme } from '@hooks';
 import Color from 'color';
-import {Spacing} from 'theme/constants';
-import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
-import {defaultTo} from 'lodash';
+import { Spacing } from '@theme/constants';
+import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
+import { defaultTo } from 'lodash';
 
 export const CoverImage: React.FC<FastImageProps> = props => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
-  const {colors, locations} = easeGradient({
+  const { colors, locations } = easeGradient({
     colorStops: {
-      0: {color: 'rgba(0,0,0,0)'},
-      1: {color: theme.background},
+      0: { color: 'rgba(0,0,0,0)' },
+      1: { color: theme.background },
     },
   });
 
@@ -30,11 +30,13 @@ export const CoverImage: React.FC<FastImageProps> = props => {
           {
             backgroundColor: Color(theme.background).alpha(0.7).toString(),
           },
-        ]}>
+        ]}
+      >
         <LinearGradient
           colors={colors}
           locations={locations}
-          style={styles.linearGradient}>
+          style={styles.linearGradient}
+        >
           {props.children}
         </LinearGradient>
       </View>
@@ -43,8 +45,8 @@ export const CoverImage: React.FC<FastImageProps> = props => {
 };
 
 export const SubHeader: React.FC = () => {
-  const {theme} = useTheme();
-  const {novel, handleSetNovelFavorite} = useNovelDetailsContext();
+  const { theme } = useTheme();
+  const { novel, handleSetNovelFavorite } = useNovelDetailsContext();
 
   const followBtnColor = novel.favorite
     ? theme.primary
@@ -54,11 +56,12 @@ export const SubHeader: React.FC = () => {
     <Row style={styles.subHeaderCtn}>
       <View style={styles.buttonWrapper}>
         <Pressable
-          android_ripple={{color: theme.rippleColor}}
+          android_ripple={{ color: theme.rippleColor }}
           style={styles.buttonCtn}
           onPress={() => {
             handleSetNovelFavorite(!novel.favorite);
-          }}>
+          }}
+        >
           <Icon
             name={novel.favorite ? 'heart' : 'heart-outline'}
             color={followBtnColor}
@@ -71,8 +74,9 @@ export const SubHeader: React.FC = () => {
       </View>
       <View style={styles.buttonWrapper}>
         <Pressable
-          android_ripple={{color: theme.rippleColor}}
-          style={styles.buttonCtn}>
+          android_ripple={{ color: theme.rippleColor }}
+          style={styles.buttonCtn}
+        >
           <Icon name="earth" color={theme.outline} size={24} />
           <Text size={12} style={styles.label} color={theme.outline}>
             {'WebView'}
@@ -84,9 +88,9 @@ export const SubHeader: React.FC = () => {
 };
 
 export const Description = () => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const {
-    novel: {description, genre, favorite},
+    novel: { description, genre, favorite },
   } = useNovelDetailsContext();
 
   const [expanded, setExpanded] = useState(!favorite);
@@ -98,19 +102,24 @@ export const Description = () => {
 
   return (
     <>
-      <Pressable style={styles.descriptionCtn} onPress={handleOnPress}>
+      <Pressable
+        style={styles.descriptionCtn}
+        onPress={description ? handleOnPress : undefined}
+      >
         <Text
           color={theme.onSurfaceVariant}
           numberOfLines={isExpanded ? Number.MAX_SAFE_INTEGER : 3}
-          style={[styles.descText, isExpanded && {marginBottom: Spacing.XL}]}>
+          style={[styles.descText, isExpanded && { marginBottom: Spacing.XL }]}
+        >
           {description || 'No summary'}
         </Text>
         {description ? (
           <View
             style={[
               styles.iconCtn,
-              {backgroundColor: Color(theme.background).alpha(0.8).string()},
-            ]}>
+              { backgroundColor: Color(theme.background).alpha(0.8).string() },
+            ]}
+          >
             <IconButton
               name={isExpanded ? 'chevron-up' : 'chevron-down'}
               onPress={handleOnPress}
@@ -124,7 +133,7 @@ export const Description = () => {
           contentContainerStyle={styles.genreCtn}
           data={genreArr}
           horizontal
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <View style={styles.chipCtn}>
               <Chip textSize={12}>{item}</Chip>
             </View>

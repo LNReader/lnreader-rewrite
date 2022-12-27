@@ -7,16 +7,18 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "baseUrl": ".",
     "paths": {
-      "components/*": ["src/components/*"],
-      "contexts/*": ["src/contexts/*"],
-      "database/*": ["src/database/*"],
-      "hooks/*": ["src/hooks/*"],
-      "navigators/*": ["src/navigators/*"],
-      "screens/*": ["src/screens/*"],
-      "sources/*": ["src/sources/*"],
-      "theme/*": ["src/theme/*"],
+      "@lnreader/core": ["src/components/index"],
+      "@components/*": ["src/components/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@database/*": ["src/database/*"],
+      "@hooks": ["src/hooks/index"],
+      "@hooks/*": ["src/hooks/*"],
+      "@navigators/*": ["src/navigators/*"],
+      "@screens/*": ["src/screens/*"],
+      "@sources/*": ["src/sources/*"],
+      "@theme/*": ["src/theme/*"],
       "types/*": ["src/types/*"],
-      "utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"]
     }
   }
 }

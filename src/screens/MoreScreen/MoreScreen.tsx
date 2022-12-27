@@ -1,20 +1,51 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Text} from 'components/index';
-import {useTheme} from 'hooks/useTheme';
+import { StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+import { List, IconAppbar, Switch } from '@lnreader/core';
+import { useTheme } from '@hooks';
 
 const MoreScreen = () => {
-  const {setDarkMode, isDarkMode, setAmoledBlack, isAmoledBlack} = useTheme();
-  return (
-    <View style={{padding: 40}}>
-      <Text onPress={() => setDarkMode(!isDarkMode)}>Toogle DarkMode</Text>
+  const { navigate } = useNavigation();
+  const { setDarkMode, isDarkMode, setAmoledBlack, isAmoledBlack } = useTheme();
 
+  return (
+    <>
+      <IconAppbar />
+      <Switch
+        value={isDarkMode}
+        label="Dark mode"
+        onPress={() => setDarkMode(!isDarkMode)}
+        textSize={16}
+      />
       {isDarkMode && (
-        <Text onPress={() => setAmoledBlack(!isAmoledBlack)}>
-          Toogle AmoledBlack
-        </Text>
+        <Switch
+          value={isAmoledBlack}
+          label="Pure black dark mode"
+          onPress={() => setAmoledBlack(!isAmoledBlack)}
+          textSize={16}
+        />
       )}
-    </View>
+      <List.Divider />
+      <List.Item
+        title="Settings"
+        icon="cog-outline"
+        onPress={() =>
+          navigate('MoreStack', {
+            screen: 'SettingsStack',
+          })
+        }
+      />
+      <List.Item
+        title="About"
+        icon="information-outline"
+        onPress={() =>
+          navigate('MoreStack', {
+            screen: 'AboutScreen',
+          })
+        }
+      />
+    </>
   );
 };
 

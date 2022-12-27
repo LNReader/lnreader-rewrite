@@ -1,5 +1,5 @@
-import {ToastAndroid} from 'react-native';
-import {SQLError, SQLTransaction} from 'expo-sqlite';
+import { ToastAndroid } from 'react-native';
+import { SQLError, SQLTransaction } from 'expo-sqlite';
 
 export const txnErrorCallback = (
   _txnObj: SQLTransaction,

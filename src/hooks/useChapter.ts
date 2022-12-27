@@ -1,17 +1,17 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import sanitizeHtml from 'sanitize-html';
+import { defaultTo } from 'lodash';
 
-import {DatabaseChapter} from 'database/types';
-import SourceFactory from 'sources/SourceFactory';
-import {SourceChapter} from 'sources/types';
-import {defaultTo} from 'lodash';
+import { DatabaseChapter } from '@database/types';
+import { SourceChapter } from '@sources/types';
+import SourceFactory from '@sources/SourceFactory';
 
 interface UseChapterParams {
   sourceId: number;
   chapter: DatabaseChapter;
 }
 
-const useChapter = ({chapter: {url}, sourceId}: UseChapterParams) => {
+const useChapter = ({ chapter: { url }, sourceId }: UseChapterParams) => {
   const source = SourceFactory.getSource(sourceId);
 
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,9 @@ const useChapter = ({chapter: {url}, sourceId}: UseChapterParams) => {
 
   const getChapter = async () => {
     try {
-      const sourceChapter = (await source?.getChapter({url})) as SourceChapter;
+      const sourceChapter = (await source?.getChapter({
+        url,
+      })) as SourceChapter;
 
       setChapter({
         ...sourceChapter,

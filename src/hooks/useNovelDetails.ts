@@ -1,22 +1,22 @@
-import {useEffect, useState} from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 import {
   getNovel,
   getNovelById,
   insertNovel,
   setNovelFavorite,
-} from 'database/queries/NovelQueries';
-import {DatabaseChapter, DatabaseNovel} from 'database/types';
+} from '@database/queries/NovelQueries';
+import { DatabaseChapter, DatabaseNovel } from '@database/types';
 
-import SourceFactory from 'sources/SourceFactory';
-import {SourceNovelDetails} from 'sources/types';
-import {isUndefined} from 'lodash';
+import SourceFactory from '@sources/SourceFactory';
+import { SourceNovelDetails } from '@sources/types';
+import { isEmpty, isUndefined, omit } from 'lodash';
 import {
   getChaptersByNovelId,
   insertChapters,
-} from 'database/queries/ChapterQueries';
+} from '@database/queries/ChapterQueries';
 import useNovelStorage from './useNovelStorage';
-import useIsFirstRender from './useIsFirstRender';
 
 interface UseNovelDetailsProps {
   novelId?: number;
@@ -27,8 +27,8 @@ export const useNovelDetails = ({
   novelParams,
   novelId,
 }: UseNovelDetailsProps) => {
-  const {sourceId, url} = novelParams;
-  const isFirstRender = useIsFirstRender();
+  const { sourceId, url } = novelParams;
+  const isFirstRender = useRef(true);
 
   const source = SourceFactory.getSource(sourceId);
 
@@ -39,7 +39,7 @@ export const useNovelDetails = ({
   const [chapters, setChapters] = useState<DatabaseChapter[]>([]);
   const [error, setError] = useState('');
 
-  const {FILTERS, SORT_ORDER} = useNovelStorage(novelId || novel.id);
+  const { FILTERS, SORT_ORDER } = useNovelStorage(novelId || novel.id);
 
   const getNovelDetails = async () => {
     try {
@@ -48,10 +48,12 @@ export const useNovelDetails = ({
 
       if (!dbNovelId) {
         dbNovel = await getNovel(sourceId, url);
+      } else if (isEmpty(omit(dbNovel, 'id'))) {
+        dbNovel = await getNovelById(dbNovelId);
       }
 
       if (!dbNovelId && isUndefined(dbNovel)) {
-        const sourceNovel = await source?.getNovelDetails({url});
+        const sourceNovel = await source?.getNovelDetails({ url });
 
         dbNovelId = await insertNovel(sourceNovel as SourceNovelDetails);
 
@@ -72,6 +74,7 @@ export const useNovelDetails = ({
       }
     } finally {
       setLoading(false);
+      isFirstRender.current = false;
     }
   };
 
@@ -87,7 +90,7 @@ export const useNovelDetails = ({
   };
 
   const handleSetNovelFavorite = (val: boolean) => {
-    setNovel(prevVal => ({...prevVal, favorite: +val}));
+    setNovel(prevVal => ({ ...prevVal, favorite: +val }));
     setNovelFavorite(novel.id, val);
   };
 
@@ -95,11 +98,13 @@ export const useNovelDetails = ({
     getNovelDetails();
   }, []);
 
-  useEffect(() => {
-    if (!isFirstRender) {
-      getFilteredChapters();
-    }
-  }, [FILTERS, SORT_ORDER]);
+  useFocusEffect(
+    useCallback(() => {
+      if (!isFirstRender.current) {
+        getFilteredChapters();
+      }
+    }, [FILTERS, SORT_ORDER]),
+  );
 
   return {
     novel,

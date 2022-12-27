@@ -1,13 +1,13 @@
 import * as SQLite from 'expo-sqlite';
 
-import {DATABASE_NAME} from 'database/constants';
-import {DatabaseChapter} from 'database/types';
-import {txnErrorCallback} from 'database/utils';
-import {SourceNovelChapter} from 'sources/types';
-import {escape, noop} from 'lodash';
-import {MMKVStorage} from 'utils/mmkv/mmkv';
-import {NovelStorageMap, NOVEL_STORAGE} from 'hooks/useNovelStorage';
-import {NovelSortOrder} from 'utils/novelUtils';
+import { DATABASE_NAME } from '@database/constants';
+import { DatabaseChapter } from '@database/types';
+import { txnErrorCallback } from '@database/utils';
+import { SourceNovelChapter } from '@sources/types';
+import { escape, noop } from 'lodash';
+import { MMKVStorage } from '@utils/mmkv/mmkv';
+import { NovelStorageMap, NOVEL_STORAGE } from 'hooks/useNovelStorage';
+import { NovelSortOrder } from '@utils/novelUtils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -26,7 +26,7 @@ export const getChaptersByNovelId = (
   const rawSettings = MMKVStorage.getString(NOVEL_STORAGE) || '{}';
   const parsedSettings: NovelStorageMap = JSON.parse(rawSettings);
 
-  const {FILTERS, SORT_ORDER = NovelSortOrder.BY_SOURCE_ASC} =
+  const { FILTERS, SORT_ORDER = NovelSortOrder.BY_SOURCE_ASC } =
     parsedSettings[novelId] || {};
 
   let query = getChaptersByNovelIdQuery;
@@ -44,7 +44,7 @@ export const getChaptersByNovelId = (
       tx.executeSql(
         query,
         [novelId],
-        (txObj, {rows: {_array}}) => resolve(_array),
+        (txObj, { rows: { _array } }) => resolve(_array),
         txnErrorCallback,
       );
     }),
@@ -85,3 +85,17 @@ export const insertChapters = async (
     tx.executeSql(insertChaptersQuery, undefined, undefined, txnErrorCallback);
   });
 };
+
+const setChapterReadQuery = `
+UPDATE 
+  chapters 
+SET 
+  \`read\` = 1 
+WHERE 
+  id = ?
+`;
+
+export const setChapterRead = async (id: number) =>
+  db.transaction(tx =>
+    tx.executeSql(setChapterReadQuery, [id], noop, txnErrorCallback),
+  );

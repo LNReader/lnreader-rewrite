@@ -1,6 +1,8 @@
 import React from 'react';
-import {Button, Text, View} from 'react-native';
+import { View } from 'react-native';
 import ErrorBoundary from 'react-native-error-boundary';
+
+import { Text, Button } from '@lnreader/core';
 
 interface ErrorFallbackProps {
   error: Error;
@@ -28,7 +30,7 @@ interface AppErrorBoundaryProps {
   children: React.ReactNode | React.ReactElement;
 }
 
-const AppErrorBoundary: React.FC<AppErrorBoundaryProps> = ({children}) => {
+const AppErrorBoundary: React.FC<AppErrorBoundaryProps> = ({ children }) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>{children}</ErrorBoundary>
   );

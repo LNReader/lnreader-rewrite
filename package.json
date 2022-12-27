@@ -9,7 +9,8 @@
     "build": "cd android && ./gradlew assembleRelease",
     "open": "open ./android/app/build/outputs/apk/release/",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prettier": "prettier --write \"./src/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
     "@react-navigation/material-bottom-tabs": "^6.2.10",

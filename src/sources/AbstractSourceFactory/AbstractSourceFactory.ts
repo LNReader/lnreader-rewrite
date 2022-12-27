@@ -1,4 +1,4 @@
-import {ParsedSource, Source} from 'sources/types';
+import { ParsedSource, Source } from '@sources/types';
 
 export class AbstractSourceFactory {
   protected sources: Map<number, ParsedSource>;

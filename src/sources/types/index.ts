@@ -1,4 +1,4 @@
-import {NovelStatus} from 'database/types';
+import { NovelStatus } from '@database/types';
 
 export enum Language {
   English = 'English',
@@ -86,5 +86,5 @@ export abstract class ParsedSource extends Source {
     url,
   }: GetNovelDetailsParams): Promise<SourceNovelDetails>;
 
-  abstract getChapter({url}: GetChapterParams): Promise<SourceChapter>;
+  abstract getChapter({ url }: GetChapterParams): Promise<SourceChapter>;
 }

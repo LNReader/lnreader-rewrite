@@ -1,16 +1,16 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {useTheme} from 'hooks/useTheme';
+import { StyleSheet, View } from 'react-native';
+import { useTheme } from '@hooks';
 
-import {Text} from 'components/index';
-import {Spacing} from 'theme/constants';
+import { Text } from '@lnreader/core';
+import { Spacing } from '@theme/constants';
 
 interface ErrorScreenProps {
   error?: string;
 }
 
-const ErrorScreen: React.FC<ErrorScreenProps> = ({error}) => {
-  const {theme} = useTheme();
+const ErrorScreen: React.FC<ErrorScreenProps> = ({ error }) => {
+  const { theme } = useTheme();
 
   return (
     <View style={styles.errorCtn}>

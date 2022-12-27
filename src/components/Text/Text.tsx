@@ -1,11 +1,13 @@
-import {useTheme} from 'hooks/useTheme';
-import {isNumber} from 'lodash';
 import React from 'react';
 import {
+  // eslint-disable-next-line no-restricted-imports
   Text as RNText,
   TextProps as RNTextProps,
   TextStyle,
 } from 'react-native';
+import { isNumber } from 'lodash';
+
+import { useTheme } from '@hooks';
 
 interface TextProps extends RNTextProps {
   size?: number;
@@ -20,10 +22,10 @@ interface TextProps extends RNTextProps {
 }
 
 const Text: React.FC<TextProps> = props => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   const padding: TextStyle = isNumber(props.padding)
-    ? {padding: props.padding}
+    ? { padding: props.padding }
     : {
         paddingHorizontal: props.padding?.horizontal,
         paddingVertical: props.padding?.vertical,
@@ -40,7 +42,8 @@ const Text: React.FC<TextProps> = props => {
           fontSize: props.size,
           fontWeight: props.fontWeight || 'normal',
         },
-      ]}>
+      ]}
+    >
       {props.children}
     </RNText>
   );

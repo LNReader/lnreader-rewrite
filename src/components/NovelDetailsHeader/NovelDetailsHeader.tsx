@@ -1,29 +1,29 @@
-import React, {useMemo} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import React, { useMemo } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import {NovelStatus} from 'database/types';
-import {CoverImage, Description, SubHeader} from './Components';
-import {Row, Text, IconButton} from 'components/index';
-import {IMAGE_PLACEHOLDER_COLOR, Spacing} from 'theme/constants';
-import {useTheme} from 'hooks/useTheme';
-import SourceFactory from 'sources/SourceFactory';
-import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
-import {useNavigation} from '@react-navigation/native';
+import { NovelStatus } from '@database/types';
+import { CoverImage, Description, SubHeader } from './Components';
+import { Row, Text, IconButton } from '@lnreader/core';
+import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
+import { useTheme } from '@hooks';
+import SourceFactory from '@sources/SourceFactory';
+import { useNovelDetailsContext } from 'contexts/NovelDetailsContext';
+import { useNavigation } from '@react-navigation/native';
 import Button from 'components/Button/Button';
-import {useHistory} from 'hooks/useHistory';
-import {BottomSheetType} from 'components/BottomSheet/BottomSheet';
-import {sortBy} from 'lodash';
+import { useHistory } from 'hooks/useHistory';
+import { BottomSheetType } from 'components/BottomSheet/BottomSheet';
+import { sortBy } from 'lodash';
 
 interface Props {
   bottomSheetRef: React.MutableRefObject<BottomSheetType>;
 }
 
-const NovelDetailsHeader: React.FC<Props> = ({bottomSheetRef}) => {
-  const {theme} = useTheme();
-  const {goBack, navigate} = useNavigation();
-  const {loading, novel, chapters} = useNovelDetailsContext();
-  const {getLastReadNovelChapter} = useHistory({});
+const NovelDetailsHeader: React.FC<Props> = ({ bottomSheetRef }) => {
+  const { theme } = useTheme();
+  const { goBack, navigate } = useNavigation();
+  const { loading, novel, chapters } = useNovelDetailsContext();
+  const { getLastReadNovelChapter } = useHistory({});
   const lastReadChapterId = getLastReadNovelChapter(novel.id);
 
   const sourceName = SourceFactory.getSourceName(novel.sourceId);
@@ -46,14 +46,14 @@ const NovelDetailsHeader: React.FC<Props> = ({bottomSheetRef}) => {
 
   return (
     <>
-      <CoverImage source={{uri: coverUrl}}>
+      <CoverImage source={{ uri: coverUrl }}>
         <IconButton
           name="arrow-left"
           containerStyle={styles.backHandler}
           onPress={goBack}
         />
         <Row style={styles.headerCtn}>
-          <FastImage source={{uri: coverUrl}} style={styles.coverCtn} />
+          <FastImage source={{ uri: coverUrl }} style={styles.coverCtn} />
           <View style={styles.detailsCtn}>
             <Text size={20} color={theme.onSurface}>
               {novel.title}
@@ -61,7 +61,8 @@ const NovelDetailsHeader: React.FC<Props> = ({bottomSheetRef}) => {
             <Text
               numberOfLines={1}
               color={theme.onSurfaceVariant}
-              padding={{vertical: Spacing.TINY}}>
+              padding={{ vertical: Spacing.TINY }}
+            >
               {novel.author}
             </Text>
             <Text numberOfLines={1} color={theme.onSurfaceVariant}>{`${
@@ -84,8 +85,9 @@ const NovelDetailsHeader: React.FC<Props> = ({bottomSheetRef}) => {
       )}
       <Pressable
         style={styles.chaptersCtn}
-        android_ripple={{color: theme.rippleColor}}
-        onPress={() => bottomSheetRef.current?.show()}>
+        android_ripple={{ color: theme.rippleColor }}
+        onPress={() => bottomSheetRef.current?.show()}
+      >
         <Text fontWeight="bold">{`${chapters?.length} Chapters`}</Text>
       </Pressable>
     </>

@@ -1,6 +1,3 @@
-import {useNavigation} from '@react-navigation/native';
-import IconButton from 'components/IconButton/IconButton';
-import {useTheme} from 'hooks/useTheme';
 import React from 'react';
 import {
   Pressable,
@@ -9,8 +6,13 @@ import {
   TextInputProps,
   View,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Spacing} from 'theme/constants';
+import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { IconButton } from '@lnreader/core';
+import { useTheme } from '@hooks';
+
+import { Spacing } from '@theme/constants';
 
 interface SearchbarProps extends TextInputProps {
   onChangeText: (text: string) => void;
@@ -24,9 +26,9 @@ interface SearchbarProps extends TextInputProps {
 }
 
 const Searchbar: React.FC<SearchbarProps> = props => {
-  const {theme} = useTheme();
-  const {top} = useSafeAreaInsets();
-  const {goBack} = useNavigation();
+  const { theme } = useTheme();
+  const { top } = useSafeAreaInsets();
+  const { goBack } = useNavigation();
 
   const onClearSearchBar = () => {
     props.onChangeText('');
@@ -43,10 +45,12 @@ const Searchbar: React.FC<SearchbarProps> = props => {
           backgroundColor: theme.surface3,
           marginTop,
         },
-      ]}>
+      ]}
+    >
       <Pressable
         style={styles.pressableCtn}
-        android_ripple={{color: theme.rippleColor}}>
+        android_ripple={{ color: theme.rippleColor }}
+      >
         {props.useBackAction ? (
           <IconButton name="arrow-left" onPress={goBack} />
         ) : (
@@ -55,7 +59,7 @@ const Searchbar: React.FC<SearchbarProps> = props => {
         <TextInput
           {...props}
           placeholderTextColor={theme.onSurfaceVariant}
-          style={[props.style, styles.inputCtn, {color: theme.onSurface}]}
+          style={[props.style, styles.inputCtn, { color: theme.onSurface }]}
           value={props.value}
           onChangeText={props.onChangeText}
         />

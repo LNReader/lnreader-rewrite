@@ -1,25 +1,27 @@
 import React from 'react';
-import {Pressable, StyleSheet} from 'react-native';
-import {Switch as PaperSwitch} from 'react-native-paper';
+import { Pressable, StyleSheet } from 'react-native';
+import { Switch as PaperSwitch } from 'react-native-paper';
 
-import {useTheme} from 'hooks/useTheme';
-import {Text} from 'components/index';
+import { Text } from '@lnreader/core';
+import { useTheme } from '@hooks';
 
 type Props = {
   value?: boolean;
   label?: string;
+  textSize?: number;
   onPress: () => void;
 };
 
 const Switch: React.FC<Props> = props => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   return (
     <Pressable
       style={styles.switchCtn}
-      android_ripple={{color: theme.rippleColor}}
-      onPress={props.onPress}>
-      <Text>{props.label}</Text>
+      android_ripple={{ color: theme.rippleColor }}
+      onPress={props.onPress}
+    >
+      <Text size={props.textSize}>{props.label}</Text>
       <PaperSwitch
         value={props.value}
         onValueChange={props.onPress}

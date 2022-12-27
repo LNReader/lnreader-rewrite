@@ -1,4 +1,4 @@
-import {ThemeType} from 'theme/types';
+import { ThemeType } from '@theme/types';
 
 export const defaultColors: ThemeType = {
   id: 1,

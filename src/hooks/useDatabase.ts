@@ -1,28 +1,28 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import * as SQLite from 'expo-sqlite';
 
-import {DATABASE_NAME} from 'database/constants';
+import { DATABASE_NAME } from '@database/constants';
 
 import {
   createLibraryFavoriteIndex,
   createNovelsTableQuery,
   createNovelUrlIndex,
-} from 'database/tables/NovelsTable';
+} from '@database/tables/NovelsTable';
 import {
   createCategoriesTableQuery,
   createDefaultCategoryQuery,
-} from 'database/tables/CategoriesTable';
+} from '@database/tables/CategoriesTable';
 import {
   createChaptersNovelIdIndex,
   createChaptersTableQuery,
   createChaptersUnreadByNovelIndex,
-} from 'database/tables/ChaptersTable';
-import {txnErrorCallbackWithoutToast} from 'database/utils';
+} from '@database/tables/ChaptersTable';
+import { txnErrorCallbackWithoutToast } from '@database/utils';
 import {
   createHistoryChapterIdIndexQuery,
   createHistoryTableQuery,
-} from 'database/tables/HistoryTable';
-import {noop} from 'lodash';
+} from '@database/tables/HistoryTable';
+import { noop } from 'lodash';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 

@@ -1,8 +1,8 @@
-import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import {useTheme} from 'hooks/useTheme';
+import { StyleSheet, View } from 'react-native';
 
-import {Text} from 'components/index';
+import { useTheme } from '@hooks';
+import { Text } from '@lnreader/core';
 
 type Props = {
   icon?: string;
@@ -13,7 +13,7 @@ const EmptyView: React.FC<Props> = ({
   icon = '(˘･_･˘)',
   description = 'No results found',
 }) => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   return (
     <View style={styles.container}>

@@ -1,8 +1,6 @@
 import React from 'react';
-import {SectionList, StyleSheet} from 'react-native';
-
-import {useHistory} from 'hooks/useHistory';
-import {useTheme} from 'hooks/useTheme';
+import { SectionList, StyleSheet } from 'react-native';
+import moment from 'moment';
 
 import {
   EmptyView,
@@ -10,16 +8,16 @@ import {
   LoadingScreen,
   Searchbar,
   Text,
-} from 'components/index';
-import {useSearchText} from 'hooks/useSearchText';
-import {groupHistoryByDate} from 'utils/historyUtils';
-import HistoryCard from 'components/HistoryCard/HistoryCard';
-import moment from 'moment';
+} from '@lnreader/core';
+import { useTheme, useHistory, useSearchText } from '@hooks';
+import { groupHistoryByDate } from '@utils/historyUtils';
+
+import HistoryCard from '@components/HistoryCard/HistoryCard';
 
 const HistoryScreen = () => {
-  const {theme} = useTheme();
-  const {searchText, setSearchText} = useSearchText();
-  const {error, history, loading, removeHistory} = useHistory({
+  const { theme } = useTheme();
+  const { searchText, setSearchText } = useSearchText();
+  const { error, history, loading, removeHistory } = useHistory({
     searchText,
   });
 
@@ -38,12 +36,12 @@ const HistoryScreen = () => {
         <SectionList
           contentContainerStyle={styles.listCtn}
           sections={groupHistoryByDate(history)}
-          renderSectionHeader={({section: {date}}) => (
-            <Text padding={{horizontal: 16, vertical: 8}}>
+          renderSectionHeader={({ section: { date } }) => (
+            <Text padding={{ horizontal: 16, vertical: 8 }}>
               {moment(new Date(date)).calendar()}
             </Text>
           )}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <HistoryCard history={item} removeHistory={removeHistory} />
           )}
           ListEmptyComponent={<EmptyView />}

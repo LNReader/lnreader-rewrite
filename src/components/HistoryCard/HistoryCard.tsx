@@ -1,24 +1,23 @@
 import React from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 
-import {useTheme} from 'hooks/useTheme';
-import {History} from 'database/types';
+import { Text, IconButton } from '@lnreader/core';
+import { useTheme } from '@hooks';
+import { History } from '@database/types';
 
-import {Text, IconButton} from 'components/index';
-
-import {IMAGE_PLACEHOLDER_COLOR, Spacing} from 'theme/constants';
+import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
 
 type Props = {
   history: History;
   removeHistory: (id: number) => Promise<void>;
 };
 
-const HistoryCard: React.FC<Props> = ({history, removeHistory}) => {
-  const {theme} = useTheme();
-  const {navigate} = useNavigation();
+const HistoryCard: React.FC<Props> = ({ history, removeHistory }) => {
+  const { theme } = useTheme();
+  const { navigate } = useNavigation();
 
   const navigateToReader = () =>
     navigate('ReaderScreen', {
@@ -39,11 +38,12 @@ const HistoryCard: React.FC<Props> = ({history, removeHistory}) => {
 
   return (
     <Pressable
-      android_ripple={{color: theme.rippleColor}}
+      android_ripple={{ color: theme.rippleColor }}
       onPress={navigateToReader}
-      style={styles.cardCtn}>
+      style={styles.cardCtn}
+    >
       <Pressable onPress={navigateToNovel}>
-        <FastImage source={{uri: history.coverUrl}} style={styles.cover} />
+        <FastImage source={{ uri: history.coverUrl }} style={styles.cover} />
       </Pressable>
       <View style={styles.detailsCtn}>
         <Text style={styles.title}>{history.title}</Text>

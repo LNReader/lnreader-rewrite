@@ -1,5 +1,5 @@
-import {LibrarySortOrder} from 'utils/libraryUtils';
-import {LibraryDisplayModes, LibraryFilters} from 'utils/libraryUtils';
+import { LibrarySortOrder } from '@utils/libraryUtils';
+import { LibraryDisplayModes, LibraryFilters } from '@utils/libraryUtils';
 
 export enum Setting {
   /**

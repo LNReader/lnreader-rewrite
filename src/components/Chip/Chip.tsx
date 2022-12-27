@@ -4,19 +4,20 @@ import {
   ChipProps as PaperChipProps,
 } from 'react-native-paper';
 
-import {useTheme} from 'hooks/useTheme';
+import { useTheme } from '@hooks';
 
 interface ChipProps extends Omit<PaperChipProps, 'theme'> {
   textSize?: number;
 }
 
 const Chip: React.FC<ChipProps> = props => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   return (
     <PaperChip
-      theme={{colors: theme}}
-      textStyle={[props.textStyle, {fontSize: props.textSize}]}>
+      theme={{ colors: theme }}
+      textStyle={[props.textStyle, { fontSize: props.textSize }]}
+    >
       {props.children}
     </PaperChip>
   );

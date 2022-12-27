@@ -1,27 +1,31 @@
-import React, {useMemo, useState} from 'react';
-import {Animated, StyleSheet, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {SceneMap} from 'react-native-tab-view';
+import React, { useMemo, useState } from 'react';
+import { Animated, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SceneMap } from 'react-native-tab-view';
+import { xor } from 'lodash';
 
-import {BottomSheetTabView, Checkbox, Text} from 'components/index';
-import {BottomSheetRef} from 'components/BottomSheet/BottomSheet';
-import useAppSettings from 'hooks/useAppSettings';
+import { useAppSettings } from '@hooks';
+import {
+  BottomSheetRef,
+  BottomSheetTabView,
+  Checkbox,
+  Text,
+  SortItem,
+} from '@lnreader/core';
 import {
   libraryFilterLabels,
   LibraryFilters,
   LibrarySortOrder,
   librarySortOrderList,
-} from 'utils/libraryUtils';
-import {xor} from 'lodash';
-import {SortItem} from 'components/Checkbox/Checkbox';
-import {Setting} from 'types/SettingTypes';
+} from '@utils/libraryUtils';
+import { Setting } from 'types/SettingTypes';
 
 interface LibraryBottomSheetProps {
   bottomSheetRef: BottomSheetRef;
 }
 
 export const FilterRoute = () => {
-  const {LIBRARY_FILTERS, setAppSettings} = useAppSettings();
+  const { LIBRARY_FILTERS, setAppSettings } = useAppSettings();
 
   const onPress = (filter: LibraryFilters) =>
     setAppSettings(Setting.LIBRARY_FILTERS, xor(LIBRARY_FILTERS, [filter]));
@@ -43,7 +47,7 @@ export const FilterRoute = () => {
 };
 
 export const SortRoute = () => {
-  const {LIBRARY_SORT_ORDER, setAppSettings} = useAppSettings();
+  const { LIBRARY_SORT_ORDER, setAppSettings } = useAppSettings();
 
   const onPress = (sortOrder: LibrarySortOrder) =>
     setAppSettings(Setting.LIBRARY_SORT_ORDER, sortOrder);
@@ -123,14 +127,14 @@ export const DisplayRoute = () => {
 const LibraryBottomSheet: React.FC<LibraryBottomSheetProps> = ({
   bottomSheetRef,
 }: LibraryBottomSheetProps) => {
-  const {bottom: bottomInset} = useSafeAreaInsets();
+  const { bottom: bottomInset } = useSafeAreaInsets();
   const [animatedValue] = useState(new Animated.Value(0));
 
   const routes = useMemo(
     () => [
-      {key: 'first', title: 'Filter'},
-      {key: 'second', title: 'Sort'},
-      {key: 'third', title: 'Display'},
+      { key: 'first', title: 'Filter' },
+      { key: 'second', title: 'Sort' },
+      { key: 'third', title: 'Display' },
     ],
     [],
   );
@@ -149,7 +153,7 @@ const LibraryBottomSheet: React.FC<LibraryBottomSheetProps> = ({
       routes={routes}
       bottomSheetRef={bottomSheetRef}
       animatedValue={animatedValue}
-      draggableRange={{top: bottomSheetHeight, bottom: 0}}
+      draggableRange={{ top: bottomSheetHeight, bottom: 0 }}
       snappingPoints={[0, bottomSheetHeight]}
       height={bottomSheetHeight}
     />

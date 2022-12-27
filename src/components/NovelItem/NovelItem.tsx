@@ -1,25 +1,25 @@
-import React, {useMemo} from 'react';
-import {Pressable, StyleSheet, useWindowDimensions, View} from 'react-native';
+import React, { useMemo } from 'react';
+import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import Image from 'react-native-fast-image';
 
-import {LibraryNovel} from 'database/types';
-import {SourceNovel} from 'sources/types';
+import { LibraryNovel } from '@database/types';
+import { SourceNovel } from '@sources/types';
 
-import {Text, Row} from 'components/index';
+import { Text, Row } from '@lnreader/core';
 
-import {IMAGE_PLACEHOLDER_COLOR, Spacing} from 'theme/constants';
-import {useTheme} from 'hooks/useTheme';
-import {useNavigation} from '@react-navigation/native';
+import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
+import { useTheme } from '@hooks';
+import { useNavigation } from '@react-navigation/native';
 import useAppSettings from 'hooks/useAppSettings';
 
 interface NovelItemProps {
   novel: SourceNovel | LibraryNovel;
 }
 
-const NovelItem: React.FC<NovelItemProps> = ({novel}) => {
-  const {theme} = useTheme();
-  const {navigate} = useNavigation();
+const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
+  const { theme } = useTheme();
+  const { navigate } = useNavigation();
   const window = useWindowDimensions();
 
   const {
@@ -44,7 +44,8 @@ const NovelItem: React.FC<NovelItemProps> = ({novel}) => {
       <Pressable
         style={styles.pressable}
         onPress={handleOnPress}
-        android_ripple={{color: theme.rippleColor}}>
+        android_ripple={{ color: theme.rippleColor }}
+      >
         <Row style={styles.badgeCtn}>
           {showDownloadsBadge ? (
             <Text
@@ -52,9 +53,10 @@ const NovelItem: React.FC<NovelItemProps> = ({novel}) => {
               color={theme.onTertiary}
               style={[
                 styles.unread,
-                {backgroundColor: theme.tertiary},
+                { backgroundColor: theme.tertiary },
                 showUnreadBadge && styles.borderRightNone,
-              ]}>
+              ]}
+            >
               {novel.chaptersDownloaded}
             </Text>
           ) : null}
@@ -64,23 +66,25 @@ const NovelItem: React.FC<NovelItemProps> = ({novel}) => {
               color={theme.onPrimary}
               style={[
                 styles.unread,
-                {backgroundColor: theme.primary},
+                { backgroundColor: theme.primary },
                 showDownloadsBadge && styles.borderLefttNone,
-              ]}>
+              ]}
+            >
               {novel.chaptersUnread}
             </Text>
           ) : null}
         </Row>
         <Image
-          source={{uri: novel.coverUrl || undefined}}
-          style={[styles.cover, {height: coverHeight}]}
+          source={{ uri: novel.coverUrl || undefined }}
+          style={[styles.cover, { height: coverHeight }]}
         />
         <Text
           numberOfLines={2}
           fontWeight="bold"
           color={theme.onSurface}
           padding={Spacing.XS}
-          size={12}>
+          size={12}
+        >
           {novel.title}
         </Text>
       </Pressable>

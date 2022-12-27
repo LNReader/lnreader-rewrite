@@ -1,36 +1,31 @@
-import React, {useMemo, useState} from 'react';
-import {Animated, StyleSheet, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {SceneMap} from 'react-native-tab-view';
+import React, { useMemo, useState } from 'react';
+import { Animated, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SceneMap } from 'react-native-tab-view';
+import { xor } from 'lodash';
 
-import {BottomSheetTabView, Checkbox, Text} from 'components/index';
-import {BottomSheetRef} from 'components/BottomSheet/BottomSheet';
-import useAppSettings from 'hooks/useAppSettings';
 import {
-  libraryFilterLabels,
-  LibraryFilters,
-  LibrarySortOrder,
-  librarySortOrderList,
-} from 'utils/libraryUtils';
-import {xor} from 'lodash';
-import {SortItem} from 'components/Checkbox/Checkbox';
-import {Setting} from 'types/SettingTypes';
-import useNovelStorage, {NovelStorageSetting} from 'hooks/useNovelStorage';
-import {useNovelDetailsContext} from 'contexts/NovelDetailsContext';
+  BottomSheetRef,
+  BottomSheetTabView,
+  Checkbox,
+  SortItem,
+} from '@lnreader/core';
+import useNovelStorage, { NovelStorageSetting } from '@hooks/useNovelStorage';
+import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
 import {
   NovelFilterLabels,
   NovelFilters,
   NovelSortOrder,
   novelSortOrderList,
-} from 'utils/novelUtils';
+} from '@utils/novelUtils';
 
 interface NovelDetailsBottomSheetProps {
   bottomSheetRef: BottomSheetRef;
 }
 
 export const FilterRoute = () => {
-  const {novel} = useNovelDetailsContext();
-  const {FILTERS, setNovelStorage} = useNovelStorage(novel.id);
+  const { novel } = useNovelDetailsContext();
+  const { FILTERS, setNovelStorage } = useNovelStorage(novel.id);
 
   const onPress = (filter: NovelFilters) =>
     setNovelStorage(NovelStorageSetting.FILTERS, xor(FILTERS, [filter]));
@@ -52,8 +47,8 @@ export const FilterRoute = () => {
 };
 
 export const SortRoute = () => {
-  const {novel} = useNovelDetailsContext();
-  const {SORT_ORDER = NovelSortOrder.BY_SOURCE_ASC, setNovelStorage} =
+  const { novel } = useNovelDetailsContext();
+  const { SORT_ORDER = NovelSortOrder.BY_SOURCE_ASC, setNovelStorage } =
     useNovelStorage(novel.id);
 
   const onPress = (sortOrder: NovelSortOrder) =>
@@ -84,8 +79,8 @@ export const SortRoute = () => {
 };
 
 export const DisplayRoute = () => {
-  const {novel} = useNovelDetailsContext();
-  const {SHOW_CHAPTER_NUMBERS = false, setNovelStorage} = useNovelStorage(
+  const { novel } = useNovelDetailsContext();
+  const { SHOW_CHAPTER_NUMBERS = false, setNovelStorage } = useNovelStorage(
     novel.id,
   );
 
@@ -112,14 +107,14 @@ export const DisplayRoute = () => {
 const NovelDetailsBottomSheet: React.FC<NovelDetailsBottomSheetProps> = ({
   bottomSheetRef,
 }: NovelDetailsBottomSheetProps) => {
-  const {bottom: bottomInset} = useSafeAreaInsets();
+  const { bottom: bottomInset } = useSafeAreaInsets();
   const [animatedValue] = useState(new Animated.Value(0));
 
   const routes = useMemo(
     () => [
-      {key: 'first', title: 'Filter'},
-      {key: 'second', title: 'Sort'},
-      {key: 'third', title: 'Display'},
+      { key: 'first', title: 'Filter' },
+      { key: 'second', title: 'Sort' },
+      { key: 'third', title: 'Display' },
     ],
     [],
   );
@@ -138,7 +133,7 @@ const NovelDetailsBottomSheet: React.FC<NovelDetailsBottomSheetProps> = ({
       routes={routes}
       bottomSheetRef={bottomSheetRef}
       animatedValue={animatedValue}
-      draggableRange={{top: bottomSheetHeight, bottom: 0}}
+      draggableRange={{ top: bottomSheetHeight, bottom: 0 }}
       snappingPoints={[0, bottomSheetHeight]}
       height={bottomSheetHeight}
     />

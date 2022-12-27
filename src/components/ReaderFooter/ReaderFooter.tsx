@@ -1,17 +1,17 @@
-import React, {useRef} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
-import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
+import React, { useRef } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {useTheme} from 'hooks/useTheme';
-import {SourceChapter} from 'sources/types';
+import { useTheme } from '@hooks';
+import { SourceChapter } from '@sources/types';
 
-import {IconButton, Text, Row} from 'components/index';
-import {Spacing} from 'theme/constants';
+import { IconButton, Text, Row } from '@lnreader/core';
+import { Spacing } from '@theme/constants';
 import ReaderBottomSheet from 'components/ReaderBottomSheet/ReaderBottomSheet';
-import {BottomSheetType} from 'components/BottomSheet/BottomSheet';
+import { BottomSheetType } from 'components/BottomSheet/BottomSheet';
 
 type Props = {
   visible: boolean;
@@ -26,7 +26,7 @@ const ReaderFooterButton = ({
   iconName: string;
   onPress?: () => void;
 }) => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   return (
     <Pressable
@@ -36,15 +36,16 @@ const ReaderFooterButton = ({
         borderless: true,
         radius: 50,
       }}
-      onPress={onPress}>
+      onPress={onPress}
+    >
       <Icon name={iconName} size={24} color={theme.onSurface} />
     </Pressable>
   );
 };
 
 const ReaderFooter = (props: Props) => {
-  const {theme} = useTheme();
-  const {bottom: paddingBottom} = useSafeAreaInsets();
+  const { theme } = useTheme();
+  const { bottom: paddingBottom } = useSafeAreaInsets();
   const bottomSheetRef = useRef<BottomSheetType>(null);
 
   if (!props.visible) {
@@ -58,8 +59,9 @@ const ReaderFooter = (props: Props) => {
         exiting={FadeOut.duration(150)}
         style={[
           styles.appbarCtn,
-          {backgroundColor: theme.surfaceReader, paddingBottom},
-        ]}>
+          { backgroundColor: theme.surfaceReader, paddingBottom },
+        ]}
+      >
         <View style={styles.contentCtn}>
           <ReaderFooterButton iconName="chevron-left" />
           <ReaderFooterButton

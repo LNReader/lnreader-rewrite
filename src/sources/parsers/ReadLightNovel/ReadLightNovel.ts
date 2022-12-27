@@ -6,8 +6,8 @@ import {
   SourceNovel,
   SourceNovelDetails,
   GetNovelDetailsParams,
-} from 'sources/types';
-import {fetchHtml} from 'utils/fetch/fetch';
+} from '@sources/types';
+import { fetchHtml } from '@utils/fetch/fetch';
 
 export class ReadLightNovelParser extends ParsedSource {
   constructor() {
@@ -45,8 +45,8 @@ export class ReadLightNovelParser extends ParsedSource {
     return novels;
   }
 
-  async getNovelDetails({url}: GetNovelDetailsParams) {
-    const html = await fetchHtml({url});
+  async getNovelDetails({ url }: GetNovelDetailsParams) {
+    const html = await fetchHtml({ url });
 
     const $ = cheerio.load(html);
 

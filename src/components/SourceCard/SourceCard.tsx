@@ -1,16 +1,15 @@
 import React from 'react';
-import {Image, Pressable, StyleSheet, View} from 'react-native';
-import {useTheme} from 'hooks/useTheme';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useMMKVObject } from 'react-native-mmkv';
+import { xor } from 'lodash';
 
-import {Source} from 'sources/types';
+import { IconButton, Text } from '@lnreader/core';
+import { useTheme } from '@hooks';
+import { Source } from '@sources/types';
+import { MMKVStorage } from '@utils/mmkv/mmkv';
 
-import Text from 'components/Text/Text';
-import {IMAGE_PLACEHOLDER_COLOR, Spacing} from 'theme/constants';
-import {useNavigation} from '@react-navigation/native';
-import {MMKVStorage} from 'utils/mmkv/mmkv';
-import {useMMKVObject} from 'react-native-mmkv';
-import IconButton from 'components/IconButton/IconButton';
-import {xor} from 'lodash';
+import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
 
 interface SourceCardProps {
   source: Source;
@@ -18,14 +17,14 @@ interface SourceCardProps {
 
 export const PINNED_SOURCES = 'PINNED_SOURCES';
 
-const SourceCard: React.FC<SourceCardProps> = ({source}) => {
-  const {id, name, lang, iconUrl} = source;
+const SourceCard: React.FC<SourceCardProps> = ({ source }) => {
+  const { id, name, lang, iconUrl } = source;
 
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
-  const {navigate} = useNavigation();
+  const { navigate } = useNavigation();
 
-  const onPress = () => navigate('SourceScreen', {sourceId: source.id});
+  const onPress = () => navigate('SourceScreen', { sourceId: source.id });
 
   const [pinnedSources, setPinnedSources] = useMMKVObject<number[]>(
     PINNED_SOURCES,
@@ -42,8 +41,9 @@ const SourceCard: React.FC<SourceCardProps> = ({source}) => {
     <Pressable
       style={styles.sourceCardCtn}
       onPress={onPress}
-      android_ripple={{color: theme.rippleColor}}>
-      <Image source={{uri: iconUrl}} style={styles.icon} />
+      android_ripple={{ color: theme.rippleColor }}
+    >
+      <Image source={{ uri: iconUrl }} style={styles.icon} />
       <View style={styles.infoCtn}>
         <Text color={theme.onSurface}>{name}</Text>
         <Text color={theme.onSurfaceVariant} size={12}>

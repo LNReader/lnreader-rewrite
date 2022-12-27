@@ -1,22 +1,22 @@
-import {useCallback, useState} from 'react';
+import { useCallback, useState } from 'react';
 
-import {getLibraryNovels} from 'database/queries/NovelQueries';
-import {Category, LibraryNovel} from 'database/types';
-import {useFocusEffect} from '@react-navigation/native';
-import {getCategories} from 'database/queries/CategoryQueries';
+import { getLibraryNovels } from '@database/queries/NovelQueries';
+import { Category, LibraryNovel } from '@database/types';
+import { useFocusEffect } from '@react-navigation/native';
+import { getCategories } from '@database/queries/CategoryQueries';
 import useAppSettings from './useAppSettings';
 
-export type Library = Category & {novels: LibraryNovel[]};
+export type Library = Category & { novels: LibraryNovel[] };
 
 interface UseLibraryProps {
   searchTerm?: string;
 }
 
-export const useLibrary = ({searchTerm}: UseLibraryProps) => {
+export const useLibrary = ({ searchTerm }: UseLibraryProps) => {
   const [loading, setLoading] = useState(true);
   const [library, setLibrary] = useState<Library[]>([]);
   const [error, setError] = useState('');
-  const {LIBRARY_FILTERS} = useAppSettings();
+  const { LIBRARY_FILTERS } = useAppSettings();
 
   const getNovels = async () => {
     try {

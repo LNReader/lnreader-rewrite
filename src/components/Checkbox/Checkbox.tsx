@@ -1,11 +1,11 @@
 import React from 'react';
-import {Pressable, StyleSheet} from 'react-native';
-import {Checkbox as PaperCheckbox} from 'react-native-paper';
+import { Pressable, StyleSheet } from 'react-native';
+import { Checkbox as PaperCheckbox } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {Text} from 'components/index';
-import {useTheme} from 'hooks/useTheme';
-import {Spacing} from 'theme/constants';
+import { useTheme } from '@hooks';
+import { Text } from '@lnreader/core';
+import { Spacing } from '@theme/constants';
 
 type Props = {
   status?: boolean;
@@ -14,19 +14,20 @@ type Props = {
 };
 
 const Checkbox: React.FC<Props> = props => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const status = props.status ? 'checked' : 'unchecked';
 
   return (
     <Pressable
       style={styles.checkboxCtn}
-      android_ripple={{color: theme.rippleColor}}
-      onPress={props.onPress}>
+      android_ripple={{ color: theme.rippleColor }}
+      onPress={props.onPress}
+    >
       <PaperCheckbox
         status={status}
         color={theme.primary}
         uncheckedColor={theme.onSurfaceVariant}
-        theme={{colors: theme}}
+        theme={{ colors: theme }}
       />
       <Text style={styles.label}>{props.label}</Text>
     </Pressable>
@@ -41,14 +42,19 @@ interface SortItemProps {
   onPress?: () => void;
 }
 
-export const SortItem: React.FC<SortItemProps> = ({label, status, onPress}) => {
-  const {theme} = useTheme();
+export const SortItem: React.FC<SortItemProps> = ({
+  label,
+  status,
+  onPress,
+}) => {
+  const { theme } = useTheme();
 
   return (
     <Pressable
       style={styles.sortItemCtn}
-      android_ripple={{color: theme.rippleColor}}
-      onPress={onPress}>
+      android_ripple={{ color: theme.rippleColor }}
+      onPress={onPress}
+    >
       {status && (
         <Icon
           name={status === 'ASC' ? 'arrow-up' : 'arrow-down'}

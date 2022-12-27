@@ -1,16 +1,16 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import {LibraryNovel} from 'database/types';
+import { LibraryNovel } from '@database/types';
 
-import {NovelList} from 'components/index';
+import NovelList from '@components/NovelList/NovelList';
 
 interface LibraryViewProps {
   categoryId: number;
   novels: LibraryNovel[];
 }
 
-const LibraryView: React.FC<LibraryViewProps> = ({novels}) => {
+const LibraryView: React.FC<LibraryViewProps> = ({ novels }) => {
   return <NovelList data={novels} />;
 };
 

@@ -1,14 +1,14 @@
-import {useMemo} from 'react';
-import {Appearance} from 'react-native';
-import {defaultTo, get, isUndefined} from 'lodash';
-import {useMMKVBoolean, useMMKVObject} from 'react-native-mmkv';
+import { useMemo } from 'react';
+import { Appearance } from 'react-native';
+import { defaultTo, get, isUndefined } from 'lodash';
+import { useMMKVBoolean, useMMKVObject } from 'react-native-mmkv';
 import Color from 'color';
 
-import {MMKVStorage} from 'utils/mmkv/mmkv';
+import { MMKVStorage } from '@utils/mmkv/mmkv';
 
-import {ThemeColors} from 'theme/types';
-import {defaultColors} from 'theme/Colors/default';
-import {AMOLED_HEX, Opacity} from 'theme/constants';
+import { defaultColors } from '@theme/colors/default';
+import { AMOLED_HEX, Opacity } from '@theme/constants';
+import { ThemeColors } from '@theme/types';
 
 interface ExtendedThemeColors extends ThemeColors {
   rippleColor?: string;

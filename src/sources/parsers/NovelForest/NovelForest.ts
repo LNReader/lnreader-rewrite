@@ -1,6 +1,5 @@
 import * as cheerio from 'cheerio';
-import {NovelStatus} from 'database/types';
-import {isDate, isNumber} from 'lodash';
+import { NovelStatus } from '@database/types';
 import moment from 'moment';
 
 import {
@@ -13,8 +12,8 @@ import {
   GetSearchNovelsParams,
   SourceChapter,
   GetChapterParams,
-} from 'sources/types';
-import {fetchHtml} from 'utils/fetch/fetch';
+} from '@sources/types';
+import { fetchHtml } from '@utils/fetch/fetch';
 
 export class NovelForestParser extends ParsedSource {
   constructor() {
@@ -30,13 +29,13 @@ export class NovelForestParser extends ParsedSource {
 
   baseUrl = 'https://novelforest.com';
 
-  async getPopoularNovels({page}: GetPopularNovelsParams) {
+  async getPopoularNovels({ page }: GetPopularNovelsParams) {
     const totalPages = 25;
     const baseUrl = this.baseUrl;
     const sourceId = this.id;
     const url = `${this.baseUrl}/popular?page=${page}`;
 
-    const html = await fetchHtml({url});
+    const html = await fetchHtml({ url });
     const loadedCheerio = cheerio.load(html);
 
     const novels: SourceNovel[] = [];
@@ -50,17 +49,17 @@ export class NovelForestParser extends ParsedSource {
       });
     });
 
-    return {novels, totalPages};
+    return { novels, totalPages };
   }
 
-  async getSearchNovels({searchTerm}: GetSearchNovelsParams) {
+  async getSearchNovels({ searchTerm }: GetSearchNovelsParams) {
     const totalPages = 1;
 
     const baseUrl = this.baseUrl;
     const sourceId = this.id;
     const url = `${this.baseUrl}/search?q=${searchTerm}`;
 
-    const html = await fetchHtml({url});
+    const html = await fetchHtml({ url });
     const loadedCheerio = cheerio.load(html);
 
     const novels: SourceNovel[] = [];
@@ -74,14 +73,14 @@ export class NovelForestParser extends ParsedSource {
       });
     });
 
-    return {novels, totalPages};
+    return { novels, totalPages };
   }
 
-  async getNovelDetails({url}: GetNovelDetailsParams) {
+  async getNovelDetails({ url }: GetNovelDetailsParams) {
     const baseUrl = this.baseUrl;
     const sourceId = this.id;
 
-    const html = await fetchHtml({url});
+    const html = await fetchHtml({ url });
 
     let $ = cheerio.load(html);
 
@@ -123,7 +122,7 @@ export class NovelForestParser extends ParsedSource {
       url.replace(baseUrl, 'https://novelforest.com/api/novels') +
       '/chapters?source=detail';
 
-    const chaptersHtml = await fetchHtml({url: chaptersUrl});
+    const chaptersHtml = await fetchHtml({ url: chaptersUrl });
 
     $ = cheerio.load(chaptersHtml);
 
@@ -155,8 +154,8 @@ export class NovelForestParser extends ParsedSource {
     return novelDetails;
   }
 
-  async getChapter({url}: GetChapterParams): Promise<SourceChapter> {
-    const html = await fetchHtml({url});
+  async getChapter({ url }: GetChapterParams): Promise<SourceChapter> {
+    const html = await fetchHtml({ url });
 
     let loadedCheerio = cheerio.load(html);
 

@@ -1,14 +1,14 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
+import { StyleSheet, View } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
-import {useTheme} from 'hooks/useTheme';
-import {SourceChapter} from 'sources/types';
+import { useTheme } from '@hooks';
+import { SourceChapter } from '@sources/types';
 
-import {IconButton, Text, Row} from 'components/index';
-import {Spacing} from 'theme/constants';
+import { IconButton, Text, Row } from '@lnreader/core';
+import { Spacing } from '@theme/constants';
 
 type Props = {
   visible: boolean;
@@ -17,9 +17,9 @@ type Props = {
 };
 
 const ReaderAppbar = (props: Props) => {
-  const {theme} = useTheme();
-  const {goBack} = useNavigation();
-  const {top: topInset} = useSafeAreaInsets();
+  const { theme } = useTheme();
+  const { goBack } = useNavigation();
+  const { top: topInset } = useSafeAreaInsets();
 
   if (!props.visible) {
     return null;
@@ -31,8 +31,9 @@ const ReaderAppbar = (props: Props) => {
       exiting={FadeOut.duration(150)}
       style={[
         styles.appbarCtn,
-        {backgroundColor: theme.surfaceReader, paddingTop: topInset},
-      ]}>
+        { backgroundColor: theme.surfaceReader, paddingTop: topInset },
+      ]}
+    >
       <Row style={styles.contentCtn}>
         <IconButton name="arrow-left" onPress={goBack} />
         <View style={styles.flex}>

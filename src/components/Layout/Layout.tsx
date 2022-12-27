@@ -1,5 +1,5 @@
-import {StyleSheet, View, ViewProps} from 'react-native';
 import React from 'react';
+import { StyleSheet, View, ViewProps } from 'react-native';
 
 export const Row: React.FC<ViewProps> = props => {
   return (

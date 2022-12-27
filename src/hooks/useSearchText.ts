@@ -1,5 +1,5 @@
-import {useCallback, useEffect, useState} from 'react';
-import {useIsFocused} from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 
 interface UseSearchTextReturn {
   searchText: string;

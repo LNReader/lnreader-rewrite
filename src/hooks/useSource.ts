@@ -1,9 +1,8 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+import { defaultTo } from 'lodash';
 
-import {defaultTo} from 'lodash';
-
-import SourceFactory from 'sources/SourceFactory';
-import {SourceNovel} from 'sources/types';
+import SourceFactory from '@sources/SourceFactory';
+import { SourceNovel } from '@sources/types';
 
 interface UseSourceParams {
   sourceId: number;
@@ -22,7 +21,7 @@ const useSource = (params: UseSourceParams) => {
 
   const fetchNovels = async () => {
     try {
-      let res = await source?.getPopoularNovels({page});
+      let res = await source?.getPopoularNovels({ page });
 
       const data = res?.novels || [];
 

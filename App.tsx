@@ -5,8 +5,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 
 import MainNavigator from 'navigators/MainNavigator/MainNavigator';
 
-import {useTheme} from 'hooks/useTheme';
-import useDatabase from 'hooks/useDatabase';
+import {useTheme, useDatabase} from '@hooks';
 
 import AppErrorBoundary from 'components/AppErrorBoundary/AppErrorBoundary';
 

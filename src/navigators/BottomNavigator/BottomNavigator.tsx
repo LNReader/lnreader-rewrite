@@ -1,7 +1,7 @@
 import React from 'react';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-import {useTheme} from 'hooks/useTheme';
+import { useTheme } from '@hooks';
 import useAppSettings from 'hooks/useAppSettings';
 
 import LibraryScreen from 'screens/LibraryScreen/LibraryScreen';
@@ -13,7 +13,7 @@ import HistoryScreen from 'screens/HistoryScreen/HistoryScreen';
 const Tab = createMaterialBottomTabNavigator();
 
 const BottomNavigator = () => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const {
     SHOW_UPDATES_TAB = true,
     SHOW_HISTORY_TAB = true,
@@ -25,11 +25,15 @@ const BottomNavigator = () => {
       barStyle={{
         backgroundColor: theme.surface2,
       }}
-      labeled={SHOW_LABELS_IN_NAV}>
+      labeled={SHOW_LABELS_IN_NAV}
+    >
       <Tab.Screen
         name="LibraryScreen"
         component={LibraryScreen}
-        options={{tabBarIcon: 'book-variant-multiple', tabBarLabel: 'Library'}}
+        options={{
+          tabBarIcon: 'book-variant-multiple',
+          tabBarLabel: 'Library',
+        }}
       />
       {SHOW_UPDATES_TAB && (
         <Tab.Screen
@@ -45,18 +49,18 @@ const BottomNavigator = () => {
         <Tab.Screen
           name="HistoryScreen"
           component={HistoryScreen}
-          options={{tabBarIcon: 'history', tabBarLabel: 'History'}}
+          options={{ tabBarIcon: 'history', tabBarLabel: 'History' }}
         />
       )}
       <Tab.Screen
         name="BrowseScreen"
         component={BrowseScreen}
-        options={{tabBarIcon: 'compass-outline', tabBarLabel: 'Browse'}}
+        options={{ tabBarIcon: 'compass-outline', tabBarLabel: 'Browse' }}
       />
       <Tab.Screen
         name="MoreScreen"
         component={MoreScreen}
-        options={{tabBarIcon: 'dots-horizontal', tabBarLabel: 'More'}}
+        options={{ tabBarIcon: 'dots-horizontal', tabBarLabel: 'More' }}
       />
     </Tab.Navigator>
   );

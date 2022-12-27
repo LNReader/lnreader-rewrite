@@ -1,7 +1,7 @@
-import {AbstractSourceFactory} from './AbstractSourceFactory/AbstractSourceFactory';
+import { AbstractSourceFactory } from './AbstractSourceFactory/AbstractSourceFactory';
 
-import {NovelForestParser} from './parsers/NovelForest/NovelForest';
-import {ReadLightNovelParser} from './parsers/ReadLightNovel/ReadLightNovel';
+import { NovelForestParser } from './parsers/NovelForest/NovelForest';
+import { ReadLightNovelParser } from './parsers/ReadLightNovel/ReadLightNovel';
 
 const SourceFactory = new AbstractSourceFactory();
 

@@ -1,17 +1,16 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {useRoute, RouteProp} from '@react-navigation/native';
-
-import {useSearchText} from 'hooks/useSearchText';
-import useSource from 'hooks/useSource';
+import { StyleSheet } from 'react-native';
+import { useRoute, RouteProp } from '@react-navigation/native';
 
 import {
   ErrorScreen,
   LoadingScreen,
-  NovelList,
   ScreenContainer,
   Searchbar,
-} from 'components/index';
+} from '@lnreader/core';
+import { useSearchText, useSource } from '@hooks';
+
+import NovelList from '@components/NovelList/NovelList';
 
 type SourceScreenRouteProps = RouteProp<{
   params: {
@@ -21,9 +20,9 @@ type SourceScreenRouteProps = RouteProp<{
 
 const SourceScreen: React.FC = () => {
   const {
-    params: {sourceId},
+    params: { sourceId },
   } = useRoute<SourceScreenRouteProps>();
-  const {searchText, setSearchText} = useSearchText();
+  const { searchText, setSearchText } = useSearchText();
   const {
     loading,
     source,

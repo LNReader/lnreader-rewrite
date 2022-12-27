@@ -1,14 +1,14 @@
-import React, {useMemo, useState} from 'react';
-import {Animated, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {SceneMap} from 'react-native-tab-view';
+import React, { useMemo, useState } from 'react';
+import { Animated, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SceneMap } from 'react-native-tab-view';
 
-import {BottomSheetTabView, Switch} from 'components/index';
-import {BottomSheetRef} from 'components/BottomSheet/BottomSheet';
+import { BottomSheetTabView, Switch } from '@lnreader/core';
+import { BottomSheetRef } from 'components/BottomSheet/BottomSheet';
 
-import {Portal} from 'react-native-paper';
+import { Portal } from 'react-native-paper';
 import useAppSettings from 'hooks/useAppSettings';
-import {Setting} from 'types/SettingTypes';
+import { Setting } from 'types/SettingTypes';
 
 interface ReaderBottomSheetProps {
   bottomSheetRef: BottomSheetRef;
@@ -51,13 +51,13 @@ export const GeneralRoute = () => {
 const ReaderBottomSheet: React.FC<ReaderBottomSheetProps> = ({
   bottomSheetRef,
 }: ReaderBottomSheetProps) => {
-  const {bottom: bottomInset} = useSafeAreaInsets();
+  const { bottom: bottomInset } = useSafeAreaInsets();
   const [animatedValue] = useState(new Animated.Value(0));
 
   const routes = useMemo(
     () => [
-      {key: 'first', title: 'Reader'},
-      {key: 'second', title: 'General'},
+      { key: 'first', title: 'Reader' },
+      { key: 'second', title: 'General' },
     ],
     [],
   );
@@ -76,7 +76,7 @@ const ReaderBottomSheet: React.FC<ReaderBottomSheetProps> = ({
         routes={routes}
         bottomSheetRef={bottomSheetRef}
         animatedValue={animatedValue}
-        draggableRange={{top: bottomSheetHeight, bottom: 0}}
+        draggableRange={{ top: bottomSheetHeight, bottom: 0 }}
         snappingPoints={[0, bottomSheetHeight]}
         height={bottomSheetHeight}
       />

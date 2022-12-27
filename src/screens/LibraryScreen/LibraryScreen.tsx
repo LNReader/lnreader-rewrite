@@ -1,29 +1,27 @@
-import React, {useRef, useState} from 'react';
-import {StyleSheet, useWindowDimensions, View} from 'react-native';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import {
   NavigationState,
   SceneRendererProps,
   TabBar,
   TabView,
 } from 'react-native-tab-view';
-
-import {useSearchText} from 'hooks/useSearchText';
-
+import { Portal } from 'react-native-paper';
 import {
   ErrorScreen,
   LoadingScreen,
   Row,
   Searchbar,
   Text,
-} from 'components/index';
-import {useLibrary} from 'hooks/useLibrary';
-import {useTheme} from 'hooks/useTheme';
-import LibraryView from 'components/LibraryView/LibraryView';
-import {Spacing} from 'theme/constants';
-import {BottomSheetType} from 'components/BottomSheet/BottomSheet';
-import LibraryBottomSheet from 'components/LibraryBottomSheet/LibraryBottomSheet';
-import useAppSettings from 'hooks/useAppSettings';
-import {Portal} from 'react-native-paper';
+  BottomSheetType,
+} from '@lnreader/core';
+
+import { useTheme, useLibrary, useSearchText, useAppSettings } from '@hooks';
+
+import LibraryView from '@components/LibraryView/LibraryView';
+import LibraryBottomSheet from '@components/LibraryBottomSheet/LibraryBottomSheet';
+
+import { Spacing } from '@theme/constants';
 
 type State = NavigationState<{
   key: string;
@@ -31,23 +29,23 @@ type State = NavigationState<{
 }>;
 
 const LibraryScreen = () => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const layout = useWindowDimensions();
-  const {LIBRARY_SHOW_NUMBER_OF_ITEMS} = useAppSettings();
+  const { LIBRARY_SHOW_NUMBER_OF_ITEMS } = useAppSettings();
 
-  const {searchText, setSearchText} = useSearchText();
-  const {error, loading, library} = useLibrary({searchTerm: searchText});
+  const { searchText, setSearchText } = useSearchText();
+  const { error, loading, library } = useLibrary({ searchTerm: searchText });
   const bottomSheetRef = useRef<BottomSheetType>(null);
 
   const [index, setIndex] = useState(0);
 
   const renderTabBar = (
-    props: SceneRendererProps & {navigationState: State},
+    props: SceneRendererProps & { navigationState: State },
   ) => (
     <TabBar
       {...props}
       scrollEnabled
-      indicatorStyle={{backgroundColor: theme.primary}}
+      indicatorStyle={{ backgroundColor: theme.primary }}
       style={[
         {
           backgroundColor: theme.surface,
@@ -55,11 +53,12 @@ const LibraryScreen = () => {
         },
         styles.tabBar,
       ]}
-      renderLabel={({route, color}) => (
+      renderLabel={({ route, color }) => (
         <Row>
-          <Text style={{color}}>{route.title}</Text>
+          <Text style={{ color }}>{route.title}</Text>
           <View
-            style={[styles.badgeCtn, {backgroundColor: theme.surfaceVariant}]}>
+            style={[styles.badgeCtn, { backgroundColor: theme.surfaceVariant }]}
+          >
             {LIBRARY_SHOW_NUMBER_OF_ITEMS && (
               <Text size={12}>{(route as any)?.novels.length}</Text>
             )}
@@ -99,7 +98,7 @@ const LibraryScreen = () => {
             })),
           }}
           renderTabBar={renderTabBar}
-          renderScene={({route}) =>
+          renderScene={({ route }) =>
             error ? (
               <ErrorScreen error={error} />
             ) : (
@@ -107,7 +106,7 @@ const LibraryScreen = () => {
             )
           }
           onIndexChange={setIndex}
-          initialLayout={{width: layout.width}}
+          initialLayout={{ width: layout.width }}
         />
       )}
       <Portal>

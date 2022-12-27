@@ -1,9 +1,9 @@
 import * as SQLite from 'expo-sqlite';
 
-import {DATABASE_NAME} from 'database/constants';
-import {Category} from 'database/types';
+import { DATABASE_NAME } from '@database/constants';
+import { Category } from '@database/types';
 
-import {txnErrorCallback} from 'database/utils';
+import { txnErrorCallback } from '@database/utils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -23,7 +23,7 @@ export const getCategories = (): Promise<Category[]> => {
       tx.executeSql(
         getCategoriesQuery,
         [],
-        (txObj, {rows: {_array}}) => resolve(_array),
+        (txObj, { rows: { _array } }) => resolve(_array),
         txnErrorCallback,
       );
     }),

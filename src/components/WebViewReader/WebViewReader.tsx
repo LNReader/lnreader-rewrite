@@ -1,11 +1,12 @@
-import React, {useRef} from 'react';
-import {Dimensions, StyleSheet} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import React, { useRef } from 'react';
+import { Dimensions, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
-import {WebViewScrollEvent} from 'react-native-webview/lib/WebViewTypes';
+import { WebViewScrollEvent } from 'react-native-webview/lib/WebViewTypes';
 
-import useChapterStorage from 'hooks/useChapterStorage';
-import {SourceChapter} from 'sources/types';
+import { useChapterStorage } from '@hooks';
+import { setChapterRead } from '@database/queries/ChapterQueries';
+import { SourceChapter } from '@sources/types';
 
 interface WebViewReaderProps {
   chapterId: number;
@@ -15,7 +16,7 @@ interface WebViewReaderProps {
 
 type WebViewPostEvent = {
   type: string;
-  data?: {[key: string]: string};
+  data?: { [key: string]: string };
 };
 
 const onClickWebViewPostMessage = (event: WebViewPostEvent) =>
@@ -23,26 +24,42 @@ const onClickWebViewPostMessage = (event: WebViewPostEvent) =>
   JSON.stringify(event) +
   "`)'";
 
+const isCloseToBottom = ({
+  nativeEvent: { layoutMeasurement, contentOffset, contentSize },
+}: WebViewScrollEvent) => {
+  const paddingToBottom = 40;
+  return (
+    layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom
+  );
+};
+
 const WebViewReader: React.FC<WebViewReaderProps> = ({
   chapter,
   onPress,
   chapterId,
 }) => {
-  const {top: topInset} = useSafeAreaInsets();
+  const { top: topInset } = useSafeAreaInsets();
   const paddingTop = topInset + 16;
 
   const webViewRef = useRef<WebView>(null);
 
-  const {PROGRESS = 0, setChapterProgress} = useChapterStorage(chapterId);
+  const { PROGRESS = 0, setChapterProgress } = useChapterStorage(chapterId);
 
-  const onScroll = ({
-    nativeEvent: {contentOffset, contentSize, layoutMeasurement},
-  }: WebViewScrollEvent) => {
+  const onScroll = (e: WebViewScrollEvent) => {
+    const {
+      nativeEvent: { contentOffset, contentSize, layoutMeasurement },
+    } = e;
+
     const offsetY = contentOffset.y;
     const position = offsetY + layoutMeasurement.height;
     const percentage = Math.round((position / contentSize.height) * 100);
 
     setChapterProgress(percentage);
+
+    if (isCloseToBottom(e)) {
+      setChapterRead(chapterId);
+    }
   };
 
   return (
@@ -94,7 +111,7 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
 
             </style>
           </head>
-          <body ${onClickWebViewPostMessage({type: 'hide'})}>
+          <body ${onClickWebViewPostMessage({ type: 'hide' })}>
             ${chapter?.text}
 
             <div>

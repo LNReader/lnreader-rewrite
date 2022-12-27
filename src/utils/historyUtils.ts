@@ -1,4 +1,4 @@
-import {History} from 'database/types';
+import { History } from '@database/types';
 import moment from 'moment';
 
 moment.updateLocale('en', {

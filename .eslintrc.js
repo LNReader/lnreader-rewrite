@@ -11,6 +11,18 @@ module.exports = {
         'no-shadow': 'off',
         'no-undef': 'off',
         'no-console': 'warn',
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              {
+                name: 'react-native',
+                importNames: ['Text'],
+                message: 'Please use Text from @lnreader/core instead.',
+              },
+            ],
+          },
+        ],
       },
     },
   ],

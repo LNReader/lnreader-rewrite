@@ -1,4 +1,4 @@
-import {SourceNovelDetails} from 'sources/types';
+import { SourceNovelDetails } from '@sources/types';
 
 export enum NovelStatus {
   ONGOING = 'Ongoing',

@@ -1,14 +1,17 @@
-import {useCallback, useState} from 'react';
-import {useFocusEffect} from '@react-navigation/native';
+import { useCallback, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
-import {History} from 'database/types';
-import {getHistory, removeHistoryById} from 'database/queries/HistoryQueries';
+import { History } from '@database/types';
+import {
+  getHistory,
+  removeHistoryById,
+} from '@database/queries/HistoryQueries';
 
 interface UseHistoryProps {
   searchText?: string;
 }
 
-export const useHistory = ({searchText}: UseHistoryProps) => {
+export const useHistory = ({ searchText }: UseHistoryProps) => {
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState<History[]>([]);
   const [error, setError] = useState('');

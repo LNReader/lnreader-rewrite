@@ -1,5 +1,5 @@
-import {DEFAULT_CATEGORIES} from 'database/constants';
-import {NovelStatus} from 'database/types';
+import { DEFAULT_CATEGORIES } from '@database/constants';
+import { NovelStatus } from '@database/types';
 
 export const createNovelsTableQuery = `
 CREATE TABLE IF NOT EXISTS novels (
@@ -23,5 +23,5 @@ CREATE TABLE IF NOT EXISTS novels (
 `;
 
 export const createLibraryFavoriteIndex =
-  'CREATE INDEX libraryFavoriteIndex ON mangas(favorite) WHERE favorite = 1';
+  'CREATE INDEX libraryFavoriteIndex ON novels(favorite) WHERE favorite = 1';
 export const createNovelUrlIndex = 'CREATE INDEX novelUrlIndex ON novels(url)';

@@ -7,9 +7,9 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useTheme} from 'hooks/useTheme';
+
+import { useTheme } from '@hooks';
 
 interface IconButtonProps {
   name: string;
@@ -30,14 +30,15 @@ const IconButton: React.FC<IconButtonProps> = ({
   padding = 8,
   containerStyle,
 }) => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   return (
     <View style={[styles.iconButtonCtn, containerStyle]}>
       <Pressable
         onPress={onPress}
-        style={[styles.pressableCtn, {padding}]}
-        android_ripple={{color: theme.rippleColor}}>
+        style={[styles.pressableCtn, { padding }]}
+        android_ripple={{ color: theme.rippleColor }}
+      >
         <Icon
           name={name}
           size={size}
