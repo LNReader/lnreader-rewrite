@@ -53,11 +53,11 @@ export interface History {
   timeRead: number | null;
 
   chapterId: number;
-  name: string;
-  url: string;
+  chapterName: string;
+  chapterUrl: string;
   coverUrl?: string;
 
   novelId: number;
   sourceId: number;
-  title: string;
+  novelName: string;
 }

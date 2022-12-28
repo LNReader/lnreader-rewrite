@@ -1,6 +1,6 @@
 import { useMMKVObject } from 'react-native-mmkv';
 
-import { SettingTypes } from 'types/SettingTypes';
+import { Setting, SettingTypes } from 'types/SettingTypes';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
 
 export const APP_SETTINGS = 'APP_SETTINGS';
@@ -27,10 +27,19 @@ const useAppSettings = () => {
     });
   };
 
+  const setReaderTheme = (backgroundColor: string, color: string) => {
+    setSettings({
+      ...settings,
+      [Setting.READER_BACKGROUND_COLOR]: backgroundColor,
+      [Setting.READER_TEXT_COLOR]: color,
+    });
+  };
+
   return {
     ...settings,
     setAppSettings,
     toggleSetting,
+    setReaderTheme,
   };
 };
 

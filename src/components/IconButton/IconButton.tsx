@@ -19,6 +19,7 @@ interface IconButtonProps {
   containerStyle?: ViewStyle;
   style?: StyleProp<TextStyle>;
   padding?: number;
+  disabled?: boolean;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
@@ -29,6 +30,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   style,
   padding = 8,
   containerStyle,
+  disabled,
 }) => {
   const { theme } = useTheme();
 
@@ -38,11 +40,14 @@ const IconButton: React.FC<IconButtonProps> = ({
         onPress={onPress}
         style={[styles.pressableCtn, { padding }]}
         android_ripple={{ color: theme.rippleColor }}
+        disabled={disabled}
       >
         <Icon
           name={name}
           size={size}
-          color={color || theme.onSurfaceVariant}
+          color={
+            disabled ? theme.onSurfaceDisabled : color || theme.onSurfaceVariant
+          }
           style={style}
         />
       </Pressable>

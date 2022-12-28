@@ -45,7 +45,7 @@ export const useHistory = ({ searchText }: UseHistoryProps) => {
   };
 
   const filteredHistory = history.filter(item =>
-    item.title.toLowerCase().includes(searchText?.toLowerCase() || ''),
+    item.novelName.toLowerCase().includes(searchText?.toLowerCase() || ''),
   );
 
   return {

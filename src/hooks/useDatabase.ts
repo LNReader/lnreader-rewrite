@@ -17,12 +17,19 @@ import {
   createChaptersTableQuery,
   createChaptersUnreadByNovelIndex,
 } from '@database/tables/ChaptersTable';
-import { txnErrorCallbackWithoutToast } from '@database/utils';
+import {
+  txnErrorCallback,
+  txnErrorCallbackWithoutToast,
+} from '@database/utils';
 import {
   createHistoryChapterIdIndexQuery,
   createHistoryTableQuery,
 } from '@database/tables/HistoryTable';
 import { noop } from 'lodash';
+import {
+  createUpdatesChapterIdIndexQuery,
+  createUpdatesTableQuery,
+} from '@database/tables/UpdatesTable';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -40,21 +47,23 @@ const useDatabase = () => {
       tx.executeSql(createNovelsTableQuery);
       tx.executeSql(createChaptersTableQuery);
       tx.executeSql(createHistoryTableQuery);
+      tx.executeSql(createUpdatesTableQuery, undefined, noop, txnErrorCallback);
 
       tx.executeSql(createNovelUrlIndex);
       tx.executeSql(createLibraryFavoriteIndex);
       tx.executeSql(createChaptersNovelIdIndex);
       tx.executeSql(createChaptersUnreadByNovelIndex);
       tx.executeSql(createHistoryChapterIdIndexQuery);
+      // tx.executeSql(createUpdatesChapterIdIndexQuery);
     });
   }, []);
-
   // useEffect(() => {
   //   db.transaction(tx => {
   //     tx.executeSql('DROP TABLE novels');
   //     tx.executeSql('DROP TABLE chapters');
   //     tx.executeSql('DROP TABLE categories');
   //     tx.executeSql('DROP TABLE history');
+  //     tx.executeSql('DROP TABLE updates');
   //   });
   // }, []);
 };

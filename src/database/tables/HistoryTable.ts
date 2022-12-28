@@ -1,7 +1,6 @@
 export const createHistoryTableQuery = `
 CREATE TABLE IF NOT EXISTS history (
     id INTEGER PRIMARY KEY AUTOINCREMENT, 
-    novelId INTEGER NOT NULL, 
     chapterId INTEGER NOT NULL UNIQUE, 
     lastRead INTEGER NOT NULL, 
     timeRead INTEGER, 

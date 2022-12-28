@@ -7,6 +7,7 @@ import { WebViewScrollEvent } from 'react-native-webview/lib/WebViewTypes';
 import { useAppSettings, useChapterStorage } from '@hooks';
 import { setChapterRead } from '@database/queries/ChapterQueries';
 import { SourceChapter } from '@sources/types';
+import { DEAULT_READER_THEME } from '@utils/readerUtils';
 
 interface WebViewReaderProps {
   chapterId: number;
@@ -39,10 +40,16 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
   onPress,
   chapterId,
 }) => {
-  const { top: topInset } = useSafeAreaInsets();
-  const paddingTop = topInset + 16;
-
-  const { INCOGNITO_MODE } = useAppSettings();
+  const { top: marginTop } = useSafeAreaInsets();
+  const {
+    INCOGNITO_MODE,
+    READER_FONT_SIZE = 16,
+    READER_TEXT_COLOR = DEAULT_READER_THEME.color,
+    READER_BACKGROUND_COLOR = DEAULT_READER_THEME.backgroundColor,
+    READER_TEXT_ALIGNMENT,
+    READER_LINE_HEIGHT,
+    READER_PADDING = 5,
+  } = useAppSettings();
   const webViewRef = useRef<WebView>(null);
 
   const { PROGRESS = 0, setChapterProgress } = useChapterStorage(chapterId);
@@ -67,6 +74,7 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
 
   return (
     <WebView
+      incognito={INCOGNITO_MODE}
       ref={webViewRef}
       scalesPageToFit
       nestedScrollEnabled
@@ -84,7 +92,7 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
           window.scrollTo({
             top: scrollOffsetY, 
             left: 0, 
-            behavior:'smooth'
+            behavior:'auto'
           });
         }
       `}
@@ -106,19 +114,20 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
               @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
               
               html {
-                padding-top: ${paddingTop}px;
-                padding-left: 8;
-                padding-right: 8;
+                margin-top: ${marginTop}px;
                 font-family: 'Nunito', sans-serif;
+                font-size: ${READER_FONT_SIZE}px;
+                background-color: ${READER_BACKGROUND_COLOR};
+                color: ${READER_TEXT_COLOR};
+                text-align: ${READER_TEXT_ALIGNMENT};
+                line-height: ${READER_LINE_HEIGHT};
+                padding: ${READER_PADDING}%;
               }
 
             </style>
           </head>
           <body ${onClickWebViewPostMessage({ type: 'hide' })}>
             ${chapter?.text}
-
-            <div>
-            </div>
           </body>
         </html>`,
       }}

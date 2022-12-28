@@ -29,10 +29,7 @@ const ReaderScreen = () => {
 
   useEffect(() => {
     if (!INCOGNITO_MODE) {
-      insertChapterInHistory(
-        readerParams.chapter.novelId,
-        readerParams.chapter.id,
-      );
+      insertChapterInHistory(readerParams.chapter.id);
     }
   }, []);
 

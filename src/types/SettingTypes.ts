@@ -23,6 +23,7 @@ export enum Setting {
   READER_CUSTOM_CSS = 'READER_CUSTOM_CSS',
   READER_SHOW_PROGRESS = 'READER_SHOW_PROGRESS',
   READER_FULLSCREEN_MODE = 'READER_FULLSCREEN_MODE',
+  READER_LINE_HEIGHT = 'READER_LINE_HEIGHT',
 
   /**
    * Appearence Settings
@@ -51,6 +52,7 @@ export interface SettingTypes {
   [Setting.READER_CUSTOM_CSS]: string;
   [Setting.READER_SHOW_PROGRESS]: boolean;
   [Setting.READER_FULLSCREEN_MODE]: boolean;
+  [Setting.READER_LINE_HEIGHT]: number;
 
   [Setting.SHOW_HISTORY_TAB]: boolean;
   [Setting.SHOW_UPDATES_TAB]: boolean;

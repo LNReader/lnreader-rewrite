@@ -24,10 +24,10 @@ const HistoryCard: React.FC<Props> = ({ history, removeHistory }) => {
       chapter: {
         novelId: history.novelId,
         id: history.chapterId,
-        url: history.url,
+        url: history.chapterUrl,
       },
       sourceId: history.sourceId,
-      novelName: history.title,
+      novelName: history.novelName,
     });
 
   const navigateToNovel = () =>
@@ -46,10 +46,10 @@ const HistoryCard: React.FC<Props> = ({ history, removeHistory }) => {
         <FastImage source={{ uri: history.coverUrl }} style={styles.cover} />
       </Pressable>
       <View style={styles.detailsCtn}>
-        <Text style={styles.title}>{history.title}</Text>
-        <Text color={theme.onSurfaceVariant}>{`${history.name} • ${moment(
-          history.lastRead,
-        ).format('h:mm a')}`}</Text>
+        <Text style={styles.title}>{history.novelName}</Text>
+        <Text color={theme.onSurfaceVariant}>{`${
+          history.chapterName
+        } • ${moment(history.lastRead).format('h:mm a')}`}</Text>
       </View>
       <IconButton
         name="delete-outline"

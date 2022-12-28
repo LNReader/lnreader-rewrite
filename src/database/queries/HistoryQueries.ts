@@ -9,19 +9,18 @@ const db = SQLite.openDatabase(DATABASE_NAME);
 const getHistoryQuery = `
 SELECT 
   history.*, 
-  chapters.id as CTChapterId,
-  chapters.name,
-  chapters.url,
-  novels.id as NTNovelId,
-  novels.title,
-  novels.coverUrl,
-  novels.sourceId
+  C.name as chapterName,
+  C.url as chapterUrl,
+  N.id as novelId,
+  N.title as novelName,
+  N.coverUrl,
+  N.sourceId
 FROM 
   history 
-  JOIN chapters ON history.chapterId = CTChapterId 
-  JOIN novels ON history.novelId = NTNovelId 
+  JOIN chapters as C ON history.chapterId = C.id 
+  JOIN novels as N ON C.id  = N.id 
 GROUP BY 
-  NTNovelId 
+  N.id 
 HAVING 
   history.lastRead = MAX(history.lastRead) 
 ORDER BY 
@@ -42,19 +41,16 @@ export const getHistory = (): Promise<History[]> => {
 };
 
 const insertChapterInHistoryQuery = `
-INSERT OR REPLACE INTO history (novelId, chapterId, lastRead) 
+INSERT OR REPLACE INTO history (chapterId, lastRead) 
 VALUES 
-  (?, ?, ?)
+  (?, ?)
 `;
 
-export const insertChapterInHistory = async (
-  novelId: number,
-  chapterId: number,
-) => {
+export const insertChapterInHistory = async (chapterId: number) => {
   db.transaction(tx =>
     tx.executeSql(
       insertChapterInHistoryQuery,
-      [novelId, chapterId, Date.now()],
+      [chapterId, Date.now()],
       undefined,
       txnErrorCallback,
     ),
