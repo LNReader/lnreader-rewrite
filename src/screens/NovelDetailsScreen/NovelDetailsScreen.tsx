@@ -16,6 +16,9 @@ import NovelDetailsHeader from '@components/NovelDetailsHeader/NovelDetailsHeade
 import NovelDetailsBottomSheet from '@components/NovelDetailsBottomSheet/NovelDetailsBottomSheet';
 import ChapterCard from '@components/ChapterCard/ChapterCard';
 import SettingBanners from '@components/SettingBanners/SettingBanners';
+import ChapterSelection from '@components/ChapterSelection/ChapterSelection';
+import { useState } from 'react';
+import { xor } from 'lodash';
 
 type NovelDetailsScreenRouteProps = RouteProp<{
   params: SourceNovelDetails & { id?: number };
@@ -34,6 +37,11 @@ const NovelDetails: React.FC<NovelDetailsProps> = ({ sourceId }) => {
 
   const { chapters, loading } = useNovelDetailsContext();
 
+  const [selectedChapterIds, setSelectedChapterIds] = useState<number[]>([]);
+
+  const handleSelectAll = () =>
+    setSelectedChapterIds(chapters?.map(chapter => chapter.id) || []);
+
   return (
     <>
       <FlashList
@@ -41,8 +49,14 @@ const NovelDetails: React.FC<NovelDetailsProps> = ({ sourceId }) => {
         ListHeaderComponent={
           <NovelDetailsHeader bottomSheetRef={bottomSheetRef} />
         }
+        extraData={[selectedChapterIds]}
         renderItem={({ item }) => (
-          <ChapterCard chapter={item} sourceId={sourceId} />
+          <ChapterCard
+            chapter={item}
+            sourceId={sourceId}
+            selectedChapterIds={selectedChapterIds}
+            setSelectedChapterIds={setSelectedChapterIds}
+          />
         )}
         estimatedItemSize={100}
         refreshControl={
@@ -53,6 +67,11 @@ const NovelDetails: React.FC<NovelDetailsProps> = ({ sourceId }) => {
             progressBackgroundColor={theme.onPrimary}
           />
         }
+      />
+      <ChapterSelection
+        selectedChapterIds={selectedChapterIds}
+        setSelectedChapterIds={setSelectedChapterIds}
+        handleSelectAll={handleSelectAll}
       />
       <NovelDetailsBottomSheet bottomSheetRef={bottomSheetRef} />
     </>

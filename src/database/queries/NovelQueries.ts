@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 
-import { APP_SETTINGS } from '@hooks/useAppSettings';
+import { APP_SETTINGS, getAppSettings } from '@hooks/useAppSettings';
 
 import { DATABASE_NAME } from '@database/constants';
 import { DatabaseNovel, LibraryNovel } from '@database/types';
@@ -51,12 +51,10 @@ export const getLibraryNovels = (
 ): Promise<LibraryNovel[]> => {
   let query = getLibraryNovelsQuery;
 
-  const rawSettings = MMKVStorage.getString(APP_SETTINGS) || '{}';
-  const parsedSettings: Partial<SettingTypes> = JSON.parse(rawSettings);
   const {
     LIBRARY_FILTERS,
     LIBRARY_SORT_ORDER = LibrarySortOrder.DateAdded_ASC,
-  } = parsedSettings;
+  } = getAppSettings();
 
   if (LIBRARY_FILTERS) {
     query += LIBRARY_FILTERS?.join('');

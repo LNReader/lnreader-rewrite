@@ -9,31 +9,57 @@ import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
 import { DatabaseChapter } from '@database/types';
 
 import { Spacing } from '@theme/constants';
+import { xor } from 'lodash';
 
 interface ChapterCardProps {
   chapter: DatabaseChapter;
   sourceId: number;
+  selectedChapterIds: number[];
+  setSelectedChapterIds: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, sourceId }) => {
+const ChapterCard: React.FC<ChapterCardProps> = ({
+  chapter,
+  sourceId,
+  selectedChapterIds,
+  setSelectedChapterIds,
+}) => {
   const { theme } = useTheme();
   const { navigate } = useNavigation();
   const { novel } = useNovelDetailsContext();
   const { SHOW_CHAPTER_NUMBERS = false } = useNovelStorage(novel.id);
   const { PROGRESS = 0 } = useChapterStorage(chapter.id);
 
-  const navigateToReader = () =>
-    navigate('ReaderScreen', {
-      chapter,
-      sourceId,
-      novelName: novel.title,
-    });
+  const isSelected = selectedChapterIds.includes(chapter.id);
+
+  const handleSelectChapter = () =>
+    setSelectedChapterIds(prevVal => xor(prevVal, [chapter.id]));
+
+  const onPress = () => {
+    if (selectedChapterIds.length) {
+      handleSelectChapter();
+    } else {
+      navigate('ReaderScreen', {
+        chapter,
+        sourceId,
+        novelName: novel.title,
+      });
+    }
+  };
+
+  const showChapterProgress = !chapter.read && PROGRESS > 0 && PROGRESS < 100;
+
+  const onLongPress = () => handleSelectChapter();
 
   return (
     <Pressable
       android_ripple={{ color: theme.rippleColor }}
-      style={styles.cardCtn}
-      onPress={navigateToReader}
+      style={[
+        styles.cardCtn,
+        isSelected && { backgroundColor: theme.rippleColor },
+      ]}
+      onPress={onPress}
+      onLongPress={onLongPress}
     >
       <Text
         numberOfLines={1}
@@ -51,7 +77,7 @@ const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, sourceId }) => {
           style={styles.dateCtn}
         >
           {moment.unix(chapter.dateUpload).format('Do MMM, YYYY')}
-          {!chapter.read && PROGRESS > 0 && PROGRESS < 100 && (
+          {showChapterProgress && (
             <Text color={theme.outline}>{`  •  Progress ${PROGRESS}%`}</Text>
           )}
         </Text>

@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import { SectionList, StyleSheet } from 'react-native';
-import { Searchbar, Text } from '@lnreader/core';
+import { useNavigation } from '@react-navigation/native';
 
-import { useTheme } from '@hooks';
+import { Searchbar, Text } from '@lnreader/core';
+import { useAppSettings, useSearchText, useTheme } from '@hooks';
 import SourceFactory from '@sources/SourceFactory';
 
 import SourceCard from '@components/SourceCard/SourceCard';
@@ -10,21 +11,67 @@ import { Spacing } from '@theme/constants';
 
 const BrowseScreen = () => {
   const { theme } = useTheme();
+  const { navigate } = useNavigation();
+  const { searchText, setSearchText } = useSearchText();
+  const { LAST_USED_SOURCE_ID, PINNED_SOURCES, ONLY_SHOW_PINNED_SOURCES } =
+    useAppSettings();
   const sources = SourceFactory.getSources();
 
-  const sections = useMemo(
-    () => [
-      {
-        header: 'All',
-        data: sources,
-      },
-    ],
-    [sources],
+  const filteredSources = sources.filter(source =>
+    source.name.toLowerCase().includes(searchText.toLowerCase()),
   );
+
+  const lastUsedSource = filteredSources.find(
+    source => source.id === LAST_USED_SOURCE_ID,
+  );
+  const pinnedSources = filteredSources.filter(source =>
+    PINNED_SOURCES?.includes(source.id),
+  );
+
+  const sections = useMemo(() => {
+    const sectionsArr = [];
+
+    if (lastUsedSource) {
+      sectionsArr.push({
+        header: 'Last used',
+        data: [lastUsedSource],
+      });
+    }
+
+    if (pinnedSources.length) {
+      sectionsArr.push({
+        header: 'Pinned',
+        data: pinnedSources,
+      });
+    }
+
+    if (!ONLY_SHOW_PINNED_SOURCES) {
+      sectionsArr.push({
+        header: 'All',
+        data: filteredSources,
+      });
+    }
+    return sectionsArr;
+  }, [
+    filteredSources,
+    pinnedSources,
+    lastUsedSource,
+    ONLY_SHOW_PINNED_SOURCES,
+  ]);
 
   return (
     <>
-      <Searchbar placeholder="Search sources" />
+      <Searchbar
+        placeholder="Search sources"
+        value={searchText}
+        onChangeText={setSearchText}
+        actions={[
+          {
+            icon: 'cog-outline',
+            onPress: () => navigate('BrowseSettingsScreen'),
+          },
+        ]}
+      />
       <SectionList
         sections={sections}
         renderItem={({ item }) => <SourceCard source={item} />}

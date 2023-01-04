@@ -1,16 +1,17 @@
 import React, { useMemo } from 'react';
 import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Image from 'react-native-fast-image';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Text, Row, TextProps } from '@lnreader/core';
-import { useTheme, useAppSettings } from '@hooks';
+import { useTheme, useAppSettings, useLibraryNovels } from '@hooks';
 import { LibraryNovel } from '@database/types';
 import { SourceNovel } from '@sources/types';
 
 import { IMAGE_PLACEHOLDER_COLOR, Spacing, WHITE_HEX } from '@theme/constants';
 import { LibraryDisplayModes } from '@utils/libraryUtils';
+import { useLibraryContext } from '@contexts/LibraryContext';
 
 interface NovelItemProps {
   novel: SourceNovel | LibraryNovel;
@@ -26,7 +27,16 @@ const titleProps: TextProps = {
 const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
   const { theme } = useTheme();
   const { navigate } = useNavigation();
+  const route = useRoute();
+  const isSourceScreen = route.name === 'SourceScreen';
+
+  const { novels: libraryNovels } = useLibraryContext();
+
   const window = useWindowDimensions();
+
+  const isLibraryNovel =
+    isSourceScreen &&
+    libraryNovels.some(libraryNovel => libraryNovel.url === novel.url);
 
   const {
     LIBRARY_SHOW_UNREAD_BADGE = true,
@@ -58,6 +68,19 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
         android_ripple={{ color: theme.rippleColor }}
       >
         <Row style={styles.badgeCtn}>
+          {isLibraryNovel && (
+            <Text
+              size={12}
+              color={theme.onPrimary}
+              style={[
+                styles.unread,
+                { backgroundColor: theme.primary },
+                showUnreadBadge && styles.borderRightNone,
+              ]}
+            >
+              {'In Library'}
+            </Text>
+          )}
           {showDownloadsBadge ? (
             <Text
               size={12}
@@ -87,7 +110,11 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
         </Row>
         <Image
           source={{ uri: novel.coverUrl || undefined }}
-          style={[styles.cover, { height: coverHeight }]}
+          style={[
+            styles.cover,
+            { height: coverHeight },
+            isLibraryNovel && { opacity: 0.5 },
+          ]}
         >
           {LIBRARY_DISPLAY_MODE === LibraryDisplayModes.Compact && (
             <View style={styles.compactTitleCtn}>
@@ -164,7 +191,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: 'absolute',
     top: Spacing.M,
-    right: Spacing.M,
+    left: Spacing.M,
   },
   unread: {
     borderRadius: 4,

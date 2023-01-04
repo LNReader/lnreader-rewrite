@@ -1,4 +1,5 @@
-import { ParsedSource, Source } from '@sources/types';
+import { Language, ParsedSource, Source } from '@sources/types';
+import { uniq } from 'lodash';
 
 export class AbstractSourceFactory {
   protected sources: Map<number, ParsedSource>;
@@ -37,5 +38,13 @@ export class AbstractSourceFactory {
 
   getSourceName(id: number) {
     return this.sources.get(id)?.name;
+  }
+
+  getLanguages() {
+    const languages: Language[] = [];
+
+    this.sources.forEach(source => languages.push(source.lang));
+
+    return uniq(languages);
   }
 }

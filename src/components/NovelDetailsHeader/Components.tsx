@@ -11,6 +11,7 @@ import Color from 'color';
 import { Spacing } from '@theme/constants';
 import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
 import { defaultTo } from 'lodash';
+import { useLibraryContext } from '@contexts/LibraryContext';
 
 export const CoverImage: React.FC<FastImageProps> = props => {
   const { theme } = useTheme();
@@ -47,6 +48,7 @@ export const CoverImage: React.FC<FastImageProps> = props => {
 export const SubHeader: React.FC = () => {
   const { theme } = useTheme();
   const { novel, handleSetNovelFavorite } = useNovelDetailsContext();
+  const { refetch: refetchLibrary } = useLibraryContext();
 
   const followBtnColor = novel.favorite
     ? theme.primary
@@ -60,6 +62,7 @@ export const SubHeader: React.FC = () => {
           style={styles.buttonCtn}
           onPress={() => {
             handleSetNovelFavorite(!novel.favorite);
+            refetchLibrary();
           }}
         >
           <Icon

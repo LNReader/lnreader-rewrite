@@ -15,6 +15,7 @@ import { isEmpty, isUndefined, omit } from 'lodash';
 import {
   getChaptersByNovelId,
   insertChapters,
+  setChaptersRead,
 } from '@database/queries/ChapterQueries';
 import useNovelStorage from './useNovelStorage';
 
@@ -94,6 +95,24 @@ export const useNovelDetails = ({
     setNovelFavorite(novel.id, val);
   };
 
+  const handleSetChaptersRead = (chapterIds: number[]) => {
+    setChapters(prevVal =>
+      prevVal.map(chapter =>
+        chapterIds.includes(chapter.id) ? { ...chapter, read: 1 } : chapter,
+      ),
+    );
+    setChaptersRead(chapterIds);
+  };
+
+  const handleSetChaptersUnread = (chapterIds: number[]) => {
+    setChapters(prevVal =>
+      prevVal.map(chapter =>
+        chapterIds.includes(chapter.id) ? { ...chapter, read: 0 } : chapter,
+      ),
+    );
+    setChaptersRead(chapterIds);
+  };
+
   useEffect(() => {
     getNovelDetails();
   }, []);
@@ -112,5 +131,7 @@ export const useNovelDetails = ({
     error,
     chapters,
     handleSetNovelFavorite,
+    handleSetChaptersRead,
+    handleSetChaptersUnread,
   };
 };

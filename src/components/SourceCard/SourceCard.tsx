@@ -5,37 +5,32 @@ import { useMMKVObject } from 'react-native-mmkv';
 import { xor } from 'lodash';
 
 import { IconButton, Text } from '@lnreader/core';
-import { useTheme } from '@hooks';
+import { useAppSettings, useTheme } from '@hooks';
 import { Source } from '@sources/types';
-import { MMKVStorage } from '@utils/mmkv/mmkv';
 
 import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
+import { Setting } from 'types/SettingTypes';
 
 interface SourceCardProps {
   source: Source;
 }
 
-export const PINNED_SOURCES = 'PINNED_SOURCES';
-
 const SourceCard: React.FC<SourceCardProps> = ({ source }) => {
+  const { theme } = useTheme();
+  const { navigate } = useNavigation();
+  const { PINNED_SOURCES, setAppSettings } = useAppSettings();
   const { id, name, lang, iconUrl } = source;
 
-  const { theme } = useTheme();
-
-  const { navigate } = useNavigation();
-
-  const onPress = () => navigate('SourceScreen', { sourceId: source.id });
-
-  const [pinnedSources, setPinnedSources] = useMMKVObject<number[]>(
-    PINNED_SOURCES,
-    MMKVStorage,
-  );
-
-  const handlePinSource = () => {
-    setPinnedSources(xor(pinnedSources, [id]));
+  const onPress = () => {
+    navigate('SourceScreen', { sourceId: source.id });
+    setAppSettings(Setting.LAST_USED_SOURCE_ID, id);
   };
 
-  const isPinned = pinnedSources?.includes(id);
+  const handlePinSource = () => {
+    setAppSettings(Setting.PINNED_SOURCES, xor(PINNED_SOURCES, [id]));
+  };
+
+  const isPinned = PINNED_SOURCES?.includes(id);
 
   return (
     <Pressable

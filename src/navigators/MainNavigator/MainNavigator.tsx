@@ -7,6 +7,7 @@ import SourceScreen from '@screens/SourceScreen/SourceScreen';
 import NovelDetailsScreen from '@screens/NovelDetailsScreen/NovelDetailsScreen';
 import ReaderScreen from '@screens/ReaderScreen/ReaderScreen';
 import SourceWebviewScreen from '@screens/SourceWebviewScreen/SourceWebviewScreen';
+import BrowseSettingsScreen from '@screens/BrowseSettingsScreen/BrowseSettingsScreen';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,10 @@ const MainNavigator = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
       <Stack.Screen name="SourceScreen" component={SourceScreen} />
+      <Stack.Screen
+        name="BrowseSettingsScreen"
+        component={BrowseSettingsScreen}
+      />
       <Stack.Screen
         name="SourceWebviewScreen"
         component={SourceWebviewScreen}

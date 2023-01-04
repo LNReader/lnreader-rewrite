@@ -1,3 +1,4 @@
+import { Language } from '@sources/types';
 import { LibrarySortOrder } from '@utils/libraryUtils';
 import { LibraryDisplayModes, LibraryFilters } from '@utils/libraryUtils';
 
@@ -34,6 +35,15 @@ export enum Setting {
 
   INCOGNITO_MODE = 'INCOGNITO_MODE',
   DOWNLOADED_ONLY_MODE = 'DOWNLOADED_ONLY_MODE',
+
+  /**
+   * Source Settings
+   */
+  PINNED_SOURCES = 'PINNED_SOURCES',
+  SOURCE_LANGUAGES = 'SOURCE_LANGUAGES',
+  LAST_USED_SOURCE_ID = 'LAST_USED_SOURCE_ID',
+  ONLY_SHOW_PINNED_SOURCES = 'ONLY_SHOW_PINNED_SOURCES',
+  SHOW_NSFW_SOURCES = 'SHOW_NSFW_SOURCES',
 }
 
 export interface SettingTypes {
@@ -60,4 +70,10 @@ export interface SettingTypes {
 
   [Setting.INCOGNITO_MODE]: boolean;
   [Setting.DOWNLOADED_ONLY_MODE]: boolean;
+
+  [Setting.PINNED_SOURCES]: number[];
+  [Setting.SOURCE_LANGUAGES]: Language[];
+  [Setting.LAST_USED_SOURCE_ID]: number;
+  [Setting.ONLY_SHOW_PINNED_SOURCES]: boolean;
+  [Setting.SHOW_NSFW_SOURCES]: boolean;
 }

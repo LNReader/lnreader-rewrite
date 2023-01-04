@@ -102,3 +102,31 @@ export const setChapterRead = async (id: number) =>
   db.transaction(tx =>
     tx.executeSql(setChapterReadQuery, [id], noop, txnErrorCallback),
   );
+
+const setChaptersReadQuery = `
+UPDATE 
+  chapters 
+SET 
+  \`read\` = 1 
+WHERE 
+  id IN
+`;
+
+export const setChaptersRead = async (ids: number[]) => {
+  const query = `${setChaptersReadQuery} (${ids.toString()})`;
+  db.transaction(tx => tx.executeSql(query, undefined, noop, txnErrorCallback));
+};
+
+const setChaptersUnreadQuery = `
+UPDATE 
+  chapters 
+SET 
+  \`read\` = 0 
+WHERE 
+  id IN
+`;
+
+export const setChaptersUnread = async (ids: number[]) => {
+  const query = `${setChaptersUnreadQuery} (${ids.toString()})`;
+  db.transaction(tx => tx.executeSql(query, undefined, noop, txnErrorCallback));
+};

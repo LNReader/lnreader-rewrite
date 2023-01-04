@@ -44,3 +44,10 @@ const useAppSettings = () => {
 };
 
 export default useAppSettings;
+
+export const getAppSettings = () => {
+  const rawSettings = MMKVStorage.getString(APP_SETTINGS) || '{}';
+  const parsedSettings: Partial<SettingTypes> = JSON.parse(rawSettings);
+
+  return parsedSettings;
+};

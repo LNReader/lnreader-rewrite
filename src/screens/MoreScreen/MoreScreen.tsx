@@ -2,20 +2,13 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { List, IconAppbar, Switch, Text } from '@lnreader/core';
-import { useAppSettings, useTheme } from '@hooks';
+import { List, IconAppbar, Switch } from '@lnreader/core';
+import { useAppSettings } from '@hooks';
 import { Setting } from 'types/SettingTypes';
 import SettingBanners from '@components/SettingBanners/SettingBanners';
 
 const MoreScreen = () => {
   const { navigate } = useNavigation();
-  const {
-    setDarkMode,
-    isDarkMode,
-    setAmoledBlack,
-    isAmoledBlack,
-    setAppTheme,
-  } = useTheme();
   const { INCOGNITO_MODE, DOWNLOADED_ONLY_MODE, toggleSetting } =
     useAppSettings();
 
@@ -58,27 +51,6 @@ const MoreScreen = () => {
           })
         }
       />
-      <List.Divider />
-      <Switch
-        value={isDarkMode}
-        title="Dark mode"
-        onPress={() => setDarkMode(!isDarkMode)}
-        size="large"
-      />
-
-      <Text
-        onPress={() => setAppTheme(Math.round(Math.random() * (3 - 1) + 1))}
-      >
-        Random Theme
-      </Text>
-      {isDarkMode && (
-        <Switch
-          value={isAmoledBlack}
-          title="Pure black dark mode"
-          onPress={() => setAmoledBlack(!isAmoledBlack)}
-          size="large"
-        />
-      )}
     </>
   );
 };

@@ -16,7 +16,7 @@ type Props = {
   novelName: string;
 };
 
-const ReaderFooterButton = ({
+export const ReaderFooterButton = ({
   iconName,
   onPress,
 }: {

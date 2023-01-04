@@ -6,8 +6,10 @@ interface NovelContextProps {
   loading: boolean;
   novel: DatabaseNovel;
   chapters?: DatabaseChapter[];
-  error?: string;
+  error?: Error;
   handleSetNovelFavorite: (val: boolean) => void;
+  handleSetChaptersRead: (chapterIds: number[]) => void;
+  handleSetChaptersUnread: (chapterIds: number[]) => void;
 }
 
 const novelDetails = {

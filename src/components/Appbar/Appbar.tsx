@@ -11,6 +11,7 @@ interface AppbarProps
   extends Omit<PaperAppbarHeaderProps, 'children' | 'theme'> {
   title: string;
   actions?: Array<{ icon: string; onPress: () => void }>;
+  backAction?: () => void;
 }
 
 const Appbar: React.FC<AppbarProps> = props => {
@@ -19,10 +20,18 @@ const Appbar: React.FC<AppbarProps> = props => {
 
   return (
     <PaperAppbar.Header mode="large" {...props} theme={{ colors: theme }}>
-      <PaperAppbar.BackAction
-        onPress={goBack}
-        iconColor={theme.onSurfaceVariant}
-      />
+      {props.backAction ? (
+        <PaperAppbar.Action
+          icon="close"
+          onPress={props.backAction}
+          iconColor={theme.onSurfaceVariant}
+        />
+      ) : (
+        <PaperAppbar.BackAction
+          onPress={goBack}
+          iconColor={theme.onSurfaceVariant}
+        />
+      )}
       <PaperAppbar.Content
         title={props.title}
         titleStyle={{ color: theme.onSurface }}
@@ -32,7 +41,8 @@ const Appbar: React.FC<AppbarProps> = props => {
         <PaperAppbar.Action
           key={action.icon}
           icon={action.icon}
-          onPress={goBack}
+          onPress={action.onPress}
+          iconColor={theme.onSurfaceVariant}
         />
       ))}
     </PaperAppbar.Header>
