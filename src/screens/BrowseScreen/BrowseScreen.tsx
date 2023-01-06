@@ -8,18 +8,25 @@ import SourceFactory from '@sources/SourceFactory';
 
 import SourceCard from '@components/SourceCard/SourceCard';
 import { Spacing } from '@theme/constants';
+import { Language } from '@sources/types';
 
 const BrowseScreen = () => {
   const { theme } = useTheme();
   const { navigate } = useNavigation();
   const { searchText, setSearchText } = useSearchText();
-  const { LAST_USED_SOURCE_ID, PINNED_SOURCES, ONLY_SHOW_PINNED_SOURCES } =
-    useAppSettings();
+  const {
+    LAST_USED_SOURCE_ID,
+    PINNED_SOURCES,
+    ONLY_SHOW_PINNED_SOURCES,
+    SOURCE_LANGUAGES = [Language.English],
+  } = useAppSettings();
   const sources = SourceFactory.getSources();
 
-  const filteredSources = sources.filter(source =>
-    source.name.toLowerCase().includes(searchText.toLowerCase()),
-  );
+  const filteredSources = sources
+    .filter(source => SOURCE_LANGUAGES.includes(source.lang))
+    .filter(source =>
+      source.name.toLowerCase().includes(searchText.toLowerCase()),
+    );
 
   const lastUsedSource = filteredSources.find(
     source => source.id === LAST_USED_SOURCE_ID,

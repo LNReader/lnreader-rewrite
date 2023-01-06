@@ -47,7 +47,7 @@ const HistoryCard: React.FC<Props> = ({ history, removeHistory }) => {
       </Pressable>
       <View style={styles.detailsCtn}>
         <Text style={styles.title}>{history.novelName}</Text>
-        <Text color={theme.onSurfaceVariant}>{`${
+        <Text numberOfLines={1} color={theme.onSurfaceVariant}>{`${
           history.chapterName
         } • ${moment(history.lastRead).format('h:mm a')}`}</Text>
       </View>

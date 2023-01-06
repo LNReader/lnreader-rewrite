@@ -26,7 +26,7 @@ const AppearanceSettingsScreen = () => {
       />
 
       <Text
-        onPress={() => setAppTheme(Math.round(Math.random() * (3 - 1) + 1))}
+        onPress={() => setAppTheme(Math.round(Math.random() * (4 - 1) + 1))}
       >
         Random Theme
       </Text>

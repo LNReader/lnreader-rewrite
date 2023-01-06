@@ -1,6 +1,6 @@
 import { Language } from '@sources/types';
-import { LibrarySortOrder } from '@utils/libraryUtils';
-import { LibraryDisplayModes, LibraryFilters } from '@utils/libraryUtils';
+import { LibrarySortOrder } from '@utils/Library.utils';
+import { LibraryDisplayModes, LibraryFilters } from '@utils/Library.utils';
 
 export enum Setting {
   /**

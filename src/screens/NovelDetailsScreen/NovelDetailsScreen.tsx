@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { RefreshControl } from 'react-native';
+import { RefreshControl, StyleSheet } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -18,7 +18,6 @@ import ChapterCard from '@components/ChapterCard/ChapterCard';
 import SettingBanners from '@components/SettingBanners/SettingBanners';
 import ChapterSelection from '@components/ChapterSelection/ChapterSelection';
 import { useState } from 'react';
-import { xor } from 'lodash';
 
 type NovelDetailsScreenRouteProps = RouteProp<{
   params: SourceNovelDetails & { id?: number };
@@ -68,6 +67,7 @@ const NovelDetails: React.FC<NovelDetailsProps> = ({ sourceId }) => {
             onRefresh={updateNovel}
           />
         }
+        contentContainerStyle={styles.listCtn}
       />
       <ChapterSelection
         selectedChapterIds={selectedChapterIds}
@@ -97,3 +97,9 @@ const NovelDetailsScreen = () => {
 };
 
 export default NovelDetailsScreen;
+
+const styles = StyleSheet.create({
+  listCtn: {
+    paddingBottom: 80,
+  },
+});

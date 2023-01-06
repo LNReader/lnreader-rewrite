@@ -1,16 +1,4 @@
 import { History } from '@database/types';
-import moment from 'moment';
-
-moment.updateLocale('en', {
-  calendar: {
-    lastDay: '[Yesterday]',
-    sameDay: '[Today]',
-    nextDay: '[Tomorrow]',
-    lastWeek: '[Last] dddd',
-    nextWeek: '[Next] dddd',
-    sameElse: 'L',
-  },
-});
 
 export const groupHistoryByDate = (dbHistory: History[]) => {
   const dateGroups = dbHistory.reduce<Record<string, History[]>>(

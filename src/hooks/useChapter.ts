@@ -5,13 +5,15 @@ import { defaultTo } from 'lodash';
 import { DatabaseChapter, DownloadedChapter } from '@database/types';
 import { SourceChapter } from '@sources/types';
 import SourceFactory from '@sources/SourceFactory';
+import { getDownloadedChapter } from '@database/queries/DownloadQueries';
+import { fetchHtml } from '@utils/fetch/fetch';
 
 interface UseChapterParams {
   sourceId: number;
   chapter: DatabaseChapter;
 }
 
-const useChapter = ({ chapter: { url }, sourceId }: UseChapterParams) => {
+const useChapter = ({ chapter: { url, id }, sourceId }: UseChapterParams) => {
   const source = SourceFactory.getSource(sourceId);
 
   const [loading, setLoading] = useState(true);
@@ -20,19 +22,45 @@ const useChapter = ({ chapter: { url }, sourceId }: UseChapterParams) => {
 
   const getChapter = async () => {
     try {
-      const sourceChapter = (await source?.getChapter({
-        url,
-      })) as SourceChapter;
+      let tempChapter: SourceChapter | DownloadedChapter =
+        await getDownloadedChapter(id);
+
+      if (!tempChapter) {
+        const sourceChapter = await source?.getChapter({
+          url,
+        });
+
+        if (sourceChapter) {
+          tempChapter = sourceChapter;
+        }
+      }
 
       setChapter({
-        ...sourceChapter,
-        text: sanitizeHtml(defaultTo(sourceChapter.text, '')),
+        ...tempChapter,
+        text: sanitizeHtml(defaultTo(tempChapter.text, '')),
       });
     } catch (err) {
       if (err instanceof Error) {
         setError(err);
       }
     } finally {
+      setLoading(false);
+    }
+  };
+
+  const getChapterFromCustomUrl = async (customUrl: string) => {
+    if (customUrl !== 'about:blank') {
+      setLoading(true);
+      const chaptersHtml = await fetchHtml({ url: customUrl });
+
+      setChapter(
+        prevVal =>
+          ({
+            ...prevVal,
+            text: sanitizeHtml(chaptersHtml),
+          } as typeof chapter),
+      );
+
       setLoading(false);
     }
   };
@@ -45,6 +73,7 @@ const useChapter = ({ chapter: { url }, sourceId }: UseChapterParams) => {
     loading,
     chapter,
     error,
+    getChapterFromCustomUrl,
   };
 };
 

@@ -10,7 +10,7 @@ import {
   Text,
 } from '@lnreader/core';
 import { useTheme, useHistory, useSearchText } from '@hooks';
-import { groupHistoryByDate } from '@utils/historyUtils';
+import { groupHistoryByDate } from '@utils/History.utils';
 
 import HistoryCard from '@components/HistoryCard/HistoryCard';
 import SettingBanners from '@components/SettingBanners/SettingBanners';

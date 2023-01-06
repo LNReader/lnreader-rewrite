@@ -17,7 +17,7 @@ import {
 import { fetchHtml } from '@utils/fetch/fetch';
 import { NovelStatus } from '@database/types';
 
-import { parseMadaraDate } from './Madara.Utils';
+import { parseMadaraDate } from './Utils';
 
 interface MadaraSource {
   id: number;

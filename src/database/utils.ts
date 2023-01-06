@@ -12,7 +12,15 @@ export const txnErrorCallback = (
   return false;
 };
 
-export const txnErrorCallbackWithoutToast = (): boolean => false;
+export const txnErrorCallbackWithoutToast = (
+  _txnObj: SQLTransaction,
+  error: SQLError,
+): boolean => {
+  if (__DEV__) {
+    console.log(error.message);
+  }
+  return false;
+};
 
 export const dbTxnErrorCallback = (error: SQLError): void =>
   ToastAndroid.show(error.message, ToastAndroid.SHORT);

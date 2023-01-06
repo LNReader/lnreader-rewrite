@@ -2,6 +2,7 @@ import { AbstractSourceFactory } from './AbstractSourceFactory/AbstractSourceFac
 
 import { NovelForestParser } from './parsers/en/NovelForest/NovelForest';
 import { MadaraParser } from './multiSrc/Madara/Madara';
+import { Language } from './types';
 
 const SourceFactory = new AbstractSourceFactory();
 
@@ -98,6 +99,28 @@ SourceFactory.registerSource(
     path: { novels: 'series', novel: 'series', chapter: 'series' },
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/sleepytranslations.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 59,
+    baseUrl: 'https://arnovel.me/',
+    name: 'ArNovel',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/arnovel.png?raw=true',
+    lang: Language.Arabic,
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 60,
+    baseUrl: 'https://meionovel.id/',
+    name: 'MeioNovel',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/meionovel.png?raw=true',
+    lang: Language.Indonesian,
   }),
 );
 

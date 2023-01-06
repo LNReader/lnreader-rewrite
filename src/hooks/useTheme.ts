@@ -11,6 +11,7 @@ import { AMOLED_HEX, Opacity } from '@theme/constants';
 import { ThemeColors, ThemeType } from '@theme/types';
 import { tealTurquoise } from '@theme/colors/tealTurquoise';
 import { yotsubaColors } from '@theme/colors/yotsuba';
+import { tidalWaveColors } from '@theme/colors/tidalWave';
 
 interface ExtendedThemeColors extends ThemeColors {
   rippleColor?: string;
@@ -42,6 +43,7 @@ const ThemesMap: Record<number, ThemeType> = {
   1: defaultColors,
   2: tealTurquoise,
   3: yotsubaColors,
+  4: tidalWaveColors,
 };
 
 const getElevationColor = (colors: ExtendedThemeColors, elevation: number) => {

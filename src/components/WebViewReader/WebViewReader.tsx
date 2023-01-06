@@ -2,17 +2,21 @@ import React, { useRef } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
-import { WebViewScrollEvent } from 'react-native-webview/lib/WebViewTypes';
+import {
+  WebViewNavigation,
+  WebViewScrollEvent,
+} from 'react-native-webview/lib/WebViewTypes';
 
-import { useAppSettings, useChapterStorage } from '@hooks';
+import { useAppSettings, useChapterStorage, useTheme } from '@hooks';
 import { setChapterRead } from '@database/queries/ChapterQueries';
 import { SourceChapter } from '@sources/types';
-import { DEAULT_READER_THEME } from '@utils/readerUtils';
+import { DEAULT_READER_THEME } from '@utils/Reader.utils';
 import { useChapterDetailsContext } from '@contexts/ChapterDetailsContext';
 
 interface WebViewReaderProps {
   chapter?: SourceChapter;
   onPress: () => void;
+  onNavigationStateChange: (event: WebViewNavigation) => void;
 }
 
 type WebViewPostEvent = {
@@ -35,7 +39,12 @@ const isCloseToBottom = ({
   );
 };
 
-const WebViewReader: React.FC<WebViewReaderProps> = ({ chapter, onPress }) => {
+const WebViewReader: React.FC<WebViewReaderProps> = ({
+  chapter,
+  onPress,
+  onNavigationStateChange,
+}) => {
+  const { theme } = useTheme();
   const { top: marginTop } = useSafeAreaInsets();
   const {
     INCOGNITO_MODE,
@@ -74,11 +83,13 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({ chapter, onPress }) => {
   return (
     <WebView
       incognito={INCOGNITO_MODE}
+      style={{ backgroundColor: theme.background }}
       ref={webViewRef}
       scalesPageToFit
       nestedScrollEnabled
       javaScriptEnabled
       showsVerticalScrollIndicator={false}
+      onNavigationStateChange={onNavigationStateChange}
       injectedJavaScript={`
         const scrollPercentage = ${PROGRESS};
       

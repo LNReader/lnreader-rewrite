@@ -2,9 +2,10 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { defaultTo } from 'lodash';
 
 import { Appbar } from '@lnreader/core';
-import { useTheme } from '@hooks';
+import { useBackHandler, useDownloader, useTheme } from '@hooks';
 
 import { ReaderFooterButton } from '@components/ReaderFooter/ReaderFooter';
 import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
@@ -22,10 +23,23 @@ const ChapterSelection: React.FC<Props> = ({
 }) => {
   const { theme } = useTheme();
   const { bottom: paddingBottom } = useSafeAreaInsets();
-  const { handleSetChaptersRead, handleSetChaptersUnread } =
-    useNovelDetailsContext();
+  const {
+    novel: { sourceId },
+    chapters,
+    handleSetChaptersRead,
+    handleSetChaptersUnread,
+  } = useNovelDetailsContext();
+  const { downloadChapters } = useDownloader();
 
   const clearSelection = () => setSelectedChapterIds([]);
+
+  useBackHandler(() => {
+    if (selectedChapterIds.length) {
+      clearSelection();
+      return true;
+    }
+    return false;
+  });
 
   if (!selectedChapterIds.length) {
     return null;
@@ -54,7 +68,17 @@ const ChapterSelection: React.FC<Props> = ({
         entering={FadeIn.duration(150)}
         exiting={FadeOut.duration(150)}
       >
-        <ReaderFooterButton iconName="download-outline" />
+        <ReaderFooterButton
+          iconName="download-outline"
+          onPress={() => {
+            const selectedChapters = chapters?.filter(chapter =>
+              selectedChapterIds.includes(chapter.id),
+            );
+
+            downloadChapters(sourceId, defaultTo(selectedChapters, []));
+            clearSelection();
+          }}
+        />
         <ReaderFooterButton iconName="trash-can-outline" />
         <ReaderFooterButton
           iconName="check"

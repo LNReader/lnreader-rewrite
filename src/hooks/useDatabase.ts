@@ -30,6 +30,7 @@ import {
   // createUpdatesChapterIdIndexQuery,
   createUpdatesTableQuery,
 } from '@database/tables/UpdatesTable';
+import { createDownloadTableQuery } from '@database/tables/DownloadsTable';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -47,7 +48,13 @@ const useDatabase = () => {
       tx.executeSql(createNovelsTableQuery);
       tx.executeSql(createChaptersTableQuery);
       tx.executeSql(createHistoryTableQuery);
-      tx.executeSql(createUpdatesTableQuery, undefined, noop, txnErrorCallback);
+      tx.executeSql(createUpdatesTableQuery);
+      tx.executeSql(
+        createDownloadTableQuery,
+        undefined,
+        noop,
+        txnErrorCallback,
+      );
 
       tx.executeSql(createNovelUrlIndex);
       tx.executeSql(createLibraryFavoriteIndex);

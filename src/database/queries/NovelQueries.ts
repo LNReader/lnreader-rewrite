@@ -11,7 +11,7 @@ import { SourceNovelDetails } from '@sources/types';
 import { SettingTypes } from 'types/SettingTypes';
 
 import { MMKVStorage } from '@utils/mmkv/mmkv';
-import { LibrarySortOrder } from '@utils/libraryUtils';
+import { LibrarySortOrder } from '@utils/Library.utils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 

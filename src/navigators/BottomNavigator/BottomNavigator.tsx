@@ -26,6 +26,7 @@ const BottomNavigator = () => {
       }}
       labeled={SHOW_LABELS_IN_NAV}
       activeColor={theme.primary}
+      theme={{ colors: theme }}
     >
       <Tab.Screen
         name="LibraryScreen"

@@ -19,7 +19,7 @@ import {
   LibraryFilters,
   LibrarySortOrder,
   librarySortOrderList,
-} from '@utils/libraryUtils';
+} from '@utils/Library.utils';
 import { Setting } from 'types/SettingTypes';
 
 interface LibraryBottomSheetProps {

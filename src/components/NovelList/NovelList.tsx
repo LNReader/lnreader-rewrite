@@ -9,7 +9,7 @@ import NovelItem from '@components/NovelItem/NovelItem';
 
 import { useAppSettings } from '@hooks';
 import { Spacing } from '@theme/constants';
-import { LibraryDisplayModes } from '@utils/libraryUtils';
+import { LibraryDisplayModes } from '@utils/Library.utils';
 
 type ListNovel = SourceNovel | LibraryNovel;
 

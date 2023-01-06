@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   getNovel,
@@ -19,6 +18,9 @@ import {
 } from '@database/queries/ChapterQueries';
 import useNovelStorage from './useNovelStorage';
 import { insertUpdates } from '@database/queries/UpdateQueries';
+import { useMMKVObject } from 'react-native-mmkv';
+import { MMKVStorage } from '@utils/mmkv/mmkv';
+import { DOWNLOAD_QUEUE } from './useDownloader';
 
 interface UseNovelDetailsProps {
   novelId?: number;
@@ -33,6 +35,11 @@ export const useNovelDetails = ({
   const isFirstRender = useRef(true);
 
   const source = SourceFactory.getSource(sourceId);
+
+  const [downloadQueue = []] = useMMKVObject<number[]>(
+    DOWNLOAD_QUEUE,
+    MMKVStorage,
+  );
 
   const [loading, setLoading] = useState(true);
   const [novel, setNovel] = useState<DatabaseNovel>(
@@ -150,13 +157,16 @@ export const useNovelDetails = ({
     getNovelDetails();
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      if (!isFirstRender.current) {
-        getFilteredChapters();
-      }
-    }, [FILTERS, SORT_ORDER]),
-  );
+  useEffect(() => {
+    if (!isFirstRender.current) {
+      getFilteredChapters();
+    }
+  }, [
+    FILTERS,
+    SORT_ORDER,
+    isFirstRender.current,
+    JSON.stringify(downloadQueue),
+  ]);
 
   return {
     novel,

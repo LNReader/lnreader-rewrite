@@ -13,3 +13,5 @@ export { useTheme } from './useTheme';
 export { default as useSourceStorage } from './useSourceStorage';
 export { default as useLibraryNovels } from './useLibraryNovels';
 export { useUpdates } from './useUpdates';
+export { useBackHandler } from './useBackHandler';
+export { default as useDownloader } from './useDownloader';

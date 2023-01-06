@@ -23,7 +23,7 @@ import {
   DEAULT_TEXT_ALIGNMENT,
   PRESET_READER_THEMES,
   TEXT_ALIGNMENTS,
-} from '@utils/readerUtils';
+} from '@utils/Reader.utils';
 
 interface ReaderBottomSheetProps {
   bottomSheetRef: BottomSheetRef;
@@ -65,6 +65,7 @@ export const ReaderRoute = () => {
         <Row>
           {PRESET_READER_THEMES.map(item => (
             <ColorButton
+              key={`${item.backgroundColor}-${item.color}`}
               backgroundColor={item.backgroundColor}
               color={item.color}
               selected={
@@ -81,6 +82,7 @@ export const ReaderRoute = () => {
         <Row>
           {TEXT_ALIGNMENTS.map(item => (
             <ToggleButton
+              key={item.value}
               icon={item.icon}
               selected={item.value === READER_TEXT_ALIGNMENT}
               onPress={() =>

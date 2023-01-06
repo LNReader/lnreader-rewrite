@@ -6,10 +6,12 @@ import SourceFactory from '@sources/SourceFactory';
 import { useAppSettings } from '@hooks';
 import { Setting } from 'types/SettingTypes';
 import { xor } from 'lodash';
+import { Language } from '@sources/types';
 
 const BrowseSettingsScreen = () => {
   const languages = SourceFactory.getLanguages();
-  const { SOURCE_LANGUAGES, setAppSettings } = useAppSettings();
+  const { SOURCE_LANGUAGES = [Language.English], setAppSettings } =
+    useAppSettings();
 
   return (
     <>
@@ -21,6 +23,7 @@ const BrowseSettingsScreen = () => {
           <Switch
             value={SOURCE_LANGUAGES?.includes(item)}
             title={item}
+            size="large"
             onPress={() =>
               setAppSettings(
                 Setting.SOURCE_LANGUAGES,

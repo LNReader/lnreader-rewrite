@@ -10,7 +10,7 @@ import {
   Text,
 } from '@lnreader/core';
 import { useSearchText, useTheme, useUpdates } from '@hooks';
-import { groupUpdatesByDate } from '@utils/updateUtils';
+import { groupUpdatesByDate } from '@utils/Update.utils';
 
 const UpdatesScreen = () => {
   const { theme } = useTheme();

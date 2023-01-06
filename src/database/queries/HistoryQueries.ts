@@ -18,7 +18,7 @@ SELECT
 FROM 
   history 
   JOIN chapters as C ON history.chapterId = C.id 
-  JOIN novels as N ON C.id  = N.id 
+  JOIN novels as N ON C.novelId  = N.id 
 GROUP BY 
   N.id 
 HAVING 
@@ -33,7 +33,9 @@ export const getHistory = (): Promise<History[]> => {
       tx.executeSql(
         getHistoryQuery,
         undefined,
-        (_txObj, { rows: { _array } }) => resolve(_array),
+        (_txObj, { rows: { _array } }) => {
+          resolve(_array);
+        },
         txnErrorCallback,
       );
     }),

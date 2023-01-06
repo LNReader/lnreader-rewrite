@@ -18,7 +18,7 @@ import {
   NovelFilters,
   NovelSortOrder,
   novelSortOrderList,
-} from '@utils/novelUtils';
+} from '@utils/Novel.utils';
 
 interface NovelDetailsBottomSheetProps {
   bottomSheetRef: BottomSheetRef;

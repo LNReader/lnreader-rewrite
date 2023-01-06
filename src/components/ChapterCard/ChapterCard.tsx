@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import { xor } from 'lodash';
@@ -10,6 +10,7 @@ import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
 import { DatabaseChapter } from '@database/types';
 
 import { Spacing } from '@theme/constants';
+import DownloadButton from './DownloadButton';
 
 interface ChapterCardProps {
   chapter: DatabaseChapter;
@@ -61,29 +62,32 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
       onPress={onPress}
       onLongPress={onLongPress}
     >
-      <Text
-        numberOfLines={1}
-        color={!chapter.read ? theme.onSurface : theme.outline}
-      >
-        {SHOW_CHAPTER_NUMBERS
-          ? `Chapter ${chapter.chapterNumber}`
-          : chapter.name}
-      </Text>
-      <Row style={styles.dateCtn}>
-        {chapter.dateUpload ? (
-          <Text
-            color={!chapter.read ? theme.onSurfaceVariant : theme.outline}
-            size={12}
-          >
-            {moment.unix(chapter.dateUpload).format('Do MMM, YYYY')}
-          </Text>
-        ) : null}
-        {showChapterProgress && (
-          <Text size={12} color={theme.outline}>{`${
-            chapter.dateUpload ? '  •  ' : ''
-          }Progress ${PROGRESS}%`}</Text>
-        )}
-      </Row>
+      <View>
+        <Text
+          numberOfLines={1}
+          color={!chapter.read ? theme.onSurface : theme.outline}
+        >
+          {SHOW_CHAPTER_NUMBERS
+            ? `Chapter ${chapter.chapterNumber}`
+            : chapter.name}
+        </Text>
+        <Row style={styles.dateCtn}>
+          {chapter.dateUpload ? (
+            <Text
+              color={!chapter.read ? theme.onSurfaceVariant : theme.outline}
+              size={12}
+            >
+              {moment.unix(chapter.dateUpload).format('Do MMM, YYYY')}
+            </Text>
+          ) : null}
+          {showChapterProgress && (
+            <Text size={12} color={theme.outline}>{`${
+              chapter.dateUpload ? '  •  ' : ''
+            }Progress ${PROGRESS}%`}</Text>
+          )}
+        </Row>
+      </View>
+      <DownloadButton chapter={chapter} />
     </Pressable>
   );
 };
@@ -94,6 +98,9 @@ const styles = StyleSheet.create({
   cardCtn: {
     paddingHorizontal: Spacing.M,
     paddingVertical: Spacing.XM,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   dateCtn: {
     marginTop: Spacing.TINY,
