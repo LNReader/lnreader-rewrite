@@ -159,3 +159,35 @@ export const insertNovel = async (
     ),
   );
 };
+
+const updateNovelQuery = `
+UPDATE novels SET (
+  title = ?, status = ?, coverUrl = ?, genre = ?, 
+  description = ?, author = ?, artist = ?
+) 
+WHERE 
+  id = ?
+`;
+
+export const updateNovel = async (
+  novel: SourceNovelDetails,
+): Promise<number> => {
+  return new Promise(() =>
+    db.transaction(tx =>
+      tx.executeSql(
+        updateNovelQuery,
+        [
+          novel.title,
+          novel.status || null,
+          novel.coverUrl || null,
+          novel.genre || null,
+          novel.description || null,
+          novel.author || null,
+          novel.artist || null,
+        ],
+        undefined,
+        txnErrorCallback,
+      ),
+    ),
+  );
+};

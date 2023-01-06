@@ -11,7 +11,7 @@ interface UseHistoryProps {
   searchText?: string;
 }
 
-export const useHistory = ({ searchText }: UseHistoryProps) => {
+export const useHistory = ({ searchText = '' }: UseHistoryProps) => {
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState<History[]>([]);
   const [error, setError] = useState<Error>();
@@ -45,7 +45,7 @@ export const useHistory = ({ searchText }: UseHistoryProps) => {
   };
 
   const filteredHistory = history.filter(item =>
-    item.novelName.toLowerCase().includes(searchText?.toLowerCase() || ''),
+    item.novelName.toLowerCase().includes(searchText?.toLowerCase()),
   );
 
   return {

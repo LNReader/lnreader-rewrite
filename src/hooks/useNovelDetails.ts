@@ -18,6 +18,7 @@ import {
   setChaptersRead,
 } from '@database/queries/ChapterQueries';
 import useNovelStorage from './useNovelStorage';
+import { insertUpdates } from '@database/queries/UpdateQueries';
 
 interface UseNovelDetailsProps {
   novelId?: number;
@@ -113,6 +114,38 @@ export const useNovelDetails = ({
     setChaptersRead(chapterIds);
   };
 
+  const updateNovel = async () => {
+    try {
+      setLoading(true);
+      const sourceNovel = await source?.getNovelDetails({ url });
+
+      if (sourceNovel?.chapters?.length) {
+        await insertChapters(novel.id, sourceNovel.chapters);
+      }
+
+      const dbNovel = await getNovelById(novel.id);
+      const dbChapters = await getChaptersByNovelId(novel.id);
+
+      setNovel(dbNovel);
+      setChapters(dbChapters);
+
+      const newChapters = dbChapters?.filter(
+        sourceChapter =>
+          !dbChapters.some(dbChapter => dbChapter.url !== sourceChapter.url),
+      );
+
+      if (newChapters.length) {
+        insertUpdates(newChapters);
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     getNovelDetails();
   }, []);
@@ -130,6 +163,7 @@ export const useNovelDetails = ({
     loading,
     error,
     chapters,
+    updateNovel,
     handleSetNovelFavorite,
     handleSetChaptersRead,
     handleSetChaptersUnread,

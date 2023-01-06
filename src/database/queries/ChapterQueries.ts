@@ -59,7 +59,7 @@ export const insertChapters = async (
   chapters?: SourceNovelChapter[],
 ) => {
   let insertChaptersQuery = `
-    INSERT INTO chapters (
+    INSERT OR IGNORE INTO chapters (
         novelId, url, name, dateUpload, dateFetched, 
         scanlator, chapterNumber
     ) 

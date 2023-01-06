@@ -60,7 +60,7 @@ const NovelDetailsHeader: React.FC<Props> = ({ bottomSheetRef }) => {
             <Text
               numberOfLines={1}
               color={theme.onSurfaceVariant}
-              padding={{ vertical: Spacing.TINY }}
+              padding={{ vertical: Spacing.XS }}
             >
               {novel.author}
             </Text>
@@ -72,7 +72,7 @@ const NovelDetailsHeader: React.FC<Props> = ({ bottomSheetRef }) => {
       </CoverImage>
       <SubHeader />
       <Description />
-      {!loading && lastReadChapter && (
+      {chapters && chapters.length > 0 && lastReadChapter && (
         <Button
           mode="contained"
           title={`${lastReadChapterId ? 'Continue' : 'Start'} reading ${

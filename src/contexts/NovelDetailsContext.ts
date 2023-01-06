@@ -7,6 +7,7 @@ interface NovelContextProps {
   novel: DatabaseNovel;
   chapters?: DatabaseChapter[];
   error?: Error;
+  updateNovel: () => void;
   handleSetNovelFavorite: (val: boolean) => void;
   handleSetChaptersRead: (chapterIds: number[]) => void;
   handleSetChaptersUnread: (chapterIds: number[]) => void;

@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     flex: 1,
-    paddingTop: 90,
+    paddingTop: 120,
   },
   buttonCtn: {
     paddingHorizontal: Spacing.M,

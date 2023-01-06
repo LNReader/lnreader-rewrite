@@ -1,14 +1,22 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { SectionList, StyleSheet } from 'react-native';
+import moment from 'moment';
 
-import { Searchbar } from '@lnreader/core';
-import { useSearchText, useTheme } from '@hooks';
+import {
+  EmptyView,
+  ErrorScreen,
+  LoadingScreen,
+  Searchbar,
+  Text,
+} from '@lnreader/core';
+import { useSearchText, useTheme, useUpdates } from '@hooks';
+import { groupUpdatesByDate } from '@utils/updateUtils';
 
-type Props = {};
-
-const UpdatesScreen = (props: Props) => {
+const UpdatesScreen = () => {
   const { theme } = useTheme();
   const { searchText, setSearchText } = useSearchText();
+  const { updates, loading, error } = useUpdates({ searchText });
+
   return (
     <>
       <Searchbar
@@ -16,10 +24,31 @@ const UpdatesScreen = (props: Props) => {
         value={searchText}
         onChangeText={setSearchText}
       />
+      {loading ? (
+        <LoadingScreen />
+      ) : error ? (
+        <ErrorScreen error={error} />
+      ) : (
+        <SectionList
+          contentContainerStyle={styles.listCtn}
+          sections={groupUpdatesByDate(updates)}
+          renderSectionHeader={({ section: { date } }) => (
+            <Text padding={{ horizontal: 16, vertical: 8 }}>
+              {moment(new Date(date)).calendar()}
+            </Text>
+          )}
+          renderItem={({ item }) => <Text>{item.id}</Text>}
+          ListEmptyComponent={<EmptyView />}
+        />
+      )}
     </>
   );
 };
 
 export default UpdatesScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  listCtn: {
+    flexGrow: 1,
+  },
+});

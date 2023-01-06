@@ -35,7 +35,7 @@ const NovelDetails: React.FC<NovelDetailsProps> = ({ sourceId }) => {
   const { top: topInset } = useSafeAreaInsets();
   const progressViewOffset = topInset + 16;
 
-  const { chapters, loading } = useNovelDetailsContext();
+  const { chapters, loading, updateNovel } = useNovelDetailsContext();
 
   const [selectedChapterIds, setSelectedChapterIds] = useState<number[]>([]);
 
@@ -65,6 +65,7 @@ const NovelDetails: React.FC<NovelDetailsProps> = ({ sourceId }) => {
             refreshing={loading}
             colors={[theme.primary]}
             progressBackgroundColor={theme.onPrimary}
+            onRefresh={updateNovel}
           />
         }
       />
