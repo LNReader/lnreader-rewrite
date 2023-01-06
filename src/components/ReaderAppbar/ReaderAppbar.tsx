@@ -4,22 +4,26 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 
+import { IconButton, Text, Row } from '@lnreader/core';
 import { useTheme } from '@hooks';
+import { useChapterDetailsContext } from '@contexts/ChapterDetailsContext';
 import { SourceChapter } from '@sources/types';
 
-import { IconButton, Text, Row } from '@lnreader/core';
 import { Spacing } from '@theme/constants';
 
 type Props = {
   visible: boolean;
   chapter?: SourceChapter;
-  novelName: string;
 };
 
 const ReaderAppbar = (props: Props) => {
   const { theme } = useTheme();
   const { goBack } = useNavigation();
   const { top: topInset } = useSafeAreaInsets();
+  const {
+    novelName,
+    chapter: { name: chapterName },
+  } = useChapterDetailsContext();
 
   if (!props.visible) {
     return null;
@@ -38,10 +42,10 @@ const ReaderAppbar = (props: Props) => {
         <IconButton name="arrow-left" onPress={goBack} />
         <View style={styles.flex}>
           <Text numberOfLines={1} size={20}>
-            {props.novelName}
+            {novelName}
           </Text>
           <Text numberOfLines={1} size={16}>
-            {props.chapter?.name}
+            {chapterName}
           </Text>
         </View>
         <IconButton name="earth" onPress={goBack} />

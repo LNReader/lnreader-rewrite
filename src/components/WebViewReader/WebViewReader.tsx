@@ -8,9 +8,9 @@ import { useAppSettings, useChapterStorage } from '@hooks';
 import { setChapterRead } from '@database/queries/ChapterQueries';
 import { SourceChapter } from '@sources/types';
 import { DEAULT_READER_THEME } from '@utils/readerUtils';
+import { useChapterDetailsContext } from '@contexts/ChapterDetailsContext';
 
 interface WebViewReaderProps {
-  chapterId: number;
   chapter?: SourceChapter;
   onPress: () => void;
 }
@@ -35,11 +35,7 @@ const isCloseToBottom = ({
   );
 };
 
-const WebViewReader: React.FC<WebViewReaderProps> = ({
-  chapter,
-  onPress,
-  chapterId,
-}) => {
+const WebViewReader: React.FC<WebViewReaderProps> = ({ chapter, onPress }) => {
   const { top: marginTop } = useSafeAreaInsets();
   const {
     INCOGNITO_MODE,
@@ -51,6 +47,9 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
     READER_PADDING = 5,
   } = useAppSettings();
   const webViewRef = useRef<WebView>(null);
+  const {
+    chapter: { id: chapterId },
+  } = useChapterDetailsContext();
 
   const { PROGRESS = 0, setChapterProgress } = useChapterStorage(chapterId);
 

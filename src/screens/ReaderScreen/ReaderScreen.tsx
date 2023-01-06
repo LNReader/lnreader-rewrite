@@ -11,6 +11,7 @@ import ReaderAppbar from '@components/ReaderAppbar/ReaderAppbar';
 import WebViewReader from '@components/WebViewReader/WebViewReader';
 import ReaderFooter from '@components/ReaderFooter/ReaderFooter';
 import ReaderProgressBar from '@components/ReaderProgressBar/ReaderProgressBar';
+import { ChapterDetailsContext } from '@contexts/ChapterDetailsContext';
 
 type ReaderScreenRouteProps = RouteProp<{
   params: {
@@ -21,7 +22,7 @@ type ReaderScreenRouteProps = RouteProp<{
 }>;
 
 const ReaderScreen = () => {
-  const { theme } = useTheme();
+  // const { theme } = useTheme();
   const { params: readerParams } = useRoute<ReaderScreenRouteProps>();
   const { chapter, error, loading } = useChapter(readerParams);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -40,27 +41,15 @@ const ReaderScreen = () => {
   ) : error ? (
     <ErrorScreen error={error} />
   ) : (
-    <>
-      <WebViewReader
-        chapterId={readerParams.chapter.id}
-        chapter={chapter}
-        onPress={handleShowMenu}
-      />
+    <ChapterDetailsContext.Provider value={readerParams}>
+      <WebViewReader chapter={chapter} onPress={handleShowMenu} />
       <ReaderProgressBar chapterId={readerParams.chapter.id} />
-      <ReaderAppbar
-        visible={menuVisible}
-        chapter={chapter}
-        novelName={readerParams.novelName}
-      />
-      <ReaderFooter
-        visible={menuVisible}
-        chapter={chapter}
-        novelName={readerParams.novelName}
-      />
-    </>
+      <ReaderAppbar visible={menuVisible} chapter={chapter} />
+      <ReaderFooter visible={menuVisible} chapter={chapter} />
+    </ChapterDetailsContext.Provider>
   );
 };
 
 export default ReaderScreen;
 
-const styles = StyleSheet.create({});
+// const styles = StyleSheet.create({});

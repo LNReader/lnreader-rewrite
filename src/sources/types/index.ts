@@ -7,11 +7,11 @@ export enum Language {
 }
 
 export abstract class Source {
-  abstract id: number;
-  abstract name: string;
-  abstract baseUrl: string;
-  abstract iconUrl: string;
-  abstract lang: Language;
+  id!: number;
+  name!: string;
+  baseUrl!: string;
+  iconUrl!: string;
+  lang!: Language;
   description?: string;
   isNsfw?: string;
 }
@@ -48,7 +48,6 @@ export interface SourceNovelChapter {
 export interface SourceChapter {
   sourceId: number;
   url: string;
-  name: string;
   text: string | null;
 }
 

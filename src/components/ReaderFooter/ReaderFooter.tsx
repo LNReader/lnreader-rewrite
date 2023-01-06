@@ -13,7 +13,6 @@ import ReaderBottomSheet from '@components/ReaderBottomSheet/ReaderBottomSheet';
 type Props = {
   visible: boolean;
   chapter?: SourceChapter;
-  novelName: string;
 };
 
 export const ReaderFooterButton = ({

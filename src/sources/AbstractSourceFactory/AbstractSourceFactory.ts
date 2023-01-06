@@ -1,5 +1,5 @@
 import { Language, ParsedSource, Source } from '@sources/types';
-import { uniq } from 'lodash';
+import { sortBy, uniq } from 'lodash';
 
 export class AbstractSourceFactory {
   protected sources: Map<number, ParsedSource>;
@@ -13,7 +13,7 @@ export class AbstractSourceFactory {
   }
 
   getSources() {
-    const sources: Source[] = [];
+    let sources: Source[] = [];
 
     this.sources.forEach(source =>
       sources.push({
@@ -24,6 +24,8 @@ export class AbstractSourceFactory {
         baseUrl: source.baseUrl,
       }),
     );
+
+    sources = sortBy(sources, 'name');
 
     return sources;
   }

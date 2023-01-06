@@ -1,4 +1,4 @@
-import { SourceNovelDetails } from '@sources/types';
+import { SourceChapter, SourceNovelDetails } from '@sources/types';
 
 export enum NovelStatus {
   ONGOING = 'Ongoing',
@@ -51,13 +51,28 @@ export interface History {
   id: number;
   lastRead: number;
   timeRead: number | null;
-
   chapterId: number;
   chapterName: string;
   chapterUrl: string;
   coverUrl?: string;
-
   novelId: number;
   sourceId: number;
   novelName: string;
+}
+
+export interface Update {
+  id: number;
+  dateFetched: number;
+  chapterId: number;
+  chapterName: string;
+  chapterUrl: string;
+  coverUrl?: string;
+  novelId: number;
+  sourceId: number;
+  novelName: string;
+}
+
+export interface DownloadedChapter extends SourceChapter {
+  id: number;
+  chapterId: number;
 }

@@ -17,7 +17,7 @@ import { fetchHtml } from '@utils/fetch/fetch';
 
 export class NovelForestParser implements ParsedSource {
   name = 'NovelForest';
-  id = 1;
+  id = 92;
   iconUrl =
     'https://github.com/LNReader/lnreader-sources/blob/main/icons/src/en/novelforest/icon.png?raw=true';
 
@@ -152,19 +152,16 @@ export class NovelForestParser implements ParsedSource {
 
   async getChapter({ url }: GetChapterParams): Promise<SourceChapter> {
     const html = await fetchHtml({ url });
-
-    let loadedCheerio = cheerio.load(html);
+    const loadedCheerio = cheerio.load(html);
 
     loadedCheerio('#listen-chapter').remove();
     loadedCheerio('#google_translate_element').remove();
 
-    const name = loadedCheerio('#chapter__content > h1').text().trim();
     const text = loadedCheerio('.chapter__content').html();
 
     return {
       url,
       sourceId: this.id,
-      name,
       text,
     };
   }

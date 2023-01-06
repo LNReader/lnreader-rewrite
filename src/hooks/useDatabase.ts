@@ -27,7 +27,7 @@ import {
 } from '@database/tables/HistoryTable';
 import { noop } from 'lodash';
 import {
-  createUpdatesChapterIdIndexQuery,
+  // createUpdatesChapterIdIndexQuery,
   createUpdatesTableQuery,
 } from '@database/tables/UpdatesTable';
 
@@ -57,6 +57,7 @@ const useDatabase = () => {
       // tx.executeSql(createUpdatesChapterIdIndexQuery);
     });
   }, []);
+
   // useEffect(() => {
   //   db.transaction(tx => {
   //     tx.executeSql('DROP TABLE novels');

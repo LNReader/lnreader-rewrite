@@ -6,6 +6,3 @@ CREATE TABLE IF NOT EXISTS updates (
     FOREIGN KEY (chapterId) REFERENCES chapters (id) ON DELETE CASCADE
   )
 `;
-
-export const createUpdatesChapterIdIndexQuery =
-  'INSERT INTO updates (chapterId,)';

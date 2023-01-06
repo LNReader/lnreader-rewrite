@@ -11,6 +11,7 @@ module.exports = {
         'no-shadow': 'off',
         'no-undef': 'off',
         'no-console': 'warn',
+        'prefer-const': 'error',
         'no-restricted-imports': [
           'error',
           {
