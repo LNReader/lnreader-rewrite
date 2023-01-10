@@ -14,12 +14,13 @@ import {
   GetChapterParams,
 } from '@sources/types';
 import { fetchHtml } from '@utils/fetch/fetch';
+import { sleep } from '@utils/sleep';
 
 export class LightNovelPubParser implements ParsedSource {
   name = 'LightNovelPub';
   id = 15;
   iconUrl =
-    'https://github.com/LNReader/lnreader-sources/blob/main/icons/src/en/novelforest/icon.png?raw=true';
+    'https://github.com/LNReader/lnreader-sources/blob/main/icons/src/en/lightnovelpub/icon.png?raw=true';
 
   lang = Language.English;
 
@@ -37,9 +38,11 @@ export class LightNovelPubParser implements ParsedSource {
 
     const novels: SourceNovel[] = [];
 
-    loadedCheerio('.book-item').each(function () {
+    loadedCheerio('.novel-item').each(function () {
       const title = loadedCheerio(this).find('.novel-title').text().trim();
-      const coverUrl = loadedCheerio(this).find('img').attr('data-src');
+      const coverUrl = loadedCheerio(this)
+        .find('.novel-cover > img')
+        .attr('data-src');
       const novelUrl =
         baseUrl +
         loadedCheerio(this).find('.novel-title > a').attr('href')?.substring(1);
@@ -89,33 +92,38 @@ export class LightNovelPubParser implements ParsedSource {
 
     let $ = cheerio.load(html);
 
-    const titleSelector = '.name h1';
-    const descSelector =
-      'body > div.layout > div.main-container.book-details > div > div.row.no-gutters > div.col-lg-8 > div.mt-1 > div.section.box.mt-1.summary > div.section-body > p.content';
-    const coverSelector = '.img-cover img';
-    const authorSelector =
-      'body > div.layout > div.main-container.book-details > div > div.row.no-gutters > div.col-lg-8 > div.book-info > div.detail > div.meta.box.mt-1.p-10 > p:nth-child(1) > a > span';
-    const statusSelector =
-      'body > div.layout > div.main-container.book-details > div > div.row.no-gutters > div.col-lg-8 > div.book-info > div.detail > div.meta.box.mt-1.p-10 > p:nth-child(2) > a > span';
-    const genreSelector =
-      'body > div.layout > div.main-container.book-details > div > div.row.no-gutters > div.col-lg-8 > div.book-info > div.detail > div.meta.box.mt-1.p-10 > p:nth-child(3)';
+    const titleSelector = 'h1.novel-title';
+    const descSelector = '.summary > .content';
+    const coverSelector = 'figure.cover > img';
+    const authorSelector = '.author > a > span';
 
-    const genre = $(genreSelector)
-      .text()
-      ?.replace('Genres :', '')
-      .replace(/[\s\n]+/g, ' ')
-      .trim();
+    const genreSelector = 'div.categories > ul > li';
+    const genreArr: string[] = [];
 
-    const status =
-      $(statusSelector).text() === 'Ongoing'
-        ? NovelStatus.ONGOING
-        : NovelStatus.COMPLETED;
+    $(genreSelector).each(function () {
+      genreArr.push($(this).text().trim());
+    });
+
+    const genre = genreArr.toString();
+
+    let status;
+    const statusSelector = 'div.header-stats > span';
+
+    $(statusSelector).each(function () {
+      if ($(this).find('small').text() === 'Status') {
+        const statusStr = $(this).find('strong').text();
+
+        if (statusStr === 'Ongoinh') {
+          status = NovelStatus.ONGOING;
+        }
+      }
+    });
 
     const novelDetails: SourceNovelDetails = {
       url,
       sourceId,
       title: $(titleSelector).text().trim(),
-      coverUrl: 'https:' + $(coverSelector).attr('data-src'),
+      coverUrl: $(coverSelector).attr('data-src'),
       description: $(descSelector).text().trim(),
       author: $(authorSelector).text(),
       status,
@@ -123,38 +131,41 @@ export class LightNovelPubParser implements ParsedSource {
       chapters: [],
     };
 
-    const chaptersUrl =
-      url.replace(baseUrl, 'https://novelforest.com/api/novels') +
-      '/chapters?source=detail';
+    const totalPagesSelector =
+      '#novel > header > div.header-body.container > div.novel-info > div.header-stats > span:nth-child(1) > strong';
 
-    const chaptersHtml = await fetchHtml({ url: chaptersUrl });
+    let totalPages = 1;
+    totalPages = Number($(totalPagesSelector).text()?.trim());
+    totalPages = Math.ceil(totalPages / 100);
 
-    $ = cheerio.load(chaptersHtml);
+    for (let i = 1; i <= totalPages; i++) {
+      const chaptersUrl = url + `/chapters/page-${i}`;
+      const chaptersHtml = await fetchHtml({ url: chaptersUrl });
 
-    const chaptersSelector = 'li';
+      $ = cheerio.load(chaptersHtml);
 
-    $(chaptersSelector).each(function () {
-      const dateObj = moment(
-        $(this).find('.chapter-update').text().trim(),
-        'MMM DD, YYYY',
-      );
-      const dateUpload = moment(dateObj).unix();
+      $('.chapter-list li').each(function () {
+        const chapterName = $(this).find('.chapter-title').text().trim();
 
-      const chapterUrl =
-        baseUrl + '/' + $(this).find('a').attr('href')?.substring(1);
-      const name = $(this).find('.chapter-title').text().trim();
-      const chapterNumber = Number(name.match(/chapter (\d+)/i)?.[1]);
+        const dateObj = moment(
+          $(this).find('.chapter-update').text().trim(),
+          'MMM DD, YYYY',
+        );
+        const dateUpload = moment(dateObj).unix();
 
-      novelDetails.chapters?.push({
-        sourceId,
-        url: chapterUrl,
-        name,
-        chapterNumber,
-        dateUpload,
+        const chapterUrl =
+          baseUrl + $(this).find('a').attr('href')?.substring(1);
+
+        novelDetails.chapters?.push({
+          sourceId,
+          name: chapterName,
+          dateUpload,
+          url: chapterUrl,
+        });
       });
-    });
 
-    novelDetails.chapters?.reverse();
+      await sleep(1000);
+    }
 
     return novelDetails;
   }
@@ -162,18 +173,12 @@ export class LightNovelPubParser implements ParsedSource {
   async getChapter({ url }: GetChapterParams): Promise<SourceChapter> {
     const html = await fetchHtml({ url });
 
-    let loadedCheerio = cheerio.load(html);
-
-    loadedCheerio('#listen-chapter').remove();
-    loadedCheerio('#google_translate_element').remove();
-
-    const name = loadedCheerio('#chapter__content > h1').text().trim();
-    const text = loadedCheerio('.chapter__content').html();
+    const $ = cheerio.load(html);
+    const text = $('#chapter-container').html();
 
     return {
       url,
       sourceId: this.id,
-      name,
       text,
     };
   }

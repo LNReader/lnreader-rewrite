@@ -22,7 +22,6 @@ const MoreScreen = () => {
         title="Downloaded only"
         description="Filters all novels in your library"
         onPress={() => toggleSetting(Setting.DOWNLOADED_ONLY_MODE)}
-        size="large"
       />
       <Switch
         icon="incognito"
@@ -30,7 +29,6 @@ const MoreScreen = () => {
         title="Incognito mode"
         description="Pauses reading history"
         onPress={() => toggleSetting(Setting.INCOGNITO_MODE)}
-        size="large"
       />
       <List.Divider />
       <List.Item

@@ -73,3 +73,40 @@ export const insertChapterInDownloads = async (
     );
   });
 };
+
+const setChapterNotDownloadedQuery = `
+UPDATE 
+  chapters 
+SET 
+  downloaded = 0 
+WHERE 
+  id IN 
+`;
+
+const deleteDownloadsQuery = `
+DELETE FROM downloads
+WHERE 
+  id IN 
+`;
+
+export const deleteDownloads = async (chapterIds: number[]) => {
+  const chapterIdsString = chapterIds.toString();
+
+  const deleteDownloadsQueryWithIds = `${deleteDownloadsQuery} (${chapterIdsString})`;
+  const setChapterNotDownloadedQueryWithIds = `${setChapterNotDownloadedQuery} (${chapterIdsString})`;
+
+  db.transaction(tx => {
+    tx.executeSql(
+      deleteDownloadsQueryWithIds,
+      undefined,
+      noop,
+      txnErrorCallbackWithoutToast,
+    );
+    tx.executeSql(
+      setChapterNotDownloadedQueryWithIds,
+      undefined,
+      noop,
+      txnErrorCallbackWithoutToast,
+    );
+  });
+};

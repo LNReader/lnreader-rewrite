@@ -6,8 +6,8 @@ import { DatabaseChapter } from '@database/types';
 
 import { insertChapterInDownloads } from '@database/queries/DownloadQueries';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
-import { sleep } from '@utils/Update.utils';
 import { uniq } from 'lodash';
+import { sleep } from '@utils/sleep';
 
 export const DOWNLOAD_QUEUE = 'DOWNLOAD_QUEUE';
 
@@ -45,7 +45,8 @@ const useDownloader = () => {
 
     const downloadChaptersBackgroundAction = async (taskData: any) => {
       const chapterIds = chapters.map(chapter => chapter.id);
-      setDownloadQueue(uniq([...downloadQueue, ...chapterIds]));
+      const tempDownloadQueue = uniq([...downloadQueue, ...chapterIds]);
+      setDownloadQueue(tempDownloadQueue);
 
       await new Promise(async resolve => {
         for (
@@ -64,9 +65,10 @@ const useDownloader = () => {
                   chapter.url,
                 );
 
-                setDownloadQueue(
-                  downloadQueue.filter(chapterId => chapterId !== chapter.id),
+                const updatesDownloadQueue = tempDownloadQueue.filter(
+                  chapterId => chapterId !== chapter.id,
                 );
+                setDownloadQueue(updatesDownloadQueue);
               }
             } catch (err) {
               if (err instanceof Error) {

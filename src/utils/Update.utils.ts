@@ -24,6 +24,3 @@ export const groupUpdatesByDate = (dbUpdates: Update[]) => {
 
   return groupedUpdates;
 };
-
-export const sleep = (time: number): Promise<void> =>
-  new Promise(resolve => setTimeout(() => resolve(), time));

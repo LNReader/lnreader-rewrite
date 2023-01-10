@@ -2,7 +2,7 @@ import { ThemeType } from '@theme/types';
 
 export const yotsubaColors: ThemeType = {
   id: 3,
-  name: 'Teal & Turquoise',
+  name: 'Yotsuba',
   light: {
     primary: 'rgb(157, 67, 25)',
     onPrimary: 'rgb(255, 255, 255)',

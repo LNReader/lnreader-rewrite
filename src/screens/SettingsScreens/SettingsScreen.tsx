@@ -11,6 +11,15 @@ const SettingsScreen = () => {
     <>
       <Appbar title="Settings" />
       <List.Item
+        title="General"
+        icon="tune"
+        onPress={() =>
+          navigate('SettingsStack', {
+            screen: 'GeneralSettingsScreen',
+          })
+        }
+      />
+      <List.Item
         title="Appearance"
         icon="palette-outline"
         onPress={() =>

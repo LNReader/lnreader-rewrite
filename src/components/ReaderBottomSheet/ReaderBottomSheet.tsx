@@ -128,6 +128,7 @@ export const GeneralRoute = () => {
   return (
     <View>
       <Switch
+        size="small"
         value={READER_SHOW_PROGRESS}
         title="Show progress percentage"
         onPress={() =>
@@ -135,6 +136,7 @@ export const GeneralRoute = () => {
         }
       />
       <Switch
+        size="small"
         value={READER_FULLSCREEN_MODE}
         title="Fullscreen"
         onPress={() =>

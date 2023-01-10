@@ -1,6 +1,7 @@
-import { useSourceStorage } from '@hooks';
+import { getAppSettings } from '@hooks';
 import { SourceStorageMap, SOURCE_STORAGE } from '@hooks/useSourceStorage';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
+import { defaultUserAgentString } from '@utils/Settings.utils';
 
 interface FetchParams {
   url: string;
@@ -11,8 +12,29 @@ interface FetchParams {
 export const fetchApi = async ({
   url,
   init,
+  sourceId,
 }: FetchParams): Promise<Response> => {
-  return fetch(url, init);
+  const { DEFAULT_USER_AGENT_STRING = defaultUserAgentString } =
+    getAppSettings();
+
+  const headers = new Headers({
+    ...init?.headers,
+    'User-Agent': DEFAULT_USER_AGENT_STRING,
+  });
+
+  if (sourceId) {
+    const rawSourceSettings: SourceStorageMap = JSON.parse(
+      MMKVStorage.getString(SOURCE_STORAGE) || '{}',
+    );
+
+    const { cookies = '' } = rawSourceSettings[sourceId] || {};
+
+    if (cookies) {
+      headers.append('cookie', cookies);
+    }
+  }
+
+  return fetch(url, { ...init, headers });
 };
 
 export const fetchHtml = async ({
@@ -20,10 +42,12 @@ export const fetchHtml = async ({
   init,
   sourceId,
 }: FetchParams): Promise<string> => {
+  const { DEFAULT_USER_AGENT_STRING = defaultUserAgentString } =
+    getAppSettings();
+
   const headers = new Headers({
     ...init?.headers,
-    'User-Agent':
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+    'User-Agent': DEFAULT_USER_AGENT_STRING,
   });
 
   if (sourceId) {

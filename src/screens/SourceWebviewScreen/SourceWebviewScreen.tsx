@@ -5,8 +5,9 @@ import WebView from 'react-native-webview';
 import CookieManager from '@react-native-cookies/cookies';
 
 import { Appbar } from '@lnreader/core';
-import { useSourceStorage } from '@hooks';
+import { useAppSettings, useSourceStorage } from '@hooks';
 import { Source } from '@sources/types';
+import { defaultUserAgentString } from '@utils/Settings.utils';
 
 type ReaderScreenRouteProps = RouteProp<{
   params: {
@@ -20,6 +21,8 @@ const SourceWebviewScreen = () => {
       source: { name, id, baseUrl },
     },
   } = useRoute<ReaderScreenRouteProps>();
+  const { DEFAULT_USER_AGENT_STRING = defaultUserAgentString } =
+    useAppSettings();
   const { setSourceStorage } = useSourceStorage(id);
 
   useEffect(() => {
@@ -35,7 +38,10 @@ const SourceWebviewScreen = () => {
   return (
     <>
       <Appbar mode="small" title={name} />
-      <WebView source={{ uri: baseUrl }} />
+      <WebView
+        userAgent={DEFAULT_USER_AGENT_STRING}
+        source={{ uri: baseUrl }}
+      />
     </>
   );
 };

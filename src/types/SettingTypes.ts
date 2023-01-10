@@ -44,6 +44,11 @@ export enum Setting {
   LAST_USED_SOURCE_ID = 'LAST_USED_SOURCE_ID',
   ONLY_SHOW_PINNED_SOURCES = 'ONLY_SHOW_PINNED_SOURCES',
   SHOW_NSFW_SOURCES = 'SHOW_NSFW_SOURCES',
+
+  /**
+   * Advanced Settings
+   */
+  DEFAULT_USER_AGENT_STRING = 'DEFAULT_USER_AGENT_STRING',
 }
 
 export interface SettingTypes {
@@ -76,4 +81,5 @@ export interface SettingTypes {
   [Setting.LAST_USED_SOURCE_ID]: number;
   [Setting.ONLY_SHOW_PINNED_SOURCES]: boolean;
   [Setting.SHOW_NSFW_SOURCES]: boolean;
+  [Setting.DEFAULT_USER_AGENT_STRING]: string;
 }

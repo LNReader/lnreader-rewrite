@@ -3,10 +3,23 @@ import { StyleSheet } from 'react-native';
 import {
   List as PaperList,
   ListItemProps as PaperListItemProps,
+  ListSubheaderProps as PaperListSubheaderProps,
   Divider as PaperDivider,
 } from 'react-native-paper';
 
 import { useTheme } from '@hooks';
+
+const SubHeader: React.FC<Omit<PaperListSubheaderProps, 'theme'>> = props => {
+  const { theme } = useTheme();
+
+  return (
+    <PaperList.Subheader
+      style={[{ color: theme.primary }, styles.listSubheader]}
+    >
+      {props.children}
+    </PaperList.Subheader>
+  );
+};
 
 const Divider: React.FC = () => {
   const { theme } = useTheme();
@@ -47,6 +60,7 @@ const Item: React.FC<
 export const List = {
   Item,
   Divider,
+  SubHeader,
 };
 
 const styles = StyleSheet.create({
@@ -55,5 +69,9 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
+  },
+  listSubheader: {
+    fontWeight: 'bold',
+    paddingVertical: 12,
   },
 });

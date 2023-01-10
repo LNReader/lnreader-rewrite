@@ -5,13 +5,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@lnreader/core';
 import { useAppSettings, useChapterStorage } from '@hooks';
 import { DEAULT_READER_THEME } from '@utils/Reader.utils';
+import { useChapterDetailsContext } from '@contexts/ChapterDetailsContext';
 
-type Props = {
-  chapterId: number;
-};
+type Props = {};
 
-const ReaderProgressBar = ({ chapterId }: Props) => {
+const ReaderProgressBar: React.FC = () => {
   const { bottom: paddingBottom } = useSafeAreaInsets();
+  const {
+    chapter: { id: chapterId },
+  } = useChapterDetailsContext();
   const { PROGRESS = 0 } = useChapterStorage(chapterId);
   const {
     READER_SHOW_PROGRESS = false,

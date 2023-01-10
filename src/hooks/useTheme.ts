@@ -12,6 +12,7 @@ import { ThemeColors, ThemeType } from '@theme/types';
 import { tealTurquoise } from '@theme/colors/tealTurquoise';
 import { yotsubaColors } from '@theme/colors/yotsuba';
 import { tidalWaveColors } from '@theme/colors/tidalWave';
+import { takoColors } from '@theme/colors/tako';
 
 interface ExtendedThemeColors extends ThemeColors {
   rippleColor?: string;
@@ -31,6 +32,7 @@ enum ThemePreferences {
 }
 
 interface UseThemeReturn {
+  themeId?: number;
   theme: ExtendedThemeColors;
   isDarkMode?: boolean;
   isAmoledBlack?: boolean;
@@ -39,11 +41,12 @@ interface UseThemeReturn {
   setAmoledBlack: (val: boolean) => void;
 }
 
-const ThemesMap: Record<number, ThemeType> = {
+export const ThemesMap: Record<number, ThemeType> = {
   1: defaultColors,
   2: tealTurquoise,
   3: yotsubaColors,
   4: tidalWaveColors,
+  5: takoColors,
 };
 
 const getElevationColor = (colors: ExtendedThemeColors, elevation: number) => {
@@ -109,6 +112,7 @@ export const useTheme = (): UseThemeReturn => {
   }, [appTheme, isDarkMode, isAmoledBlack]);
 
   return {
+    themeId: appTheme,
     theme: themeColors,
     isDarkMode,
     isAmoledBlack,

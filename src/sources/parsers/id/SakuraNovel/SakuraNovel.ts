@@ -16,7 +16,7 @@ import { fetchHtml } from '@utils/fetch/fetch';
 
 export class SakuraNovelParser implements ParsedSource {
   id = 103;
-  protected name = 'SakuraNovel';
+  name = 'SakuraNovel';
   baseUrl = 'https://sakuranovel.id/';
   iconUrl =
     'https://github.com/LNReader/lnreader-sources/blob/main/icons/src/id/sakuranovel/icon.png?raw=true';

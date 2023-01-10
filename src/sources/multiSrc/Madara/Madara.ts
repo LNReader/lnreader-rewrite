@@ -116,6 +116,8 @@ export class MadaraParser extends ParsedSource {
     const res = await fetchHtml({ url });
     const $ = cheerio.load(res);
 
+    $('.manga-title-badges').remove();
+
     const title = $('.post-title > h1').text().trim();
 
     const cover = $('.summary_image > a > img');
@@ -249,6 +251,8 @@ export class MadaraParser extends ParsedSource {
 
     const res = await fetchHtml({ url });
     const $ = cheerio.load(res);
+
+    $('.manga-title-badges').remove();
 
     const novels: SourceNovel[] = [];
 

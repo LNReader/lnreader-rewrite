@@ -24,7 +24,7 @@ const BottomNavigator = () => {
       barStyle={{
         backgroundColor: theme.surface2,
       }}
-      labeled={SHOW_LABELS_IN_NAV}
+      shifting={!SHOW_LABELS_IN_NAV}
       activeColor={theme.primary}
       theme={{ colors: theme }}
     >

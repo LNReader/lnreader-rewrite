@@ -3,6 +3,7 @@ import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import FastImage, { FastImageProps } from 'react-native-fast-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { easeGradient } from 'react-native-easing-gradient';
+import * as WebBrowser from 'expo-web-browser';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { Text, Row, IconButton, Chip } from '@lnreader/core';
@@ -79,6 +80,7 @@ export const SubHeader: React.FC = () => {
         <Pressable
           android_ripple={{ color: theme.rippleColor }}
           style={styles.buttonCtn}
+          onPress={() => WebBrowser.openBrowserAsync(novel.url)}
         >
           <Icon name="earth" color={theme.outline} size={24} />
           <Text size={12} style={styles.label} color={theme.outline}>

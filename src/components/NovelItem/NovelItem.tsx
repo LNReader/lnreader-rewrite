@@ -5,7 +5,7 @@ import Image from 'react-native-fast-image';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Text, Row, TextProps } from '@lnreader/core';
-import { useTheme, useAppSettings, useLibraryNovels } from '@hooks';
+import { useTheme, useAppSettings } from '@hooks';
 import { LibraryNovel } from '@database/types';
 import { SourceNovel } from '@sources/types';
 

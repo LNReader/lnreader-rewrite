@@ -17,8 +17,9 @@ type Props = {
 
 const Switch: React.FC<Props> = props => {
   const { theme } = useTheme();
+  const { size = 'large' } = props;
 
-  const titleSize = props.size === 'large' ? 16 : 14;
+  const titleSize = size === 'large' ? 16 : 14;
 
   return (
     <Pressable

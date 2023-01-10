@@ -3,10 +3,16 @@ import { AbstractSourceFactory } from './AbstractSourceFactory/AbstractSourceFac
 import { NovelForestParser } from './parsers/en/NovelForest/NovelForest';
 import { MadaraParser } from './multiSrc/Madara/Madara';
 import { Language } from './types';
+import { LightNovelPubParser } from './parsers/en/LightNovelPub/LightNovelPub';
+import { SakuraNovelParser } from './parsers/id/SakuraNovel/SakuraNovel';
+import { NovelUpdatesParser } from './parsers/en/NovelUpdates/NovelUpdates';
 
 const SourceFactory = new AbstractSourceFactory();
 
 SourceFactory.registerSource(new NovelForestParser());
+SourceFactory.registerSource(new NovelUpdatesParser());
+SourceFactory.registerSource(new LightNovelPubParser());
+SourceFactory.registerSource(new SakuraNovelParser());
 
 /**
  * Multi Sources
@@ -41,7 +47,7 @@ SourceFactory.registerSource(
     id: 40,
     baseUrl: 'https://novelsrock.com/',
     name: 'NovelsRock',
-    path: { novels: 'novels', novel: 'novel', chapter: 'novel' },
+    path: { novels: 'novels', novel: 'series', chapter: 'series' },
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/novelsrock.png?raw=true',
   }),
@@ -121,6 +127,29 @@ SourceFactory.registerSource(
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/meionovel.png?raw=true',
     lang: Language.Indonesian,
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 141,
+    baseUrl: 'https://novelr18.com/',
+    name: 'NovelR18 ',
+    path: { novels: 'novel', novel: 'manga', chapter: 'manga' },
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/novelr18.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 138,
+    baseUrl: 'https://sugarbbscan.com/',
+    name: 'Sugar Babies',
+    path: { novels: 'series', novel: 'manga', chapter: 'manga' },
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/sugarbbscan.png?raw=true',
+    useNewChapterEndpoint: false,
   }),
 );
 

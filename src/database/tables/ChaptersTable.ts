@@ -20,4 +20,4 @@ export const createChaptersNovelIdIndex =
   'CREATE INDEX IF NOT EXISTS chaptersNovelIdIndex ON chapters (novelId)';
 
 export const createChaptersUnreadByNovelIndex =
-  'CREATE INDEX IF NOT EXISTS chaptersUnreadByNovelIndex ON chapters(novelId, `read`) WHERE read = 0;';
+  'CREATE INDEX IF NOT EXISTS chaptersUnreadByNovelIndex ON chapters(novelId, `read`) WHERE `read` = 0;';
