@@ -15,6 +15,7 @@ export enum Setting {
   LIBRARY_SHOW_DOWNLOADS_BADGE = 'LIBRARY_SHOW_DOWNLOADS_BADGE',
   LIBRARY_SHOW_UNREAD_BADGE = 'LIBRARY_SHOW_UNREAD_BADGE',
   LIBRARY_SHOW_NUMBER_OF_ITEMS = 'LIBRARY_SHOW_NUMBER_OF_ITEMS',
+  DEFAULT_CATEGORY = 'DEFAULT_CATEGORY',
 
   /**
    * Reader Settings
@@ -61,6 +62,7 @@ export interface SettingTypes {
   [Setting.LIBRARY_SHOW_DOWNLOADS_BADGE]: boolean;
   [Setting.LIBRARY_SHOW_UNREAD_BADGE]: boolean;
   [Setting.LIBRARY_SHOW_NUMBER_OF_ITEMS]: boolean;
+  [Setting.DEFAULT_CATEGORY]: number;
 
   [Setting.READER_TEXT_COLOR]: string;
   [Setting.READER_BACKGROUND_COLOR]: string;

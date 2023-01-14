@@ -47,6 +47,8 @@ const useDatabase = () => {
       tx.executeSql(createHistoryTableQuery);
       tx.executeSql(createUpdatesTableQuery);
       tx.executeSql(createDownloadTableQuery);
+      // tx.executeSql('DELETE from chapters where id = 12359');
+      // tx.executeSql('DELETE from downloads');
     });
   };
 

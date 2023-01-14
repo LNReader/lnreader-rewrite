@@ -11,6 +11,7 @@ import {
   Checkbox,
   Text,
   SortItem,
+  RadioButton,
 } from '@lnreader/core';
 import {
   LibraryDisplayModes,
@@ -96,8 +97,9 @@ export const DisplayRoute = () => {
     <View>
       <Text style={styles.sectionHeader}>Display mode</Text>
       {libraryDisplayModesList.map(displayMode => (
-        <Checkbox
+        <RadioButton
           key={displayMode.value}
+          value={displayMode.value}
           status={displayMode.value === LIBRARY_DISPLAY_MODE}
           label={displayMode.label}
           onPress={() =>

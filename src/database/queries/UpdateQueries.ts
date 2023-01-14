@@ -12,8 +12,12 @@ SELECT
   U.chapterId, 
   U.dateFetched,
   C.name as chapterName,
+  C.url as chapterUrl,
+  C.downloaded,
   N.title as novelName,
-  N.id as novelId
+  N.id as novelId,
+  N.coverUrl,
+  N.sourceId
 FROM 
   updates as U
   JOIN chapters as C ON U.chapterId = C.id

@@ -35,7 +35,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
   return (
     <>
-      <View style={[styles.cardCtn, { backgroundColor: theme.overlay1 }]}>
+      <View style={[styles.cardCtn, { backgroundColor: theme.surface1 }]}>
         <Row>
           <IconButton
             color={theme.onSurface}
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingBottom: 8,
     borderRadius: 12,
+    elevation: 1,
   },
   actionsCtn: {
     justifyContent: 'space-between',

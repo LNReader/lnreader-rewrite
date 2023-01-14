@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { RefreshControl, StyleSheet } from 'react-native';
 
+import { useLibraryUpdate, useTheme } from '@hooks';
 import { LibraryNovel } from '@database/types';
 
 import NovelList from '@components/NovelList/NovelList';
@@ -10,8 +11,23 @@ interface LibraryViewProps {
   novels: LibraryNovel[];
 }
 
-const LibraryView: React.FC<LibraryViewProps> = ({ novels }) => {
-  return <NovelList data={novels} />;
+const LibraryView: React.FC<LibraryViewProps> = ({ novels, categoryId }) => {
+  const { theme } = useTheme();
+  const { updateLibrary } = useLibraryUpdate();
+
+  return (
+    <NovelList
+      data={novels}
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => updateLibrary({ categoryId })}
+          colors={[theme.onPrimary]}
+          progressBackgroundColor={theme.primary}
+        />
+      }
+    />
+  );
 };
 
 export default LibraryView;

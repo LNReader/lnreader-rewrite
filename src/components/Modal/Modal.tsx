@@ -33,7 +33,10 @@ const Modal: React.FC<ModalProps> = props => {
       ) : null}
       {props.children}
       <View style={styles.buttonsCtn}>
-        <Button title={props.submitText} onPress={props.onSubmit} />
+        <Button
+          title={props.submitText ?? 'OK'}
+          onPress={props.onSubmit ?? props.onDismiss}
+        />
         <Button title="Cancel" onPress={props.onDismiss} />
       </View>
     </PaperModal>
@@ -45,14 +48,15 @@ export default Modal;
 const styles = StyleSheet.create({
   modalCtn: {
     margin: 30,
-    paddingHorizontal: 24,
     paddingVertical: 32,
     borderRadius: 32,
   },
   modalTitle: {
+    paddingHorizontal: 24,
     marginBottom: 16,
   },
   buttonsCtn: {
+    paddingHorizontal: 24,
     marginTop: 24,
     flexDirection: 'row-reverse',
   },

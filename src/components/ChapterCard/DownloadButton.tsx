@@ -8,12 +8,16 @@ import { DatabaseChapter } from '@database/types';
 import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
 
 type Props = {
+  sourceId?: number;
   chapter: DatabaseChapter;
 };
 
-const DownloadButton: React.FC<Props> = ({ chapter }) => {
+const DownloadButton: React.FC<Props> = ({
+  chapter,
+  sourceId: novelSourceId,
+}) => {
   const {
-    novel: { sourceId },
+    novel: { sourceId = novelSourceId },
   } = useNovelDetailsContext();
   const { theme } = useTheme();
   const { downloadChapters, downloadQueue } = useDownloader();

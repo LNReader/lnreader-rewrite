@@ -124,15 +124,17 @@ const insertNovelQuery = `
 INSERT INTO novels (
   url, title, status, coverUrl, genre, 
   description, dateAdded, 
-  author, artist, sourceId
+  author, artist, sourceId, categoryIds
 ) 
 VALUES 
-  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
 
 export const insertNovel = async (
   novel: SourceNovelDetails,
 ): Promise<number> => {
+  const { DEFAULT_CATEGORY } = getAppSettings();
+
   return new Promise(resolve =>
     db.transaction(tx =>
       tx.executeSql(
@@ -148,6 +150,7 @@ export const insertNovel = async (
           novel.author || null,
           novel.artist || null,
           novel.sourceId,
+          JSON.stringify([DEFAULT_CATEGORY]),
         ],
         (_txObj, { insertId: novelId }) => {
           if (novelId) {

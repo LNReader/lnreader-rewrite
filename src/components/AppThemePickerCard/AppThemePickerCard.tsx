@@ -35,7 +35,10 @@ const AppThemePickerCard: React.FC<AppThemePickerCardProps> = ({ theme }) => {
       <View
         style={[
           styles.mainCtn,
-          { borderColor: selected ? colors?.primary : colors?.outlineVariant },
+          {
+            borderColor: selected ? colors?.primary : colors?.outlineVariant,
+            backgroundColor: colors?.background,
+          },
         ]}
       >
         <Pressable

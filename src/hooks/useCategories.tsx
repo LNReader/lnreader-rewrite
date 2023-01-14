@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import { Category } from '@database/types';
-
 import { getCategories } from '@database/queries/CategoryQueries';
 
-export const useCategories = () => {
+interface UseCategoriesProps {
+  showDefaultCategory: boolean;
+}
+
+export const useCategories = ({ showDefaultCategory }: UseCategoriesProps) => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState<Error>();
@@ -13,8 +16,9 @@ export const useCategories = () => {
     try {
       const dbCategories = await getCategories();
 
-      /** Exclude Default Category */
-      dbCategories.shift();
+      if (!showDefaultCategory) {
+        dbCategories.shift();
+      }
 
       setCategories(dbCategories);
     } catch (err) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionList, StyleSheet } from 'react-native';
+import { RefreshControl, SectionList, StyleSheet } from 'react-native';
 import moment from 'moment';
 
 import {
@@ -9,13 +9,15 @@ import {
   Searchbar,
   Text,
 } from '@lnreader/core';
-import { useSearchText, useTheme, useUpdates } from '@hooks';
+import { useLibraryUpdate, useSearchText, useTheme, useUpdates } from '@hooks';
 import { groupUpdatesByDate } from '@utils/UpdateUtils';
+import UpdateCard from '@components/UpdateCard/UpdateCard';
 
 const UpdatesScreen = () => {
   const { theme } = useTheme();
   const { searchText, setSearchText } = useSearchText();
   const { updates, loading, error } = useUpdates({ searchText });
+  const { updateLibrary } = useLibraryUpdate();
 
   return (
     <>
@@ -23,6 +25,7 @@ const UpdatesScreen = () => {
         placeholder="Search updates"
         value={searchText}
         onChangeText={setSearchText}
+        actions={[{ icon: 'reload', onPress: () => updateLibrary({}) }]}
       />
       {loading ? (
         <LoadingScreen />
@@ -37,8 +40,16 @@ const UpdatesScreen = () => {
               {moment(new Date(date)).calendar()}
             </Text>
           )}
-          renderItem={({ item }) => <Text>{item.id}</Text>}
+          renderItem={({ item }) => <UpdateCard update={item} />}
           ListEmptyComponent={<EmptyView />}
+          refreshControl={
+            <RefreshControl
+              refreshing={false}
+              onRefresh={() => updateLibrary({})}
+              colors={[theme.onPrimary]}
+              progressBackgroundColor={theme.primary}
+            />
+          }
         />
       )}
     </>

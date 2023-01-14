@@ -3,6 +3,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import { Update } from '@database/types';
 import { getUpdates } from '@database/queries/UpdateQueries';
+import useDownloader from './useDownloader';
 
 interface UseUpdatesProps {
   searchText?: string;
@@ -12,6 +13,8 @@ export const useUpdates = ({ searchText = '' }: UseUpdatesProps) => {
   const [loading, setLoading] = useState(true);
   const [updates, setUpdates] = useState<Update[]>([]);
   const [error, setError] = useState<Error>();
+
+  const { downloadQueue } = useDownloader();
 
   const getUpdatesFromDb = async () => {
     try {
@@ -29,7 +32,7 @@ export const useUpdates = ({ searchText = '' }: UseUpdatesProps) => {
   useFocusEffect(
     useCallback(() => {
       getUpdatesFromDb();
-    }, []),
+    }, [JSON.stringify(downloadQueue)]),
   );
 
   const filteredUpdates = updates.filter(item =>

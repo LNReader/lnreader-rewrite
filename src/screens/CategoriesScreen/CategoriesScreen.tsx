@@ -8,7 +8,7 @@ import AddCategoryModal from '@components/AddCategoryModal/AddCategoryModal';
 import { updateCategoriesSort } from '@database/queries/CategoryQueries';
 
 const CategoriesScreen = () => {
-  const { categories, error, loading, refetch } = useCategories();
+  const { categories, error, loading, refetch } = useCategories({});
 
   const addCategoryModalState = useBoolean();
 

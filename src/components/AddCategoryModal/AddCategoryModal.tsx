@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { isUndefined } from 'lodash';
 
 import { Modal, TextInput, ToastAndroid } from '@lnreader/core';
@@ -42,7 +42,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = props => {
   return (
     <Portal>
       <Modal
-        title="Add Category"
+        title={`${isEditMode ? 'Edit' : 'Add'} Category`}
         visible={props.visible}
         onDismiss={props.onDismiss}
         submitText={isEditMode ? 'OK' : 'Add'}
@@ -53,6 +53,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = props => {
           label="Name"
           defaultValue={name}
           onChangeText={setName}
+          style={styles.contentCtn}
         />
       </Modal>
     </Portal>
@@ -61,4 +62,8 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = props => {
 
 export default AddCategoryModal;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  contentCtn: {
+    marginHorizontal: 24,
+  },
+});

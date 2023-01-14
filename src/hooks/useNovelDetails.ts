@@ -133,13 +133,12 @@ export const useNovelDetails = ({
       const dbNovel = await getNovelById(novel.id);
       const dbChapters = await getChaptersByNovelId(novel.id);
 
+      const newChapters = dbChapters?.filter(
+        newChapter => !chapters.some(chapter => chapter.id === newChapter.id),
+      );
+
       setNovel(dbNovel);
       setChapters(dbChapters);
-
-      const newChapters = dbChapters?.filter(
-        sourceChapter =>
-          !dbChapters.some(dbChapter => dbChapter.url !== sourceChapter.url),
-      );
 
       if (newChapters.length) {
         insertUpdates(newChapters);

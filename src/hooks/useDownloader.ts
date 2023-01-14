@@ -45,7 +45,7 @@ const useDownloader = () => {
 
     const downloadChaptersBackgroundAction = async (taskData: any) => {
       const chapterIds = chapters.map(chapter => chapter.id);
-      const tempDownloadQueue = uniq([...downloadQueue, ...chapterIds]);
+      let tempDownloadQueue = uniq([...downloadQueue, ...chapterIds]);
       setDownloadQueue(tempDownloadQueue);
 
       await new Promise(async resolve => {
@@ -65,10 +65,10 @@ const useDownloader = () => {
                   chapter.url,
                 );
 
-                const updatesDownloadQueue = tempDownloadQueue.filter(
+                tempDownloadQueue = tempDownloadQueue.filter(
                   chapterId => chapterId !== chapter.id,
                 );
-                setDownloadQueue(updatesDownloadQueue);
+                setDownloadQueue(tempDownloadQueue);
               }
             } catch (err) {
               if (err instanceof Error) {

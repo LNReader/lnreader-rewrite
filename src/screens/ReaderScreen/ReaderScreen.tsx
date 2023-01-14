@@ -52,7 +52,7 @@ const ReaderScreen = () => {
         onPress={handleShowMenu}
         onNavigationStateChange={({ url }) => getChapterFromCustomUrl(url)}
       />
-      <ReaderProgressBar chapterId={readerParams.chapter.id} />
+      <ReaderProgressBar />
       <ReaderAppbar visible={menuVisible} chapter={chapter} />
       <ReaderFooter visible={menuVisible} chapter={chapter} />
     </ChapterDetailsContext.Provider>

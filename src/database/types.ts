@@ -70,6 +70,7 @@ export interface Update {
   novelId: number;
   sourceId: number;
   novelName: string;
+  downloaded?: number;
 }
 
 export interface DownloadedChapter extends SourceChapter {
