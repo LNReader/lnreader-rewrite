@@ -26,10 +26,6 @@ export const useLibrary = ({ searchTerm }: UseLibraryProps) => {
       ]);
 
       const data = dbCatgories.map(category => {
-        if (category.id === 1) {
-          category.name = 'Default';
-        }
-
         return {
           ...category,
           novels: dbNovels.filter(novel =>

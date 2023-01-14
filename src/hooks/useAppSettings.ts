@@ -13,10 +13,17 @@ const useAppSettings = () => {
     MMKVStorage,
   );
 
-  const setAppSettings = (key: keyof SettingTypes, value: any): void => {
+  const setAppSetting = (key: keyof SettingTypes, value: any): void => {
     setSettings({
       ...settings,
       [key]: value,
+    });
+  };
+
+  const setAppSettings = (newSettings: Partial<SettingTypes>): void => {
+    setSettings({
+      ...settings,
+      ...newSettings,
     });
   };
 
@@ -37,6 +44,7 @@ const useAppSettings = () => {
 
   return {
     ...settings,
+    setAppSetting,
     setAppSettings,
     toggleSetting,
     setReaderTheme,

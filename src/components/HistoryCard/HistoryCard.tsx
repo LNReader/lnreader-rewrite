@@ -25,6 +25,7 @@ const HistoryCard: React.FC<Props> = ({ history, removeHistory }) => {
         novelId: history.novelId,
         id: history.chapterId,
         url: history.chapterUrl,
+        name: history.chapterName,
       },
       sourceId: history.sourceId,
       novelName: history.novelName,
@@ -34,6 +35,8 @@ const HistoryCard: React.FC<Props> = ({ history, removeHistory }) => {
     navigate('NovelDetailsScreen', {
       id: history.novelId,
       sourceId: history.sourceId,
+      title: history.novelName,
+      coverUrl: history.coverUrl,
     });
 
   return (

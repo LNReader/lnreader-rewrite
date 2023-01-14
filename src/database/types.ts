@@ -71,6 +71,7 @@ export interface Update {
   sourceId: number;
   novelName: string;
   downloaded?: number;
+  read: number;
 }
 
 export interface DownloadedChapter extends SourceChapter {

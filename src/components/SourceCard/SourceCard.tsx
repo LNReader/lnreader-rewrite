@@ -18,16 +18,16 @@ interface SourceCardProps {
 const SourceCard: React.FC<SourceCardProps> = ({ source }) => {
   const { theme } = useTheme();
   const { navigate } = useNavigation();
-  const { PINNED_SOURCES, setAppSettings } = useAppSettings();
+  const { PINNED_SOURCES, setAppSetting } = useAppSettings();
   const { id, name, lang, iconUrl } = source;
 
   const onPress = () => {
     navigate('SourceScreen', { sourceId: source.id });
-    setAppSettings(Setting.LAST_USED_SOURCE_ID, id);
+    setAppSetting(Setting.LAST_USED_SOURCE_ID, id);
   };
 
   const handlePinSource = () => {
-    setAppSettings(Setting.PINNED_SOURCES, xor(PINNED_SOURCES, [id]));
+    setAppSetting(Setting.PINNED_SOURCES, xor(PINNED_SOURCES, [id]));
   };
 
   const isPinned = PINNED_SOURCES?.includes(id);

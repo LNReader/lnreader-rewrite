@@ -34,6 +34,32 @@ const Checkbox: React.FC<Props> = props => {
   );
 };
 
+type TriStateCheckboxProps = {
+  status: 'checked' | 'unchecked' | 'indeterminate';
+  label?: string;
+  onPress?: () => void;
+};
+
+export const TriStateCheckbox: React.FC<TriStateCheckboxProps> = props => {
+  const { theme } = useTheme();
+
+  return (
+    <Pressable
+      style={styles.checkboxCtn}
+      android_ripple={{ color: theme.rippleColor }}
+      onPress={props.onPress}
+    >
+      <PaperCheckbox
+        status={props.status}
+        color={theme.primary}
+        uncheckedColor={theme.onSurfaceVariant}
+        theme={{ colors: theme }}
+      />
+      <Text style={styles.label}>{props.label}</Text>
+    </Pressable>
+  );
+};
+
 export default Checkbox;
 
 interface SortItemProps {
@@ -72,7 +98,7 @@ const styles = StyleSheet.create({
   checkboxCtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: Spacing.XM,
+    paddingHorizontal: Spacing.M,
     paddingVertical: Spacing.S,
   },
   label: {
@@ -81,7 +107,7 @@ const styles = StyleSheet.create({
   sortItemCtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: Spacing.XM,
+    paddingHorizontal: Spacing.M,
     paddingVertical: Spacing.M,
     paddingLeft: 56,
   },

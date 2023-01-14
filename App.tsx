@@ -1,5 +1,7 @@
+import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import moment from 'moment';
@@ -30,17 +32,25 @@ const App = () => {
   }, [isDarkMode]);
 
   return (
-    <AppErrorBoundary>
-      <PaperProvider>
-        <NavigationContainer theme={{ colors: theme } as unknown as Theme}>
-          <LibraryProvider>
-            <StatusBar translucent backgroundColor="transparent" />
-            <MainNavigator />
-          </LibraryProvider>
-        </NavigationContainer>
-      </PaperProvider>
-    </AppErrorBoundary>
+    <GestureHandlerRootView style={styles.mainCtn}>
+      <AppErrorBoundary>
+        <PaperProvider>
+          <NavigationContainer theme={{ colors: theme } as unknown as Theme}>
+            <LibraryProvider>
+              <StatusBar translucent backgroundColor="transparent" />
+              <MainNavigator />
+            </LibraryProvider>
+          </NavigationContainer>
+        </PaperProvider>
+      </AppErrorBoundary>
+    </GestureHandlerRootView>
   );
 };
 
 export default App;
+
+const styles = StyleSheet.create({
+  mainCtn: {
+    flex: 1,
+  },
+});

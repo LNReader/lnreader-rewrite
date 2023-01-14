@@ -85,7 +85,7 @@ const NovelDetailsHeader: React.FC<Props> = ({ bottomSheetRef }) => {
       <Pressable
         style={styles.chaptersCtn}
         android_ripple={{ color: theme.rippleColor }}
-        onPress={() => bottomSheetRef.current?.show()}
+        onPress={() => bottomSheetRef.current?.expand()}
       >
         <Text fontWeight="bold">{`${chapters?.length} Chapters`}</Text>
       </Pressable>

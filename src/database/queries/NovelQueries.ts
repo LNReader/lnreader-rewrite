@@ -133,7 +133,7 @@ VALUES
 export const insertNovel = async (
   novel: SourceNovelDetails,
 ): Promise<number> => {
-  const { DEFAULT_CATEGORY } = getAppSettings();
+  const { DEFAULT_CATEGORY = 1 } = getAppSettings();
 
   return new Promise(resolve =>
     db.transaction(tx =>
@@ -151,6 +151,48 @@ export const insertNovel = async (
           novel.artist || null,
           novel.sourceId,
           JSON.stringify([DEFAULT_CATEGORY]),
+        ],
+        (_txObj, { insertId: novelId }) => {
+          if (novelId) {
+            resolve(novelId);
+          }
+        },
+        txnErrorCallback,
+      ),
+    ),
+  );
+};
+
+const updateNovelMetadataQuery = `
+UPDATE 
+  novels 
+SET 
+  title = ?, 
+  status = ?, 
+  coverUrl = ?, 
+  genre = ?, 
+  description = ?, 
+  author = ?, 
+  artist = ? 
+WHERE 
+  id = ?
+`;
+
+export const updateNovelMetadata = async (
+  novel: SourceNovelDetails,
+): Promise<number> => {
+  return new Promise(resolve =>
+    db.transaction(tx =>
+      tx.executeSql(
+        updateNovelMetadataQuery,
+        [
+          novel.title,
+          novel.status || null,
+          novel.coverUrl || null,
+          novel.genre || null,
+          novel.description || null,
+          novel.author || null,
+          novel.artist || null,
         ],
         (_txObj, { insertId: novelId }) => {
           if (novelId) {

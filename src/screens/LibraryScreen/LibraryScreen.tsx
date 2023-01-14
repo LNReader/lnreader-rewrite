@@ -82,7 +82,7 @@ const LibraryScreen = () => {
         actions={[
           {
             icon: 'filter-variant',
-            onPress: () => bottomSheetRef.current?.show(400),
+            onPress: () => bottomSheetRef.current?.snapToIndex(1),
           },
         ]}
       />

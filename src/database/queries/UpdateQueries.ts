@@ -14,6 +14,7 @@ SELECT
   C.name as chapterName,
   C.url as chapterUrl,
   C.downloaded,
+  C.read,
   N.title as novelName,
   N.id as novelId,
   N.coverUrl,

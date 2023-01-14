@@ -5,6 +5,8 @@ import SettingsScreen from '@screens/SettingsScreens/SettingsScreen';
 import AppearanceSettingsScreen from '@screens/SettingsScreens/AppearanceSettingsScreen/AppearanceSettingsScreen';
 import GeneralSettingsScreen from '@screens/GeneralSettingsScreen/GeneralSettingsScreen';
 import LibrarySettingsScreen from '@screens/LibrarySettingsScreen/LibrarySettingsScreen';
+import DownloadsSettingsScreen from '@screens/DownloadsSettingsScreen/DownloadsSettingsScreen';
+import ReaderSettingsScreen from '@screens/ReaderSettingsScreen/ReaderSettingsScreen';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +26,14 @@ const SettingsStack = () => (
     <Stack.Screen
       name="LibrarySettingsScreen"
       component={LibrarySettingsScreen}
+    />
+    <Stack.Screen
+      name="DownloadsSettingsScreen"
+      component={DownloadsSettingsScreen}
+    />
+    <Stack.Screen
+      name="ReaderSettingsScreen"
+      component={ReaderSettingsScreen}
     />
   </Stack.Navigator>
 );

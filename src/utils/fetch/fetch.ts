@@ -67,9 +67,7 @@ export const fetchHtml = async ({
   const html = await res.text();
 
   if (html.includes('Checking if the site connection is secure')) {
-    throw Error(
-      "The app cannot bypass the source's Cloudflare protection. Either wait for them to lower the protection or migrate.",
-    );
+    throw Error("The app cannot bypass the source's Cloudflare protection.");
   }
 
   return html;

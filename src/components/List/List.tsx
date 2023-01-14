@@ -1,13 +1,15 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   List as PaperList,
   ListItemProps as PaperListItemProps,
   ListSubheaderProps as PaperListSubheaderProps,
   Divider as PaperDivider,
 } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useTheme } from '@hooks';
+import { Text } from '..';
 
 const SubHeader: React.FC<Omit<PaperListSubheaderProps, 'theme'>> = props => {
   const { theme } = useTheme();
@@ -18,6 +20,23 @@ const SubHeader: React.FC<Omit<PaperListSubheaderProps, 'theme'>> = props => {
     >
       {props.children}
     </PaperList.Subheader>
+  );
+};
+
+const Info: React.FC<{ message?: string }> = props => {
+  const { theme } = useTheme();
+
+  return (
+    <View style={styles.infoCtn}>
+      <Icon
+        size={20}
+        color={theme.onSurfaceVariant}
+        name="information-outline"
+      />
+      <Text style={styles.infoMsg} size={12} color={theme.onSurfaceVariant}>
+        {props.message}
+      </Text>
+    </View>
   );
 };
 
@@ -61,6 +80,7 @@ export const List = {
   Item,
   Divider,
   SubHeader,
+  Info,
 };
 
 const styles = StyleSheet.create({
@@ -69,9 +89,16 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
+    opacity: 0.6,
   },
   listSubheader: {
     fontWeight: 'bold',
     paddingVertical: 12,
+  },
+  infoCtn: {
+    padding: 12,
+  },
+  infoMsg: {
+    marginTop: 12,
   },
 });

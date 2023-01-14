@@ -109,7 +109,6 @@ const NovelDetailsBottomSheet: React.FC<NovelDetailsBottomSheetProps> = ({
   bottomSheetRef,
 }: NovelDetailsBottomSheetProps) => {
   const { bottom: bottomInset } = useSafeAreaInsets();
-  const [animatedValue] = useState(new Animated.Value(0));
 
   const routes = useMemo(
     () => [
@@ -133,10 +132,8 @@ const NovelDetailsBottomSheet: React.FC<NovelDetailsBottomSheetProps> = ({
       renderScene={renderScene}
       routes={routes}
       bottomSheetRef={bottomSheetRef}
-      animatedValue={animatedValue}
-      draggableRange={{ top: bottomSheetHeight, bottom: 0 }}
-      snappingPoints={[0, bottomSheetHeight]}
-      height={bottomSheetHeight}
+      snapPoints={[0.1, bottomSheetHeight]}
+      containerHeight={bottomSheetHeight}
     />
   );
 };

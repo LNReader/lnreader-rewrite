@@ -9,12 +9,19 @@ import {
   Searchbar,
   Text,
 } from '@lnreader/core';
-import { useLibraryUpdate, useSearchText, useTheme, useUpdates } from '@hooks';
+import {
+  useAppSettings,
+  useLibraryUpdate,
+  useSearchText,
+  useTheme,
+  useUpdates,
+} from '@hooks';
 import { groupUpdatesByDate } from '@utils/UpdateUtils';
 import UpdateCard from '@components/UpdateCard/UpdateCard';
 
 const UpdatesScreen = () => {
   const { theme } = useTheme();
+  const { LAST_UPDATE_TIME } = useAppSettings();
   const { searchText, setSearchText } = useSearchText();
   const { updates, loading, error } = useUpdates({ searchText });
   const { updateLibrary } = useLibraryUpdate();
@@ -41,6 +48,13 @@ const UpdatesScreen = () => {
             </Text>
           )}
           renderItem={({ item }) => <UpdateCard update={item} />}
+          ListHeaderComponent={
+            LAST_UPDATE_TIME ? (
+              <Text style={styles.lastUpdatedCtn}>
+                {`Library last updated: ${moment(LAST_UPDATE_TIME).fromNow()}`}
+              </Text>
+            ) : null
+          }
           ListEmptyComponent={<EmptyView />}
           refreshControl={
             <RefreshControl
@@ -61,5 +75,11 @@ export default UpdatesScreen;
 const styles = StyleSheet.create({
   listCtn: {
     flexGrow: 1,
+  },
+  lastUpdatedCtn: {
+    paddingHorizontal: 16,
+    vertical: 8,
+    fontSize: 12,
+    fontStyle: 'italic',
   },
 });

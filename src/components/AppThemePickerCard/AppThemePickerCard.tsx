@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     marginHorizontal: 4,
     overflow: 'hidden',
-    height: 160,
-    width: 100,
+    height: 180,
+    width: 116,
     alignSelf: 'center',
   },
   pressableCtn: {

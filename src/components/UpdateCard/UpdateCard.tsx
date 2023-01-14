@@ -24,6 +24,7 @@ const UpdateCard: React.FC<Props> = ({ update }) => {
         novelId: update.novelId,
         id: update.chapterId,
         url: update.chapterUrl,
+        name: update.chapterName,
       },
       sourceId: update.sourceId,
       novelName: update.novelName,
@@ -33,6 +34,8 @@ const UpdateCard: React.FC<Props> = ({ update }) => {
     navigate('NovelDetailsScreen', {
       id: update.novelId,
       sourceId: update.sourceId,
+      name: update.novelName,
+      coverUrl: update.coverUrl,
     });
 
   return (
@@ -70,7 +73,7 @@ export default UpdateCard;
 const styles = StyleSheet.create({
   cardCtn: {
     padding: Spacing.M,
-    paddingVertical: Spacing.S,
+    paddingVertical: Spacing.XM,
     flexDirection: 'row',
     alignItems: 'center',
   },

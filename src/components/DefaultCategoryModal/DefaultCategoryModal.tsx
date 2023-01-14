@@ -14,7 +14,7 @@ interface DefaultCategoryModalProps {
 }
 
 const DefaultCategoryModal: React.FC<DefaultCategoryModalProps> = props => {
-  const { DEFAULT_CATEGORY = 1, setAppSettings } = useAppSettings();
+  const { DEFAULT_CATEGORY = 1, setAppSetting } = useAppSettings();
 
   return (
     <Portal>
@@ -29,8 +29,8 @@ const DefaultCategoryModal: React.FC<DefaultCategoryModalProps> = props => {
             <RadioButton
               status={item.id === DEFAULT_CATEGORY}
               value={item.id}
-              label={item.id === 1 ? 'Default' : item.name}
-              onPress={() => setAppSettings(Setting.DEFAULT_CATEGORY, item.id)}
+              label={item.name}
+              onPress={() => setAppSetting(Setting.DEFAULT_CATEGORY, item.id)}
             />
           )}
         />

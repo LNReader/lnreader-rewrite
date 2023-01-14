@@ -62,7 +62,7 @@ const ReaderFooter = (props: Props) => {
           <ReaderFooterButton iconName="chevron-left" />
           <ReaderFooterButton
             iconName="cog-outline"
-            onPress={() => bottomSheetRef.current?.show()}
+            onPress={() => bottomSheetRef.current?.expand()}
           />
           <ReaderFooterButton iconName="chevron-right" />
         </View>

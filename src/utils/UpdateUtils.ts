@@ -1,4 +1,5 @@
 import { Update } from '@database/types';
+import { Setting } from 'types/Settings';
 
 export const groupUpdatesByDate = (dbUpdates: Update[]) => {
   const dateGroups = dbUpdates.reduce<Record<string, Update[]>>(
@@ -23,4 +24,10 @@ export const groupUpdatesByDate = (dbUpdates: Update[]) => {
   });
 
   return groupedUpdates;
+};
+
+export const skipUpdatingEntriesLabels = {
+  [Setting.SKIP_UPDATING_COMPLETED_NOVELS]: 'With "Completed" status',
+  [Setting.SKIP_UPDATING_NOVELS_NOT_STARTED]: "That haven't been started",
+  [Setting.SKIP_UPDATING_NOVELS_WITH_UNREAD_CHAPTERS]: 'With unread chapter(s)',
 };

@@ -54,6 +54,7 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
     READER_TEXT_ALIGNMENT,
     READER_LINE_HEIGHT,
     READER_PADDING = 5,
+    READER_CUSTOM_CSS,
   } = useAppSettings();
   const webViewRef = useRef<WebView>(null);
   const {
@@ -124,16 +125,20 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
               @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
               
               html {
-                margin-top: ${marginTop}px;
                 font-family: 'Nunito', sans-serif;
                 font-size: ${READER_FONT_SIZE}px;
-                background-color: ${READER_BACKGROUND_COLOR};
-                color: ${READER_TEXT_COLOR};
                 text-align: ${READER_TEXT_ALIGNMENT};
                 line-height: ${READER_LINE_HEIGHT};
+              }
+
+              body {
+                margin-top: ${marginTop}px;
+                background-color: ${READER_BACKGROUND_COLOR};
+                color: ${READER_TEXT_COLOR};
                 padding: ${READER_PADDING}%;
               }
 
+              ${READER_CUSTOM_CSS}
             </style>
           </head>
           <body ${onClickWebViewPostMessage({ type: 'hide' })}>

@@ -10,7 +10,7 @@ import { Language } from '@sources/types';
 
 const BrowseSettingsScreen = () => {
   const languages = SourceFactory.getLanguages();
-  const { SOURCE_LANGUAGES = [Language.English], setAppSettings } =
+  const { SOURCE_LANGUAGES = [Language.English], setAppSetting } =
     useAppSettings();
 
   return (
@@ -25,7 +25,7 @@ const BrowseSettingsScreen = () => {
             title={item}
             size="large"
             onPress={() =>
-              setAppSettings(
+              setAppSetting(
                 Setting.SOURCE_LANGUAGES,
                 xor(SOURCE_LANGUAGES, [item]),
               )

@@ -57,7 +57,9 @@ export const useNovelDetails = ({
 
       if (!dbNovelId) {
         dbNovel = await getNovel(sourceId, url);
-      } else if (isEmpty(omit(dbNovel, ['id', 'sourceId']))) {
+      } else if (
+        isEmpty(omit(dbNovel, ['id', 'sourceId', 'coverUrl', 'title']))
+      ) {
         dbNovel = await getNovelById(dbNovelId);
       }
 

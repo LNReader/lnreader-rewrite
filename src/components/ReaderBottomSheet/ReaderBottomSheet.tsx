@@ -38,7 +38,7 @@ export const ReaderRoute = () => {
     READER_TEXT_ALIGNMENT = DEAULT_TEXT_ALIGNMENT.value,
     READER_LINE_HEIGHT = 1.5,
     READER_PADDING = 5,
-    setAppSettings,
+    setAppSetting,
     setReaderTheme,
   } = useAppSettings();
 
@@ -56,7 +56,7 @@ export const ReaderRoute = () => {
           minimumTrackTintColor={theme.primary}
           maximumTrackTintColor={theme.scrim}
           onSlidingComplete={value =>
-            setAppSettings(Setting.READER_FONT_SIZE, value)
+            setAppSetting(Setting.READER_FONT_SIZE, value)
           }
         />
       </Row>
@@ -86,7 +86,7 @@ export const ReaderRoute = () => {
               icon={item.icon}
               selected={item.value === READER_TEXT_ALIGNMENT}
               onPress={() =>
-                setAppSettings(Setting.READER_TEXT_ALIGNMENT, item.value)
+                setAppSetting(Setting.READER_TEXT_ALIGNMENT, item.value)
               }
             />
           ))}
@@ -100,7 +100,7 @@ export const ReaderRoute = () => {
           maximumValue={2}
           step={0.1}
           onPress={val =>
-            setAppSettings(Setting.READER_LINE_HEIGHT, Number(val.toFixed(1)))
+            setAppSetting(Setting.READER_LINE_HEIGHT, Number(val.toFixed(1)))
           }
         />
       </Row>
@@ -111,7 +111,7 @@ export const ReaderRoute = () => {
           minimumValue={0}
           maximumValue={10}
           step={1}
-          onPress={val => setAppSettings(Setting.READER_PADDING, val)}
+          onPress={val => setAppSetting(Setting.READER_PADDING, val)}
         />
       </Row>
     </View>
@@ -122,7 +122,7 @@ export const GeneralRoute = () => {
   const {
     READER_SHOW_PROGRESS = false,
     READER_FULLSCREEN_MODE = false,
-    setAppSettings,
+    setAppSetting,
   } = useAppSettings();
 
   return (
@@ -132,7 +132,7 @@ export const GeneralRoute = () => {
         value={READER_SHOW_PROGRESS}
         title="Show progress percentage"
         onPress={() =>
-          setAppSettings(Setting.READER_SHOW_PROGRESS, !READER_SHOW_PROGRESS)
+          setAppSetting(Setting.READER_SHOW_PROGRESS, !READER_SHOW_PROGRESS)
         }
       />
       <Switch
@@ -140,10 +140,7 @@ export const GeneralRoute = () => {
         value={READER_FULLSCREEN_MODE}
         title="Fullscreen"
         onPress={() =>
-          setAppSettings(
-            Setting.READER_FULLSCREEN_MODE,
-            !READER_FULLSCREEN_MODE,
-          )
+          setAppSetting(Setting.READER_FULLSCREEN_MODE, !READER_FULLSCREEN_MODE)
         }
       />
     </View>
@@ -154,7 +151,6 @@ const ReaderBottomSheet: React.FC<ReaderBottomSheetProps> = ({
   bottomSheetRef,
 }: ReaderBottomSheetProps) => {
   const { bottom: bottomInset } = useSafeAreaInsets();
-  const [animatedValue] = useState(new Animated.Value(0));
 
   const routes = useMemo(
     () => [
@@ -177,10 +173,8 @@ const ReaderBottomSheet: React.FC<ReaderBottomSheetProps> = ({
         renderScene={renderScene}
         routes={routes}
         bottomSheetRef={bottomSheetRef}
-        animatedValue={animatedValue}
-        draggableRange={{ top: bottomSheetHeight, bottom: 0 }}
-        snappingPoints={[0, bottomSheetHeight]}
-        height={bottomSheetHeight}
+        snapPoints={[0.1, bottomSheetHeight]}
+        containerHeight={bottomSheetHeight}
       />
     </Portal>
   );

@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS categories (
 `;
 
 export const createDefaultCategoryQuery =
-  'INSERT INTO categories (id, name, sort) VALUES (1, "", -1);';
+  'INSERT INTO categories (id, name, sort) VALUES (1, "Default", -1);';

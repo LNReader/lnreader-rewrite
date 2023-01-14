@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 import { ErrorScreen, LoadingScreen } from '@lnreader/core';
@@ -47,11 +47,15 @@ const ReaderScreen = () => {
     <ErrorScreen error={error} />
   ) : (
     <ChapterDetailsContext.Provider value={readerParams}>
-      <WebViewReader
-        chapter={chapter}
-        onPress={handleShowMenu}
-        onNavigationStateChange={({ url }) => getChapterFromCustomUrl(url)}
-      />
+      <View
+        style={[{ backgroundColor: READER_BACKGROUND_COLOR }, styles.readerCtn]}
+      >
+        <WebViewReader
+          chapter={chapter}
+          onPress={handleShowMenu}
+          onNavigationStateChange={({ url }) => getChapterFromCustomUrl(url)}
+        />
+      </View>
       <ReaderProgressBar />
       <ReaderAppbar visible={menuVisible} chapter={chapter} />
       <ReaderFooter visible={menuVisible} chapter={chapter} />
@@ -61,4 +65,8 @@ const ReaderScreen = () => {
 
 export default ReaderScreen;
 
-// const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  readerCtn: {
+    flex: 1,
+  },
+});

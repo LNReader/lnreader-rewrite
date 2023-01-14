@@ -36,12 +36,12 @@ const Text: React.FC<TextProps> = props => {
       {...props}
       style={[
         padding,
-        props.style,
         {
           color: props.color || theme.onSurface,
           fontSize: props.size,
           fontWeight: props.fontWeight || 'normal',
         },
+        props.style,
       ]}
     >
       {props.children}

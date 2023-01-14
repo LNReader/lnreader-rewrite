@@ -1,7 +1,11 @@
 export { default as Appbar } from './Appbar/Appbar';
 export { BottomSheet, BottomSheetTabView } from './BottomSheet/BottomSheet';
 export { default as Button } from './Button/Button';
-export { default as Checkbox, SortItem } from './Checkbox/Checkbox';
+export {
+  default as Checkbox,
+  SortItem,
+  TriStateCheckbox,
+} from './Checkbox/Checkbox';
 export { default as Chip } from './Chip/Chip';
 export { default as ColorButton } from './ColorButton/ColorButton';
 export { default as Counter } from './Counter/Counter';

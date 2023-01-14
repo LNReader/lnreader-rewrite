@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import * as WebBrowser from 'expo-web-browser';
 
 import { IconButton, Text, Row } from '@lnreader/core';
 import { useTheme } from '@hooks';
@@ -22,7 +23,7 @@ const ReaderAppbar = (props: Props) => {
   const { top: topInset } = useSafeAreaInsets();
   const {
     novelName,
-    chapter: { name: chapterName },
+    chapter: { name: chapterName, url },
   } = useChapterDetailsContext();
 
   if (!props.visible) {
@@ -48,7 +49,10 @@ const ReaderAppbar = (props: Props) => {
             {chapterName}
           </Text>
         </View>
-        <IconButton name="earth" onPress={goBack} />
+        <IconButton
+          name="earth"
+          onPress={() => WebBrowser.openBrowserAsync(url)}
+        />
       </Row>
     </Animated.View>
   );

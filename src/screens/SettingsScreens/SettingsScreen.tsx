@@ -37,6 +37,24 @@ const SettingsScreen = () => {
           })
         }
       />
+      <List.Item
+        title="Reader"
+        icon="book-open-outline"
+        onPress={() =>
+          navigate('SettingsStack', {
+            screen: 'ReaderSettingsScreen',
+          })
+        }
+      />
+      <List.Item
+        title="Downloads"
+        icon="download-outline"
+        onPress={() =>
+          navigate('SettingsStack', {
+            screen: 'DownloadsSettingsScreen',
+          })
+        }
+      />
     </>
   );
 };

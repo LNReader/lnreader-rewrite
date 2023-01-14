@@ -13,7 +13,7 @@ import {
   SourceChapter,
   GetChapterParams,
 } from '@sources/types';
-import { fetchHtml } from '@utils/fetch/fetch';
+import { fetchApi, fetchHtml } from '@utils/fetch/fetch';
 import { sleep } from '@utils/Sleep';
 
 export class LightNovelPubParser implements ParsedSource {
@@ -65,14 +65,26 @@ export class LightNovelPubParser implements ParsedSource {
 
     const baseUrl = this.baseUrl;
     const sourceId = this.id;
-    const url = `${this.baseUrl}/search?q=${searchTerm}`;
+    const url = `${this.baseUrl}lnsearchlive`;
 
-    const html = await fetchHtml({ url });
-    const loadedCheerio = cheerio.load(html);
+    const formData = new FormData();
+    formData.append('inputContent', searchTerm);
+
+    const res = await fetchApi({
+      url,
+      sourceId,
+      init: {
+        method: 'POST',
+        body: formData,
+      },
+    });
+    const resJSON = await res.json();
+
+    const loadedCheerio = cheerio.load(resJSON.resultview);
 
     const novels: SourceNovel[] = [];
 
-    loadedCheerio('.book-item').each(function () {
+    loadedCheerio('.novel-item').each(function () {
       novels.push({
         sourceId,
         title: loadedCheerio(this).find('.title').text(),
@@ -88,7 +100,7 @@ export class LightNovelPubParser implements ParsedSource {
     const baseUrl = this.baseUrl;
     const sourceId = this.id;
 
-    const html = await fetchHtml({ url });
+    const html = await fetchHtml({ url, sourceId });
 
     let $ = cheerio.load(html);
 
@@ -171,7 +183,7 @@ export class LightNovelPubParser implements ParsedSource {
   }
 
   async getChapter({ url }: GetChapterParams): Promise<SourceChapter> {
-    const html = await fetchHtml({ url });
+    const html = await fetchHtml({ url, sourceId });
 
     const $ = cheerio.load(html);
     const text = $('#chapter-container').html();

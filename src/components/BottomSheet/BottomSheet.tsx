@@ -1,41 +1,55 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, Ref, useCallback, useState } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { Portal } from 'react-native-paper';
 import { TabBar, TabView, SceneRendererProps } from 'react-native-tab-view';
-import SlidingUpPanel, { SlidingUpPanelProps } from 'rn-sliding-up-panel';
+import {
+  default as BS,
+  BottomSheetBackdrop,
+  BottomSheetProps as BSProps,
+  BottomSheetBackdropProps,
+} from '@gorhom/bottom-sheet';
 
 import { Text } from '@lnreader/core';
 import { useTheme } from '@hooks';
 
-export type BottomSheetRef = React.LegacyRef<SlidingUpPanel>;
-export type BottomSheetType = SlidingUpPanel | null;
+export type BottomSheetRef = Ref<BS>;
+export type BottomSheetType = BS | null;
 
-type BottomSheetProps = SlidingUpPanelProps & {
+type BottomSheetProps = BSProps & {
   bottomSheetRef: BottomSheetRef;
 };
 
 export const BottomSheet: React.FC<BottomSheetProps> = props => {
   const { theme } = useTheme();
 
+  const renderBackdrop = useCallback(
+    (backDropProps: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop {...backDropProps} disappearsOnIndex={0} />
+    ),
+    [],
+  );
+
   return (
     <Portal>
-      <SlidingUpPanel
-        {...props}
-        showBackdrop={props.showBackdrop ?? true}
-        backdropOpacity={props.backdropOpacity ?? 0.3}
+      <BS
+        index={-1}
+        enablePanDownToClose
+        backdropComponent={renderBackdrop}
         ref={props.bottomSheetRef}
+        handleComponent={null}
+        {...props}
       >
         <View
           style={[styles.bottomSheetCtn, { backgroundColor: theme.surface1 }]}
         >
           <>{props.children}</>
         </View>
-      </SlidingUpPanel>
+      </BS>
     </Portal>
   );
 };
 
-type BottomSheetTabViewProps = SlidingUpPanelProps & {
+type BottomSheetTabViewProps = BSProps & {
   bottomSheetRef: BottomSheetRef;
   routes: Array<{ key: string; title: string }>;
   renderScene: (
@@ -48,7 +62,9 @@ type BottomSheetTabViewProps = SlidingUpPanelProps & {
   ) => ReactNode;
 };
 
-export const BottomSheetTabView: React.FC<BottomSheetTabViewProps> = props => {
+export const BottomSheetTabView: React.FC<
+  Omit<BottomSheetTabViewProps, 'children'>
+> = props => {
   const { theme } = useTheme();
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
@@ -73,12 +89,21 @@ export const BottomSheetTabView: React.FC<BottomSheetTabViewProps> = props => {
     />
   );
 
+  const renderBackdrop = useCallback(
+    (backDropProps: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop {...backDropProps} disappearsOnIndex={0} />
+    ),
+    [],
+  );
+
   return (
-    <SlidingUpPanel
-      {...props}
-      showBackdrop={props.showBackdrop ?? true}
-      backdropOpacity={props.backdropOpacity ?? 0.3}
+    <BS
+      index={-1}
+      enablePanDownToClose
+      backdropComponent={renderBackdrop}
       ref={props.bottomSheetRef}
+      handleComponent={null}
+      {...props}
     >
       <View
         style={[styles.bottomSheetCtn, { backgroundColor: theme.surface1 }]}
@@ -92,7 +117,7 @@ export const BottomSheetTabView: React.FC<BottomSheetTabViewProps> = props => {
           style={styles.tabView}
         />
       </View>
-    </SlidingUpPanel>
+    </BS>
   );
 };
 

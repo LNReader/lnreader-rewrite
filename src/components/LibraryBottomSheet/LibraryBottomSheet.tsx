@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SceneMap } from 'react-native-tab-view';
 import { xor } from 'lodash';
@@ -28,10 +28,10 @@ interface LibraryBottomSheetProps {
 }
 
 export const FilterRoute = () => {
-  const { LIBRARY_FILTERS, setAppSettings } = useAppSettings();
+  const { LIBRARY_FILTERS, setAppSetting } = useAppSettings();
 
   const onPress = (filter: LibraryFilters) =>
-    setAppSettings(Setting.LIBRARY_FILTERS, xor(LIBRARY_FILTERS, [filter]));
+    setAppSetting(Setting.LIBRARY_FILTERS, xor(LIBRARY_FILTERS, [filter]));
 
   return (
     <View>
@@ -50,13 +50,11 @@ export const FilterRoute = () => {
 };
 
 export const SortRoute = () => {
-  const {
-    LIBRARY_SORT_ORDER = LibrarySortOrder.DateAdded_ASC,
-    setAppSettings,
-  } = useAppSettings();
+  const { LIBRARY_SORT_ORDER = LibrarySortOrder.DateAdded_ASC, setAppSetting } =
+    useAppSettings();
 
   const onPress = (sortOrder: LibrarySortOrder) =>
-    setAppSettings(Setting.LIBRARY_SORT_ORDER, sortOrder);
+    setAppSetting(Setting.LIBRARY_SORT_ORDER, sortOrder);
 
   return (
     <View>
@@ -90,7 +88,7 @@ export const DisplayRoute = () => {
     LIBRARY_SHOW_UNREAD_BADGE = true,
     LIBRARY_SHOW_NUMBER_OF_ITEMS,
     LIBRARY_DISPLAY_MODE = LibraryDisplayModes.Comfortable,
-    setAppSettings,
+    setAppSetting,
   } = useAppSettings();
 
   return (
@@ -103,7 +101,7 @@ export const DisplayRoute = () => {
           status={displayMode.value === LIBRARY_DISPLAY_MODE}
           label={displayMode.label}
           onPress={() =>
-            setAppSettings(Setting.LIBRARY_DISPLAY_MODE, displayMode.value)
+            setAppSetting(Setting.LIBRARY_DISPLAY_MODE, displayMode.value)
           }
         />
       ))}
@@ -113,7 +111,7 @@ export const DisplayRoute = () => {
         status={LIBRARY_SHOW_DOWNLOADS_BADGE}
         label="Downloaded chapters"
         onPress={() =>
-          setAppSettings(
+          setAppSetting(
             Setting.LIBRARY_SHOW_DOWNLOADS_BADGE,
             !LIBRARY_SHOW_DOWNLOADS_BADGE,
           )
@@ -123,7 +121,7 @@ export const DisplayRoute = () => {
         status={LIBRARY_SHOW_UNREAD_BADGE}
         label="Unread chapters"
         onPress={() =>
-          setAppSettings(
+          setAppSetting(
             Setting.LIBRARY_SHOW_UNREAD_BADGE,
             !LIBRARY_SHOW_UNREAD_BADGE,
           )
@@ -134,7 +132,7 @@ export const DisplayRoute = () => {
         status={LIBRARY_SHOW_NUMBER_OF_ITEMS}
         label="Show number of items"
         onPress={() =>
-          setAppSettings(
+          setAppSetting(
             Setting.LIBRARY_SHOW_NUMBER_OF_ITEMS,
             !LIBRARY_SHOW_NUMBER_OF_ITEMS,
           )
@@ -148,7 +146,6 @@ const LibraryBottomSheet: React.FC<LibraryBottomSheetProps> = ({
   bottomSheetRef,
 }: LibraryBottomSheetProps) => {
   const { bottom: bottomInset } = useSafeAreaInsets();
-  const [animatedValue] = useState(new Animated.Value(0));
 
   const routes = useMemo(
     () => [
@@ -172,10 +169,8 @@ const LibraryBottomSheet: React.FC<LibraryBottomSheetProps> = ({
       renderScene={renderScene}
       routes={routes}
       bottomSheetRef={bottomSheetRef}
-      animatedValue={animatedValue}
-      draggableRange={{ top: bottomSheetHeight, bottom: 0 }}
-      snappingPoints={[0, 400, bottomSheetHeight]}
-      height={bottomSheetHeight}
+      snapPoints={[0.1, 400, bottomSheetHeight]}
+      containerHeight={bottomSheetHeight}
     />
   );
 };

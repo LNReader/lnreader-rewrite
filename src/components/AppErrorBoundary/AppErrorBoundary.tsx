@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import ErrorBoundary from 'react-native-error-boundary';
 
 import { Text, Button, List } from '@lnreader/core';
@@ -17,7 +17,8 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
   const { theme } = useTheme();
 
   return (
-    <>
+    <View style={[styles.mainCtn, { backgroundColor: theme.background }]}>
+      <StatusBar backgroundColor={theme.background} />
       <View style={styles.errorInfoCtn}>
         <Text size={20} style={styles.errorTitle}>
           An Unexpected Error Ocurred
@@ -42,7 +43,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
         title={'Restart the application'}
         style={[styles.buttonCtn]}
       />
-    </>
+    </View>
   );
 };
 
@@ -59,6 +60,9 @@ const AppErrorBoundary: React.FC<AppErrorBoundaryProps> = ({ children }) => {
 export default AppErrorBoundary;
 
 const styles = StyleSheet.create({
+  mainCtn: {
+    flex: 1,
+  },
   errorInfoCtn: {
     flex: 1,
     justifyContent: 'center',
