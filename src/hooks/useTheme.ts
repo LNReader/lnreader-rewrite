@@ -13,6 +13,7 @@ import { tealTurquoise } from '@theme/colors/tealTurquoise';
 import { yotsubaColors } from '@theme/colors/yotsuba';
 import { tidalWaveColors } from '@theme/colors/tidalWave';
 import { takoColors } from '@theme/colors/tako';
+import { overlay } from 'react-native-paper';
 
 interface ExtendedThemeColors extends ThemeColors {
   rippleColor?: string;
@@ -22,6 +23,9 @@ interface ExtendedThemeColors extends ThemeColors {
   surface3?: string;
   surface4?: string;
   surface5?: string;
+  overlay1?: string;
+  overlay2?: string;
+  overlay3?: string;
   surfaceReader?: string;
 }
 
@@ -105,6 +109,9 @@ export const useTheme = (): UseThemeReturn => {
       surface3: getElevationColor(colors, Opacity.level3),
       surface4: getElevationColor(colors, Opacity.level4),
       surface5: getElevationColor(colors, Opacity.level5),
+      overlay1: overlay(1, colors.surface),
+      overlay2: overlay(2, colors.surface),
+      overlay3: overlay(3, colors.surface),
       surfaceReader: Color(colors.surface).alpha(0.9).toString(),
     };
 

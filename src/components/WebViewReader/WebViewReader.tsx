@@ -10,7 +10,7 @@ import {
 import { useAppSettings, useChapterStorage, useTheme } from '@hooks';
 import { setChapterRead } from '@database/queries/ChapterQueries';
 import { SourceChapter } from '@sources/types';
-import { DEAULT_READER_THEME } from '@utils/Reader.utils';
+import { DEAULT_READER_THEME } from '@utils/ReaderUtils';
 import { useChapterDetailsContext } from '@contexts/ChapterDetailsContext';
 
 interface WebViewReaderProps {

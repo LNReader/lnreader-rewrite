@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { List, IconAppbar, Switch } from '@lnreader/core';
 import { useAppSettings } from '@hooks';
-import { Setting } from 'types/SettingTypes';
+import { Setting } from 'types/Settings';
 import SettingBanners from '@components/SettingBanners/SettingBanners';
 
 const MoreScreen = () => {
@@ -29,6 +29,16 @@ const MoreScreen = () => {
         title="Incognito mode"
         description="Pauses reading history"
         onPress={() => toggleSetting(Setting.INCOGNITO_MODE)}
+      />
+      <List.Divider />
+      <List.Item
+        title="Categories"
+        icon="label-outline"
+        onPress={() =>
+          navigate('MoreStack', {
+            screen: 'CategoriesScreen',
+          })
+        }
       />
       <List.Divider />
       <List.Item

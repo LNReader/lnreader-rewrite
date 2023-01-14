@@ -7,7 +7,7 @@ import { DatabaseChapter } from '@database/types';
 import { insertChapterInDownloads } from '@database/queries/DownloadQueries';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
 import { uniq } from 'lodash';
-import { sleep } from '@utils/sleep';
+import { sleep } from '@utils/Sleep';
 
 export const DOWNLOAD_QUEUE = 'DOWNLOAD_QUEUE';
 

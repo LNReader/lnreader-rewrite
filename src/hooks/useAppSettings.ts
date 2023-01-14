@@ -1,6 +1,6 @@
 import { useMMKVObject } from 'react-native-mmkv';
 
-import { Setting, SettingTypes } from 'types/SettingTypes';
+import { Setting, SettingTypes } from 'types/Settings';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
 
 export const APP_SETTINGS = 'APP_SETTINGS';

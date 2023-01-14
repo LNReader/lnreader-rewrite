@@ -7,7 +7,7 @@ import CookieManager from '@react-native-cookies/cookies';
 import { Appbar } from '@lnreader/core';
 import { useAppSettings, useSourceStorage } from '@hooks';
 import { Source } from '@sources/types';
-import { defaultUserAgentString } from '@utils/Settings.utils';
+import { defaultUserAgentString } from '@utils/SettingsUtils';
 
 type ReaderScreenRouteProps = RouteProp<{
   params: {

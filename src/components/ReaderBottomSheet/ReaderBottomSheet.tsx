@@ -17,13 +17,13 @@ import {
 } from '@lnreader/core';
 import { useAppSettings, useTheme } from '@hooks';
 
-import { Setting } from 'types/SettingTypes';
+import { Setting } from 'types/Settings';
 import {
   DEAULT_READER_THEME,
   DEAULT_TEXT_ALIGNMENT,
   PRESET_READER_THEMES,
   TEXT_ALIGNMENTS,
-} from '@utils/Reader.utils';
+} from '@utils/ReaderUtils';
 
 interface ReaderBottomSheetProps {
   bottomSheetRef: BottomSheetRef;

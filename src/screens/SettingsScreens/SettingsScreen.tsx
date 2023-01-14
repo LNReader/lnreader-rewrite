@@ -28,6 +28,15 @@ const SettingsScreen = () => {
           })
         }
       />
+      <List.Item
+        title="Library"
+        icon="book-variant-multiple"
+        onPress={() =>
+          navigate('SettingsStack', {
+            screen: 'LibrarySettingsScreen',
+          })
+        }
+      />
     </>
   );
 };

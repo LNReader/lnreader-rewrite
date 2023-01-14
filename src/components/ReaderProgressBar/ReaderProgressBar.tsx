@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Text } from '@lnreader/core';
 import { useAppSettings, useChapterStorage } from '@hooks';
-import { DEAULT_READER_THEME } from '@utils/Reader.utils';
+import { DEAULT_READER_THEME } from '@utils/ReaderUtils';
 import { useChapterDetailsContext } from '@contexts/ChapterDetailsContext';
 
 type Props = {};

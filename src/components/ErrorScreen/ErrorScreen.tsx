@@ -6,7 +6,8 @@ import { Text } from '@lnreader/core';
 import { Spacing } from '@theme/constants';
 
 interface ErrorScreenProps {
-  error?: Error;
+  error: Error;
+  showErrorStack?: boolean;
 }
 
 const ErrorScreen: React.FC<ErrorScreenProps> = ({ error, showErrorStack }) => {

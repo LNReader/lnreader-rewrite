@@ -19,8 +19,8 @@ import {
   LibraryFilters,
   LibrarySortOrder,
   librarySortOrderList,
-} from '@utils/Library.utils';
-import { Setting } from 'types/SettingTypes';
+} from '@utils/LibraryUtils';
+import { Setting } from 'types/Settings';
 
 interface LibraryBottomSheetProps {
   bottomSheetRef: BottomSheetRef;

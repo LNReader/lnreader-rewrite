@@ -10,7 +10,7 @@ import { LibraryNovel } from '@database/types';
 import { SourceNovel } from '@sources/types';
 
 import { IMAGE_PLACEHOLDER_COLOR, Spacing, WHITE_HEX } from '@theme/constants';
-import { LibraryDisplayModes } from '@utils/Library.utils';
+import { LibraryDisplayModes } from '@utils/LibraryUtils';
 import { useLibraryContext } from '@contexts/LibraryContext';
 
 interface NovelItemProps {

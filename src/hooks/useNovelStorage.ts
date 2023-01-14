@@ -1,6 +1,6 @@
 import { useMMKVObject } from 'react-native-mmkv';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
-import { NovelFilters, NovelSortOrder } from '@utils/Novel.utils';
+import { NovelFilters, NovelSortOrder } from '@utils/NovelUtils';
 
 export const NOVEL_STORAGE = 'NOVEL_STORAGE';
 

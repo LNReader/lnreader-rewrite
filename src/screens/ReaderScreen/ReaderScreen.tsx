@@ -12,7 +12,7 @@ import WebViewReader from '@components/WebViewReader/WebViewReader';
 import ReaderFooter from '@components/ReaderFooter/ReaderFooter';
 import ReaderProgressBar from '@components/ReaderProgressBar/ReaderProgressBar';
 import { ChapterDetailsContext } from '@contexts/ChapterDetailsContext';
-import { DEAULT_READER_THEME } from '@utils/Reader.utils';
+import { DEAULT_READER_THEME } from '@utils/ReaderUtils';
 
 type ReaderScreenRouteProps = RouteProp<{
   params: {

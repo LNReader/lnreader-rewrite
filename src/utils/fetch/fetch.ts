@@ -1,7 +1,7 @@
 import { getAppSettings } from '@hooks';
 import { SourceStorageMap, SOURCE_STORAGE } from '@hooks/useSourceStorage';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
-import { defaultUserAgentString } from '@utils/Settings.utils';
+import { defaultUserAgentString } from '@utils/SettingsUtils';
 
 interface FetchParams {
   url: string;

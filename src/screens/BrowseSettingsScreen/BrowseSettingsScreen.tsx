@@ -4,7 +4,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import { Appbar, Switch } from '@lnreader/core';
 import SourceFactory from '@sources/SourceFactory';
 import { useAppSettings } from '@hooks';
-import { Setting } from 'types/SettingTypes';
+import { Setting } from 'types/Settings';
 import { xor } from 'lodash';
 import { Language } from '@sources/types';
 

@@ -1,4 +1,6 @@
 export { default as useAppSettings, getAppSettings } from './useAppSettings';
+export { default as useBoolean } from './useBoolean';
+export { useCategories } from './useCategories';
 export { default as useChapter } from './useChapter';
 export { default as useChapterStorage } from './useChapterStorage';
 export { default as useDatabase } from './useDatabase';

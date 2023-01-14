@@ -14,7 +14,7 @@ import {
   GetChapterParams,
 } from '@sources/types';
 import { fetchHtml } from '@utils/fetch/fetch';
-import { sleep } from '@utils/sleep';
+import { sleep } from '@utils/Sleep';
 
 export class LightNovelPubParser implements ParsedSource {
   name = 'LightNovelPub';

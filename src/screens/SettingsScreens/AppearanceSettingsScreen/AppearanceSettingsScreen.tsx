@@ -6,7 +6,7 @@ import { useAppSettings, useTheme } from '@hooks';
 import { ThemesMap } from '@hooks/useTheme';
 
 import AppThemePickerCard from '@components/AppThemePickerCard/AppThemePickerCard';
-import { Setting } from 'types/SettingTypes';
+import { Setting } from 'types/Settings';
 
 const AppearanceSettingsScreen = () => {
   const { setDarkMode, isDarkMode, setAmoledBlack, isAmoledBlack } = useTheme();

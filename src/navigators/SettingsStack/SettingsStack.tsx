@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SettingsScreen from '@screens/SettingsScreens/SettingsScreen';
 import AppearanceSettingsScreen from '@screens/SettingsScreens/AppearanceSettingsScreen/AppearanceSettingsScreen';
 import GeneralSettingsScreen from '@screens/GeneralSettingsScreen/GeneralSettingsScreen';
+import LibrarySettingsScreen from '@screens/LibrarySettingsScreen/LibrarySettingsScreen';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,10 @@ const SettingsStack = () => (
     <Stack.Screen
       name="GeneralSettingsScreen"
       component={GeneralSettingsScreen}
+    />
+    <Stack.Screen
+      name="LibrarySettingsScreen"
+      component={LibrarySettingsScreen}
     />
   </Stack.Navigator>
 );

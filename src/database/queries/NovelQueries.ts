@@ -8,10 +8,10 @@ import { txnErrorCallback } from '@database/utils';
 
 import { SourceNovelDetails } from '@sources/types';
 
-import { SettingTypes } from 'types/SettingTypes';
+import { SettingTypes } from 'types/Settings';
 
 import { MMKVStorage } from '@utils/mmkv/mmkv';
-import { LibrarySortOrder } from '@utils/Library.utils';
+import { LibrarySortOrder } from '@utils/LibraryUtils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 

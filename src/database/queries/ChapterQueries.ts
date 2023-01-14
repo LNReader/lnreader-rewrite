@@ -10,7 +10,7 @@ import { txnErrorCallback } from '@database/utils';
 import { SourceNovelChapter } from '@sources/types';
 
 import { MMKVStorage } from '@utils/mmkv/mmkv';
-import { NovelSortOrder } from '@utils/Novel.utils';
+import { NovelSortOrder } from '@utils/NovelUtils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 

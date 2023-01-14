@@ -9,7 +9,7 @@ import { useAppSettings, useTheme } from '@hooks';
 import { Source } from '@sources/types';
 
 import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
-import { Setting } from 'types/SettingTypes';
+import { Setting } from 'types/Settings';
 
 interface SourceCardProps {
   source: Source;

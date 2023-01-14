@@ -21,7 +21,7 @@ const useSource = (params: UseSourceParams) => {
 
   const fetchNovels = async () => {
     try {
-      let res = await source?.getPopoularNovels({ page });
+      const res = await source?.getPopoularNovels({ page });
 
       const data = res?.novels || [];
 
@@ -39,7 +39,7 @@ const useSource = (params: UseSourceParams) => {
   const searchNovels = async () => {
     try {
       setLoading(true);
-      let res = await source?.getSearchNovels({
+      const res = await source?.getSearchNovels({
         searchTerm: params.searchText,
         page,
       });

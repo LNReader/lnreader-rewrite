@@ -38,7 +38,7 @@ export const getUpdates = (): Promise<Update[]> => {
 export const insertUpdates = async (chapters?: DatabaseChapter[]) => {
   let insertUpdatesQuery = `
     INSERT INTO updates (chapterId, dateFetched) 
-    VALUES
+    VALUES 
   `;
 
   const valuesArr: string[] = [];

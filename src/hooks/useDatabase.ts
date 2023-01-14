@@ -26,16 +26,13 @@ import {
   createHistoryTableQuery,
 } from '@database/tables/HistoryTable';
 import { noop } from 'lodash';
-import {
-  // createUpdatesChapterIdIndexQuery,
-  createUpdatesTableQuery,
-} from '@database/tables/UpdatesTable';
+import { createUpdatesTableQuery } from '@database/tables/UpdatesTable';
 import { createDownloadTableQuery } from '@database/tables/DownloadsTable';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
 const useDatabase = () => {
-  useEffect(() => {
+  const createTables = () => {
     db.transaction(tx => {
       tx.executeSql(createCategoriesTableQuery, [], () => {
         tx.executeSql(
@@ -49,31 +46,36 @@ const useDatabase = () => {
       tx.executeSql(createChaptersTableQuery);
       tx.executeSql(createHistoryTableQuery);
       tx.executeSql(createUpdatesTableQuery);
-      tx.executeSql(
-        createDownloadTableQuery,
-        undefined,
-        noop,
-        txnErrorCallback,
-      );
+      tx.executeSql(createDownloadTableQuery);
+    });
+  };
 
+  const createIndexes = () => {
+    db.transaction(tx => {
       tx.executeSql(createNovelUrlIndex);
       tx.executeSql(createLibraryFavoriteIndex);
       tx.executeSql(createChaptersNovelIdIndex);
       tx.executeSql(createChaptersUnreadByNovelIndex);
       tx.executeSql(createHistoryChapterIdIndexQuery);
-      // tx.executeSql(createUpdatesChapterIdIndexQuery);
     });
+  };
+
+  useEffect(() => {
+    createTables();
+    createIndexes();
   }, []);
 
-  // useEffect(() => {
-  //   db.transaction(tx => {
-  //     tx.executeSql('DROP TABLE novels');
-  //     tx.executeSql('DROP TABLE chapters');
-  //     tx.executeSql('DROP TABLE categories');
-  //     tx.executeSql('DROP TABLE history');
-  //     tx.executeSql('DROP TABLE updates');
-  //   });
-  // }, []);
+  const dropTables = () => {
+    db.transaction(tx => {
+      tx.executeSql('DROP TABLE novels');
+      tx.executeSql('DROP TABLE chapters');
+      tx.executeSql('DROP TABLE categories');
+      tx.executeSql('DROP TABLE history');
+      tx.executeSql('DROP TABLE updates');
+    });
+  };
+
+  return { dropTables };
 };
 
 export default useDatabase;
