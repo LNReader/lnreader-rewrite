@@ -19,7 +19,7 @@ const DefaultCategoryModal: React.FC<DefaultCategoryModalProps> = props => {
   return (
     <Portal>
       <Modal
-        title="Default Category"
+        title="Default Categories"
         visible={props.visible}
         onDismiss={props.onDismiss}
       >

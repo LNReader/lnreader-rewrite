@@ -55,6 +55,15 @@ const SettingsScreen = () => {
           })
         }
       />
+      <List.Item
+        title="Advanced"
+        icon="code-tags"
+        onPress={() =>
+          navigate('SettingsStack', {
+            screen: 'AdvancedSettingsScreen',
+          })
+        }
+      />
     </>
   );
 };

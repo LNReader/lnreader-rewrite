@@ -7,6 +7,7 @@ import GeneralSettingsScreen from '@screens/GeneralSettingsScreen/GeneralSetting
 import LibrarySettingsScreen from '@screens/LibrarySettingsScreen/LibrarySettingsScreen';
 import DownloadsSettingsScreen from '@screens/DownloadsSettingsScreen/DownloadsSettingsScreen';
 import ReaderSettingsScreen from '@screens/ReaderSettingsScreen/ReaderSettingsScreen';
+import AdvancedSettingsScreen from '@screens/AdvancedSettingsScreen/AdvancedSettingsScreen';
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,10 @@ const SettingsStack = () => (
     <Stack.Screen
       name="ReaderSettingsScreen"
       component={ReaderSettingsScreen}
+    />
+    <Stack.Screen
+      name="AdvancedSettingsScreen"
+      component={AdvancedSettingsScreen}
     />
   </Stack.Navigator>
 );

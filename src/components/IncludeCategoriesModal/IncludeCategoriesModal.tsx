@@ -50,11 +50,11 @@ const DefaultCategoryModal: React.FC<DefaultCategoryModalProps> = props => {
   return (
     <Portal>
       <Modal
-        title="Default Category"
+        title="Categories"
         visible={props.visible}
         onDismiss={props.onDismiss}
       >
-        <Text padding={{ horizontal: 24 }}>
+        <Text style={styles.descCtn}>
           Entries in excluded categories will not be updated even if they are
           also in included categories.
         </Text>
@@ -78,4 +78,9 @@ const DefaultCategoryModal: React.FC<DefaultCategoryModalProps> = props => {
 
 export default DefaultCategoryModal;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  descCtn: {
+    paddingHorizontal: 24,
+    paddingBottom: 8,
+  },
+});

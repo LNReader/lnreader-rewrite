@@ -1,5 +1,6 @@
 import { useMMKVObject } from 'react-native-mmkv';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
+import { ToastAndroid } from '@lnreader/core';
 
 export const SOURCE_STORAGE = 'SOURCE_STORAGE';
 
@@ -9,7 +10,7 @@ interface SourceStorage {
 
 export type SourceStorageMap = Record<number, Partial<SourceStorage>>;
 
-const useSourceStorage = (sourceId: number) => {
+const useSourceStorage = ({ sourceId = -1 }: { sourceId?: number }) => {
   const [values, setValues] = useMMKVObject<SourceStorageMap>(
     SOURCE_STORAGE,
     MMKVStorage,
@@ -25,11 +26,29 @@ const useSourceStorage = (sourceId: number) => {
     });
   };
 
+  const clearCookies = (): void => {
+    // let tempStorage = {};
+
+    // if (values) {
+    //   tempStorage = Object.fromEntries(
+    //     Object.entries(values).map(([id, sourceData]) => {
+    //       delete sourceData.cookies;
+
+    //       return [id, sourceData];
+    //     }),
+    //   );
+    // }
+
+    setValues({});
+    ToastAndroid.show('Cookies cleared');
+  };
+
   const sourceStorage = values?.[sourceId];
 
   return {
     ...sourceStorage,
     setSourceStorage,
+    clearCookies,
   };
 };
 

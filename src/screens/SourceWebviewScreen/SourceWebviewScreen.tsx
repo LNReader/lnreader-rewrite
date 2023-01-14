@@ -23,7 +23,7 @@ const SourceWebviewScreen = () => {
   } = useRoute<ReaderScreenRouteProps>();
   const { DEFAULT_USER_AGENT_STRING = defaultUserAgentString } =
     useAppSettings();
-  const { setSourceStorage } = useSourceStorage(id);
+  const { setSourceStorage } = useSourceStorage({ sourceId: id });
 
   useEffect(() => {
     CookieManager.get(baseUrl, true).then(cookies => {
