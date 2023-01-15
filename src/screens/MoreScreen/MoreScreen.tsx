@@ -46,6 +46,15 @@ const MoreScreen = () => {
         }
       />
       <List.Item
+        title="Downloads"
+        icon="folder-download-outline"
+        onPress={() =>
+          navigate('MoreStack', {
+            screen: 'DownloadsScreen',
+          })
+        }
+      />
+      <List.Item
         title="Categories"
         icon="label-outline"
         onPress={() =>

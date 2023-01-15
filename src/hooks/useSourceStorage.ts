@@ -53,3 +53,10 @@ const useSourceStorage = ({ sourceId = -1 }: { sourceId?: number }) => {
 };
 
 export default useSourceStorage;
+
+export const getSourceStorage = (sourceId: number) => {
+  const rawSettings = MMKVStorage.getString(SOURCE_STORAGE) || '{}';
+  const parsedSettings: Partial<SourceStorageMap> = JSON.parse(rawSettings);
+
+  return parsedSettings[sourceId] || {};
+};

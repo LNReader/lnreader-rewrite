@@ -72,9 +72,9 @@ const ChapterSelection: React.FC<Props> = ({
         <ReaderFooterButton
           iconName="download-outline"
           onPress={() => {
-            const selectedChapters = chapters
-              ?.filter(chapter => selectedChapterIds.includes(chapter.id))
-              .map(chapter => ({ ...chapter, sourceId }));
+            const selectedChapters = chapters?.filter(chapter =>
+              selectedChapterIds.includes(chapter.id),
+            );
 
             downloadChapters(defaultTo(selectedChapters, []), sourceId);
             clearSelection();

@@ -1,5 +1,9 @@
 import { getAppSettings } from '@hooks';
-import { SourceStorageMap, SOURCE_STORAGE } from '@hooks/useSourceStorage';
+import {
+  getSourceStorage,
+  SourceStorageMap,
+  SOURCE_STORAGE,
+} from '@hooks/useSourceStorage';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
 import { defaultUserAgentString } from '@utils/SettingsUtils';
 
@@ -23,11 +27,7 @@ export const fetchApi = async ({
   });
 
   if (sourceId) {
-    const rawSourceSettings: SourceStorageMap = JSON.parse(
-      MMKVStorage.getString(SOURCE_STORAGE) || '{}',
-    );
-
-    const { cookies = '' } = rawSourceSettings[sourceId] || {};
+    const { cookies = '' } = getSourceStorage(sourceId);
 
     if (cookies) {
       headers.append('cookie', cookies);
@@ -51,11 +51,7 @@ export const fetchHtml = async ({
   });
 
   if (sourceId) {
-    const rawSourceSettings: SourceStorageMap = JSON.parse(
-      MMKVStorage.getString(SOURCE_STORAGE) || '{}',
-    );
-
-    const { cookies = '' } = rawSourceSettings[sourceId] || {};
+    const { cookies = '' } = getSourceStorage(sourceId);
 
     if (cookies) {
       headers.append('cookie', cookies);

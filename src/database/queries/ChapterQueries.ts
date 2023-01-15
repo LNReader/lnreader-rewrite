@@ -4,7 +4,11 @@ import { escape, noop } from 'lodash';
 import { NovelStorageMap, NOVEL_STORAGE } from '@hooks/useNovelStorage';
 
 import { DATABASE_NAME } from '@database/constants';
-import { DatabaseChapter, DatabaseChapterWithSourceId } from '@database/types';
+import {
+  DatabaseChapter,
+  DatabaseChapterWithNovelDetails,
+  DatabaseChapterWithSourceId,
+} from '@database/types';
 import { txnErrorCallback } from '@database/utils';
 
 import { SourceNovelChapter } from '@sources/types';
@@ -264,6 +268,36 @@ export const getChaptersByChapterIds = (
     db.transaction(tx => {
       tx.executeSql(
         query,
+        undefined,
+        (txObj, { rows: { _array } }) => resolve(_array),
+        txnErrorCallback,
+      );
+    }),
+  );
+};
+
+const getDownloadedChaptersQuery = `
+SELECT 
+  chapters.*,
+  novels.title as novelName,
+  novels.sourceId,
+  novels.coverUrl,
+  novels.url as novelUrl
+FROM 
+  chapters 
+JOIN
+  novels ON novels.id = chapters.id
+WHERE 
+  chapters.downloaded = 1 
+`;
+
+export const getDownloadedChapters = (): Promise<
+  DatabaseChapterWithNovelDetails[]
+> => {
+  return new Promise(resolve =>
+    db.transaction(tx => {
+      tx.executeSql(
+        getDownloadedChaptersQuery,
         undefined,
         (txObj, { rows: { _array } }) => resolve(_array),
         txnErrorCallback,

@@ -19,7 +19,7 @@ const useDownloader = () => {
   );
 
   const downloadChapters = async (
-    chapters: Array<DatabaseChapterWithSourceId>,
+    chapters: Array<DatabaseChapter | DatabaseChapterWithSourceId>,
     sourceId?: number,
   ) => {
     if (!chapters?.length) {
@@ -58,12 +58,12 @@ const useDownloader = () => {
           if (BackgroundService.isRunning()) {
             const chapter = chapters[i];
 
-            if (!sourceId) {
+            if (!sourceId && 'sourceId' in chapter) {
               sourceId = chapter.sourceId;
             }
 
             try {
-              if (!chapter.downloaded) {
+              if (!chapter.downloaded && sourceId) {
                 await insertChapterInDownloads(
                   sourceId,
                   chapter.id,

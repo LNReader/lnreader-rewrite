@@ -15,8 +15,8 @@ import DownloadButton from './DownloadButton';
 interface ChapterCardProps {
   chapter: DatabaseChapter;
   sourceId: number;
-  selectedChapterIds: number[];
-  setSelectedChapterIds: React.Dispatch<React.SetStateAction<number[]>>;
+  selectedChapterIds?: number[];
+  setSelectedChapterIds?: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const ChapterCard: React.FC<ChapterCardProps> = ({
@@ -31,13 +31,13 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
   const { SHOW_CHAPTER_NUMBERS = false } = useNovelStorage(novel.id);
   const { PROGRESS = 0 } = useChapterStorage(chapter.id);
 
-  const isSelected = selectedChapterIds.includes(chapter.id);
+  const isSelected = selectedChapterIds?.includes(chapter.id);
 
   const handleSelectChapter = () =>
-    setSelectedChapterIds(prevVal => xor(prevVal, [chapter.id]));
+    setSelectedChapterIds?.(prevVal => xor(prevVal, [chapter.id]));
 
   const onPress = () => {
-    if (selectedChapterIds.length) {
+    if (selectedChapterIds?.length) {
       handleSelectChapter();
     } else {
       navigate('ReaderScreen', {

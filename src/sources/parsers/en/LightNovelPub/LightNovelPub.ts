@@ -70,17 +70,25 @@ export class LightNovelPubParser implements ParsedSource {
     const formData = new FormData();
     formData.append('inputContent', searchTerm);
 
-    const res = await fetchApi({
+    const headers = new Headers();
+    headers.append('site-domain', 'www.lightnovelpub.com');
+    headers.append('Sec-Fetch-Site', 'same-origin');
+    headers.append('Sec-Fetch-Mode', 'cors');
+    headers.append('Sec-Fetch-Dest', 'empty');
+    headers.append('X-Requested-With', 'XMLHttpRequest');
+    headers.append('accept', '*/*');
+
+    const html = await fetchHtml({
       url,
       sourceId,
       init: {
         method: 'POST',
         body: formData,
+        headers,
       },
     });
-    const resJSON = await res.json();
 
-    const loadedCheerio = cheerio.load(resJSON.resultview);
+    const loadedCheerio = cheerio.load(html);
 
     const novels: SourceNovel[] = [];
 

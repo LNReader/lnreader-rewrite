@@ -44,6 +44,10 @@ export interface DatabaseChapterWithSourceId extends DatabaseChapter {
   sourceId: number;
 }
 
+export type DatabaseChapterWithNovelDetails = DatabaseChapter & {
+  novelName: string;
+  novelUrl: string;
+};
 export interface Category {
   id: number;
   name: string;

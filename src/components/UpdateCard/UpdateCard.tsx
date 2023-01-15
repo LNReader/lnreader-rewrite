@@ -34,7 +34,7 @@ const UpdateCard: React.FC<Props> = ({ update }) => {
     navigate('NovelDetailsScreen', {
       id: update.novelId,
       sourceId: update.sourceId,
-      name: update.novelName,
+      title: update.novelName,
       coverUrl: update.coverUrl,
     });
 
