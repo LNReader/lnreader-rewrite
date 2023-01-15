@@ -5,13 +5,14 @@ import Image from 'react-native-fast-image';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Text, Row, TextProps } from '@lnreader/core';
-import { useTheme, useAppSettings } from '@hooks';
+import { useTheme, useAppSettings, useSourceStorage } from '@hooks';
 import { LibraryNovel } from '@database/types';
 import { SourceNovel } from '@sources/types';
 
 import { IMAGE_PLACEHOLDER_COLOR, Spacing, WHITE_HEX } from '@theme/constants';
 import { LibraryDisplayModes } from '@utils/LibraryUtils';
 import { useLibraryContext } from '@contexts/LibraryContext';
+import { defaultUserAgentString } from '@utils/SettingsUtils';
 
 interface NovelItemProps {
   novel: SourceNovel | LibraryNovel;
@@ -42,7 +43,19 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
     LIBRARY_SHOW_UNREAD_BADGE = true,
     LIBRARY_SHOW_DOWNLOADS_BADGE = true,
     LIBRARY_DISPLAY_MODE = LibraryDisplayModes.Comfortable,
+    DEFAULT_USER_AGENT_STRING = defaultUserAgentString,
   } = useAppSettings();
+
+  const { cookies } = useSourceStorage({ sourceId: novel.sourceId });
+
+  const headers = useMemo(
+    () => ({
+      'User-Agent': DEFAULT_USER_AGENT_STRING,
+      cookie: cookies,
+    }),
+
+    [],
+  );
 
   const coverHeight = useMemo(() => (window.width / 3) * (4 / 3), []);
 
@@ -73,9 +86,8 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
               size={12}
               color={theme.onPrimary}
               style={[
-                styles.unread,
                 { backgroundColor: theme.primary },
-                showUnreadBadge && styles.borderRightNone,
+                styles.isInLibraryBadge,
               ]}
             >
               {'In Library'}
@@ -109,11 +121,11 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
           ) : null}
         </Row>
         <Image
-          source={{ uri: novel.coverUrl || undefined }}
+          source={{ uri: novel.coverUrl || undefined, headers }}
           style={[
             styles.cover,
             { height: coverHeight },
-            isLibraryNovel && { opacity: 0.5 },
+            isLibraryNovel && styles.libraryNovelCover,
           ]}
         >
           {LIBRARY_DISPLAY_MODE === LibraryDisplayModes.Compact && (
@@ -134,9 +146,7 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
           )}
         </Image>
         {LIBRARY_DISPLAY_MODE === LibraryDisplayModes.Comfortable && (
-          <Text color={theme.onSurface} {...titleProps}>
-            {novel.title}
-          </Text>
+          <Text {...titleProps}>{novel.title}</Text>
         )}
       </Pressable>
     </View>
@@ -232,5 +242,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 8,
     paddingVertical: 12,
+  },
+  libraryNovelCover: {
+    opacity: 0.5,
+  },
+  isInLibraryBadge: {
+    borderRadius: 4,
   },
 });

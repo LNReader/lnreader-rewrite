@@ -1,8 +1,9 @@
 import * as SQLite from 'expo-sqlite';
 
-import { History } from '@database/types';
+import { DatabaseChapter, History } from '@database/types';
 import { DATABASE_NAME } from '@database/constants';
 import { txnErrorCallback } from '@database/utils';
+import { ToastAndroid } from '@lnreader/core';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -78,5 +79,47 @@ export const removeHistoryByChapterId = async (chapterId: number) => {
       undefined,
       txnErrorCallback,
     ),
+  );
+};
+
+export const deleteAllHistory = async () => {
+  db.transaction(tx => {
+    tx.executeSql('DELETE FROM history; VACCUM;');
+  });
+
+  ToastAndroid.show('History deleted.');
+};
+
+const getLastReadChapterByNovelIdQuery = `
+SELECT
+  C.* 
+FROM 
+  history 
+  JOIN chapters as C ON history.chapterId = C.id 
+  JOIN novels as N ON C.novelId = N.id 
+WHERE 
+  N.id = ? 
+GROUP BY 
+  N.id
+HAVING 
+  history.lastRead = MAX(history.lastRead) 
+ORDER BY 
+  history.lastRead DESC
+`;
+
+export const getLastReadChapterByNovelId = (
+  novelId: number,
+): Promise<DatabaseChapter | undefined> => {
+  return new Promise(resolve =>
+    db.transaction(tx => {
+      tx.executeSql(
+        getLastReadChapterByNovelIdQuery,
+        [novelId],
+        (_txObj, { rows: { _array } }) => {
+          resolve(_array[0]);
+        },
+        txnErrorCallback,
+      );
+    }),
   );
 };

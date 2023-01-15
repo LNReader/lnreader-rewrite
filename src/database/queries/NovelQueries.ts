@@ -1,16 +1,12 @@
 import * as SQLite from 'expo-sqlite';
 
-import { APP_SETTINGS, getAppSettings } from '@hooks/useAppSettings';
+import { getAppSettings } from '@hooks/useAppSettings';
 
 import { DATABASE_NAME } from '@database/constants';
 import { DatabaseNovel, LibraryNovel } from '@database/types';
 import { txnErrorCallback } from '@database/utils';
 
 import { SourceNovelDetails } from '@sources/types';
-
-import { SettingTypes } from 'types/Settings';
-
-import { MMKVStorage } from '@utils/mmkv/mmkv';
 import { LibrarySortOrder } from '@utils/LibraryUtils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
@@ -60,12 +56,12 @@ export const getLibraryNovels = (
     query += LIBRARY_FILTERS?.join('');
   }
 
-  if (LIBRARY_SORT_ORDER) {
-    query += ' ORDER BY  ' + LIBRARY_SORT_ORDER;
-  }
-
   if (searchTerm) {
     query += ` AND title LIKE '%${searchTerm}%'`;
+  }
+
+  if (LIBRARY_SORT_ORDER) {
+    query += ' ORDER BY  ' + LIBRARY_SORT_ORDER;
   }
 
   return new Promise(resolve =>

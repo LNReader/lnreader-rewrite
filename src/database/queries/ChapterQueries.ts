@@ -130,3 +130,59 @@ export const setChaptersUnread = async (ids: number[]) => {
   const query = `${setChaptersUnreadQuery} (${ids.toString()})`;
   db.transaction(tx => tx.executeSql(query, undefined, noop, txnErrorCallback));
 };
+
+const getPrevChapterQuery = `
+SELECT 
+  * 
+FROM 
+  chapters 
+WHERE 
+  novelId = ? 
+  AND id < ? 
+LIMIT 
+  1
+`;
+
+export const getPrevChapter = (
+  novelId: number,
+  chapterId: number,
+): Promise<DatabaseChapter> => {
+  return new Promise(resolve =>
+    db.transaction(tx => {
+      tx.executeSql(
+        getPrevChapterQuery,
+        [novelId, chapterId],
+        (_txObj, results) => resolve(results.rows.item(0)),
+        txnErrorCallback,
+      );
+    }),
+  );
+};
+
+const getNextChapterQuery = `
+SELECT 
+  * 
+FROM 
+  chapters 
+WHERE 
+  novelId = ? 
+  AND id > ? 
+LIMIT 
+  1
+`;
+
+export const getNextChapter = (
+  novelId: number,
+  chapterId: number,
+): Promise<DatabaseChapter> => {
+  return new Promise(resolve =>
+    db.transaction(tx => {
+      tx.executeSql(
+        getNextChapterQuery,
+        [novelId, chapterId],
+        (_txObj, results) => resolve(results.rows.item(0)),
+        txnErrorCallback,
+      );
+    }),
+  );
+};

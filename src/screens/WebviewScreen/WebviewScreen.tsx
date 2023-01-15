@@ -6,27 +6,26 @@ import CookieManager from '@react-native-cookies/cookies';
 
 import { Appbar } from '@lnreader/core';
 import { useAppSettings, useSourceStorage } from '@hooks';
-import { Source } from '@sources/types';
 import { defaultUserAgentString } from '@utils/SettingsUtils';
 
 type ReaderScreenRouteProps = RouteProp<{
   params: {
-    source: Source;
+    name: string;
+    sourceId: number;
+    url: string;
   };
 }>;
 
-const SourceWebviewScreen = () => {
+const WebviewScreen = () => {
   const {
-    params: {
-      source: { name, id, baseUrl },
-    },
+    params: { name, sourceId, url },
   } = useRoute<ReaderScreenRouteProps>();
   const { DEFAULT_USER_AGENT_STRING = defaultUserAgentString } =
     useAppSettings();
-  const { setSourceStorage } = useSourceStorage({ sourceId: id });
+  const { setSourceStorage } = useSourceStorage({ sourceId });
 
   useEffect(() => {
-    CookieManager.get(baseUrl, true).then(cookies => {
+    CookieManager.get(url, true).then(cookies => {
       const cloudflareCookie = cookies?.cf_clearance;
       if (cloudflareCookie) {
         const cloudflareCookieString = `${cloudflareCookie.name}=${cloudflareCookie.value}`;
@@ -39,13 +38,14 @@ const SourceWebviewScreen = () => {
     <>
       <Appbar mode="small" title={name} />
       <WebView
+        startInLoadingState
         userAgent={DEFAULT_USER_AGENT_STRING}
-        source={{ uri: baseUrl }}
+        source={{ uri: url }}
       />
     </>
   );
 };
 
-export default SourceWebviewScreen;
+export default WebviewScreen;
 
 const styles = StyleSheet.create({});

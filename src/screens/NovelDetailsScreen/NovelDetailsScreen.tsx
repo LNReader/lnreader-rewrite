@@ -4,7 +4,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { BottomSheetRef } from '@lnreader/core';
+import { BottomSheetType } from '@lnreader/core';
 import { useNovelDetails, useTheme } from '@hooks';
 import {
   NovelDetailsContext,
@@ -29,7 +29,7 @@ interface NovelDetailsProps {
 
 const NovelDetails: React.FC<NovelDetailsProps> = ({ sourceId }) => {
   const { theme } = useTheme();
-  const bottomSheetRef = useRef<BottomSheetRef>(null);
+  const bottomSheetRef = useRef<BottomSheetType>(null);
 
   const { top: topInset } = useSafeAreaInsets();
   const progressViewOffset = topInset + 16;

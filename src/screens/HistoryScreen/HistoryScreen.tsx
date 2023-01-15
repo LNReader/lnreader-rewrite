@@ -9,26 +9,34 @@ import {
   Searchbar,
   Text,
 } from '@lnreader/core';
-import { useTheme, useHistory, useSearchText } from '@hooks';
+import { useTheme, useHistory, useSearchText, useBoolean } from '@hooks';
 import { groupHistoryByDate } from '@utils/HistoryUtils';
 
 import HistoryCard from '@components/HistoryCard/HistoryCard';
-import SettingBanners from '@components/SettingBanners/SettingBanners';
+import ConfirmationModal from '@components/ConfirmationModal/ConfirmationModal';
 
 const HistoryScreen = () => {
-  const { theme } = useTheme();
+  // const { theme } = useTheme();
   const { searchText, setSearchText } = useSearchText();
-  const { error, history, loading, removeHistory } = useHistory({
-    searchText,
-  });
+  const { error, history, loading, removeHistory, clearAllHistory } =
+    useHistory({
+      searchText,
+    });
+
+  const clearAllHistoryModalState = useBoolean();
 
   return (
     <>
-      <SettingBanners />
       <Searchbar
         placeholder="Search history"
         value={searchText}
         onChangeText={setSearchText}
+        actions={[
+          {
+            icon: 'delete-sweep-outline',
+            onPress: clearAllHistoryModalState.setTrue,
+          },
+        ]}
       />
       {loading ? (
         <LoadingScreen />
@@ -49,6 +57,14 @@ const HistoryScreen = () => {
           ListEmptyComponent={<EmptyView />}
         />
       )}
+      {/* Modals */}
+      <ConfirmationModal
+        visible={clearAllHistoryModalState.value}
+        onDismiss={clearAllHistoryModalState.setFalse}
+        title="Remove everything"
+        description="Are you sure? All history will be lost."
+        onConfirm={clearAllHistory}
+      />
     </>
   );
 };

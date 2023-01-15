@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   lastUpdatedCtn: {
     paddingHorizontal: 16,
-    vertical: 8,
+    paddingVertical: 8,
     fontSize: 12,
     fontStyle: 'italic',
   },

@@ -6,8 +6,9 @@ import MoreStack from '@navigators/MoreStack/MoreStack';
 import SourceScreen from '@screens/SourceScreen/SourceScreen';
 import NovelDetailsScreen from '@screens/NovelDetailsScreen/NovelDetailsScreen';
 import ReaderScreen from '@screens/ReaderScreen/ReaderScreen';
-import SourceWebviewScreen from '@screens/SourceWebviewScreen/SourceWebviewScreen';
+import WebviewScreen from '@screens/WebviewScreen/WebviewScreen';
 import BrowseSettingsScreen from '@screens/BrowseSettingsScreen/BrowseSettingsScreen';
+import GlobalSearchScreen from '@screens/GlobalSearchScreen/GlobalSearchScreen';
 
 const Stack = createStackNavigator();
 
@@ -20,10 +21,8 @@ const MainNavigator = () => {
         name="BrowseSettingsScreen"
         component={BrowseSettingsScreen}
       />
-      <Stack.Screen
-        name="SourceWebviewScreen"
-        component={SourceWebviewScreen}
-      />
+      <Stack.Screen name="WebviewScreen" component={WebviewScreen} />
+      <Stack.Screen name="GlobalSearchScreen" component={GlobalSearchScreen} />
       <Stack.Screen name="NovelDetailsScreen" component={NovelDetailsScreen} />
       <Stack.Screen name="ReaderScreen" component={ReaderScreen} />
       <Stack.Screen name="MoreStack" component={MoreStack} />

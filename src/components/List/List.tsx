@@ -71,6 +71,7 @@ const Item: React.FC<
           : undefined
       }
       rippleColor={theme.rippleColor}
+      style={styles.listItemCtn}
       {...props}
     />
   );
@@ -96,9 +97,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   infoCtn: {
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
   },
   infoMsg: {
     marginTop: 12,
+  },
+  listItemCtn: {
+    paddingVertical: 12,
   },
 });

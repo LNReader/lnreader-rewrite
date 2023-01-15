@@ -13,6 +13,7 @@ import { Spacing } from '@theme/constants';
 import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
 import { defaultTo } from 'lodash';
 import { useLibraryContext } from '@contexts/LibraryContext';
+import { useNavigation } from '@react-navigation/native';
 
 export const CoverImage: React.FC<FastImageProps> = props => {
   const { theme } = useTheme();
@@ -48,10 +49,13 @@ export const CoverImage: React.FC<FastImageProps> = props => {
 
 export const SubHeader: React.FC = () => {
   const { theme } = useTheme();
-  const { novel, handleSetNovelFavorite } = useNovelDetailsContext();
+  const { navigate } = useNavigation();
+  const { novel, handleSetNovelFavorite, loading } = useNovelDetailsContext();
   const { refetch: refetchLibrary } = useLibraryContext();
 
-  const followBtnColor = novel.favorite
+  const followBtnColor = loading
+    ? theme.onSurfaceDisabled
+    : novel.favorite
     ? theme.primary
     : theme.onSurfaceVariant;
 
@@ -65,6 +69,7 @@ export const SubHeader: React.FC = () => {
             handleSetNovelFavorite(!novel.favorite);
             refetchLibrary();
           }}
+          disabled={loading}
         >
           <Icon
             name={novel.favorite ? 'heart' : 'heart-outline'}
@@ -80,7 +85,13 @@ export const SubHeader: React.FC = () => {
         <Pressable
           android_ripple={{ color: theme.rippleColor }}
           style={styles.buttonCtn}
-          onPress={() => WebBrowser.openBrowserAsync(novel.url)}
+          onPress={() =>
+            navigate('WebviewScreen', {
+              sourceId: novel.sourceId,
+              name: novel.title,
+              url: novel.url,
+            })
+          }
         >
           <Icon name="earth" color={theme.outline} size={24} />
           <Text size={12} style={styles.label} color={theme.outline}>

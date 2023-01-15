@@ -14,7 +14,9 @@ import {
   Searchbar,
   Text,
   BottomSheetType,
+  Button,
 } from '@lnreader/core';
+import { useNavigation } from '@react-navigation/native';
 
 import { useTheme, useLibrary, useSearchText, useAppSettings } from '@hooks';
 
@@ -30,6 +32,7 @@ type State = NavigationState<{
 }>;
 
 const LibraryScreen = () => {
+  const { navigate } = useNavigation();
   const { theme } = useTheme();
   const layout = useWindowDimensions();
   const { LIBRARY_SHOW_NUMBER_OF_ITEMS } = useAppSettings();
@@ -104,7 +107,18 @@ const LibraryScreen = () => {
             error ? (
               <ErrorScreen error={error} />
             ) : (
-              <LibraryView categoryId={route.id} novels={route.novels} />
+              <>
+                {searchText ? (
+                  <Button
+                    title={`Search for "${searchText}" globally`}
+                    onPress={() =>
+                      navigate('GlobalSearchScreen', { searchText })
+                    }
+                    style={styles.globalSearchBtn}
+                  />
+                ) : null}
+                <LibraryView categoryId={route.id} novels={route.novels} />
+              </>
             )
           }
           onIndexChange={setIndex}
@@ -129,5 +143,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginHorizontal: Spacing.XS,
     paddingHorizontal: 6,
+  },
+  globalSearchBtn: {
+    margin: 16,
   },
 });

@@ -58,7 +58,11 @@ const useSource = (params: UseSourceParams) => {
   };
 
   useEffect(() => {
-    fetchNovels();
+    if (params.searchText) {
+      searchNovels(params.searchText);
+    } else {
+      fetchNovels();
+    }
   }, [page]);
 
   const fetchNextPage = () => {

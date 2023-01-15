@@ -1,40 +1,53 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import { sortBy } from 'lodash';
 
-import { Row, Text, IconButton, BottomSheetType, Button } from '@lnreader/core';
-import { useTheme, useHistory } from '@hooks';
+import { Row, Text, IconButton, BottomSheetRef, Button } from '@lnreader/core';
+import { useTheme } from '@hooks';
 import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
-import { NovelStatus } from '@database/types';
+import { DatabaseChapter, NovelStatus } from '@database/types';
 import SourceFactory from '@sources/SourceFactory';
 
 import { CoverImage, Description, SubHeader } from './Components';
 
 import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
+import { getLastReadChapterByNovelId } from '@database/queries/HistoryQueries';
 
 interface Props {
-  bottomSheetRef: React.MutableRefObject<BottomSheetType>;
+  bottomSheetRef: BottomSheetRef;
 }
 
 const NovelDetailsHeader: React.FC<Props> = ({ bottomSheetRef }) => {
   const { theme } = useTheme();
   const { goBack, navigate } = useNavigation();
-  const { loading, novel, chapters } = useNovelDetailsContext();
-  const { getLastReadNovelChapter } = useHistory({});
-  const lastReadChapterId = getLastReadNovelChapter(novel.id);
+  const { novel, chapters } = useNovelDetailsContext();
 
   const sourceName = SourceFactory.getSourceName(novel.sourceId);
   const coverUrl = novel.coverUrl || undefined;
 
-  const lastReadChapter = useMemo(() => {
-    if (lastReadChapterId) {
-      return chapters?.find(chapter => chapter.id === lastReadChapterId);
+  const [lastReadChapter, setLastReadChapter] = useState<DatabaseChapter>();
+
+  const getLastReadChapter = async () => {
+    if (novel.id) {
+      const lastReadChapterFromDb = await getLastReadChapterByNovelId(novel.id);
+
+      if (lastReadChapterFromDb) {
+        setLastReadChapter(lastReadChapterFromDb);
+      } else {
+        setLastReadChapter(sortBy(chapters, 'id')[0]);
+      }
     } else {
-      return sortBy(chapters, 'id')[0];
+      setLastReadChapter(sortBy(chapters, 'id')[0]);
     }
-  }, [novel.id, getLastReadNovelChapter]);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      getLastReadChapter();
+    }, [novel.id]),
+  );
 
   const navigateToReader = () =>
     navigate('ReaderScreen', {
@@ -75,7 +88,7 @@ const NovelDetailsHeader: React.FC<Props> = ({ bottomSheetRef }) => {
       {chapters && chapters.length > 0 && lastReadChapter && (
         <Button
           mode="contained"
-          title={`${lastReadChapterId ? 'Continue' : 'Start'} reading ${
+          title={`${lastReadChapter ? 'Continue' : 'Start'} reading ${
             lastReadChapter?.name
           }`}
           style={styles.lastReadBtn}

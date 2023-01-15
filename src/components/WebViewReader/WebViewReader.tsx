@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { LegacyRef } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
@@ -14,6 +14,7 @@ import { DEAULT_READER_THEME } from '@utils/ReaderUtils';
 import { useChapterDetailsContext } from '@contexts/ChapterDetailsContext';
 
 interface WebViewReaderProps {
+  webViewRef: React.RefObject<WebView<{}>>;
   chapter?: SourceChapter;
   onPress: () => void;
   onNavigationStateChange: (event: WebViewNavigation) => void;
@@ -40,6 +41,7 @@ const isCloseToBottom = ({
 };
 
 const WebViewReader: React.FC<WebViewReaderProps> = ({
+  webViewRef,
   chapter,
   onPress,
   onNavigationStateChange,
@@ -56,7 +58,6 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
     READER_PADDING = 5,
     READER_CUSTOM_CSS,
   } = useAppSettings();
-  const webViewRef = useRef<WebView>(null);
   const {
     chapter: { id: chapterId },
   } = useChapterDetailsContext();
@@ -82,16 +83,17 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
   };
 
   return (
-    <WebView
-      incognito={INCOGNITO_MODE}
-      style={{ backgroundColor: theme.background }}
-      ref={webViewRef}
-      scalesPageToFit
-      nestedScrollEnabled
-      javaScriptEnabled
-      showsVerticalScrollIndicator={false}
-      onNavigationStateChange={onNavigationStateChange}
-      injectedJavaScript={`
+    <>
+      <WebView
+        incognito={INCOGNITO_MODE}
+        style={{ backgroundColor: theme.background }}
+        ref={webViewRef}
+        scalesPageToFit
+        nestedScrollEnabled
+        javaScriptEnabled
+        showsVerticalScrollIndicator={false}
+        onNavigationStateChange={onNavigationStateChange}
+        injectedJavaScript={`
         const scrollPercentage = ${PROGRESS};
       
         if(scrollPercentage > 0 && scrollPercentage < 100){
@@ -107,17 +109,17 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
           });
         }
       `}
-      onScroll={onScroll}
-      onMessage={ev => {
-        const event: WebViewPostEvent = JSON.parse(ev.nativeEvent.data);
-        switch (event.type) {
-          case 'hide':
-            onPress();
-            break;
-        }
-      }}
-      source={{
-        html: `
+        onScroll={onScroll}
+        onMessage={ev => {
+          const event: WebViewPostEvent = JSON.parse(ev.nativeEvent.data);
+          switch (event.type) {
+            case 'hide':
+              onPress();
+              break;
+          }
+        }}
+        source={{
+          html: `
         <html>
           <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -145,8 +147,9 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
             ${chapter?.text}
           </body>
         </html>`,
-      }}
-    />
+        }}
+      />
+    </>
   );
 };
 

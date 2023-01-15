@@ -18,3 +18,5 @@ export { useLibraryUpdate } from './useLibraryUpdate';
 export { useUpdates } from './useUpdates';
 export { useBackHandler } from './useBackHandler';
 export { default as useDownloader } from './useDownloader';
+export { default as usePrevAndNextChapters } from './usePrevAndNextChapters';
+export { useGlobalSearch } from './useGlobalSearch';

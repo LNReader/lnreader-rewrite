@@ -45,22 +45,6 @@ export const ReaderRoute = () => {
   return (
     <View style={styles.readerCtn}>
       <Row style={styles.settingCtn}>
-        <Text>Text size</Text>
-        <Slider
-          value={READER_FONT_SIZE}
-          minimumValue={12}
-          maximumValue={20}
-          step={1}
-          style={styles.slider}
-          thumbTintColor={theme.primary}
-          minimumTrackTintColor={theme.primary}
-          maximumTrackTintColor={theme.scrim}
-          onSlidingComplete={value =>
-            setAppSetting(Setting.READER_FONT_SIZE, value)
-          }
-        />
-      </Row>
-      <Row style={styles.settingCtn}>
         <Text>Color</Text>
         <Row>
           {PRESET_READER_THEMES.map(item => (
@@ -93,6 +77,16 @@ export const ReaderRoute = () => {
         </Row>
       </Row>
       <Row style={styles.settingCtn}>
+        <Text>Text size</Text>
+        <Counter
+          value={READER_FONT_SIZE}
+          minimumValue={2}
+          maximumValue={40}
+          step={1}
+          onPress={val => setAppSetting(Setting.READER_FONT_SIZE, val)}
+        />
+      </Row>
+      <Row style={styles.settingCtn}>
         <Text>Line height</Text>
         <Counter
           value={READER_LINE_HEIGHT}
@@ -121,8 +115,8 @@ export const ReaderRoute = () => {
 export const GeneralRoute = () => {
   const {
     READER_SHOW_PROGRESS = false,
-    READER_FULLSCREEN_MODE = false,
-    setAppSetting,
+    KEEP_SCREEN_ON = false,
+    toggleSetting,
   } = useAppSettings();
 
   return (
@@ -131,17 +125,13 @@ export const GeneralRoute = () => {
         size="small"
         value={READER_SHOW_PROGRESS}
         title="Show progress percentage"
-        onPress={() =>
-          setAppSetting(Setting.READER_SHOW_PROGRESS, !READER_SHOW_PROGRESS)
-        }
+        onPress={() => toggleSetting(Setting.READER_SHOW_PROGRESS)}
       />
       <Switch
         size="small"
-        value={READER_FULLSCREEN_MODE}
-        title="Fullscreen"
-        onPress={() =>
-          setAppSetting(Setting.READER_FULLSCREEN_MODE, !READER_FULLSCREEN_MODE)
-        }
+        value={KEEP_SCREEN_ON}
+        title="Keep screen on"
+        onPress={() => toggleSetting(Setting.KEEP_SCREEN_ON)}
       />
     </View>
   );

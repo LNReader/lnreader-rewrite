@@ -15,15 +15,16 @@ import NovelList from '@components/NovelList/NovelList';
 type SourceScreenRouteProps = RouteProp<{
   params: {
     sourceId: number;
+    searchText?: string;
   };
 }>;
 
 const SourceScreen: React.FC = () => {
   const {
-    params: { sourceId },
+    params: { sourceId, searchText: defaultSearchText },
   } = useRoute<SourceScreenRouteProps>();
   const { navigate } = useNavigation();
-  const { searchText, setSearchText } = useSearchText();
+  const { searchText, setSearchText } = useSearchText(defaultSearchText);
   const {
     loading,
     source,
@@ -49,7 +50,12 @@ const SourceScreen: React.FC = () => {
         actions={[
           {
             icon: 'earth',
-            onPress: () => navigate('SourceWebviewScreen', { source }),
+            onPress: () =>
+              navigate('WebviewScreen', {
+                sourceId,
+                name: source?.name,
+                url: source?.baseUrl,
+              }),
           },
         ]}
       />

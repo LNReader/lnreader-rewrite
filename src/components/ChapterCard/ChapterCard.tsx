@@ -96,6 +96,7 @@ export default ChapterCard;
 
 const styles = StyleSheet.create({
   cardCtn: {
+    height: 64,
     paddingHorizontal: Spacing.M,
     paddingVertical: Spacing.XM,
     flexDirection: 'row',

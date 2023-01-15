@@ -183,6 +183,8 @@ export class LightNovelPubParser implements ParsedSource {
   }
 
   async getChapter({ url }: GetChapterParams): Promise<SourceChapter> {
+    const sourceId = this.id;
+
     const html = await fetchHtml({ url, sourceId });
 
     const $ = cheerio.load(html);
@@ -190,7 +192,7 @@ export class LightNovelPubParser implements ParsedSource {
 
     return {
       url,
-      sourceId: this.id,
+      sourceId,
       text,
     };
   }

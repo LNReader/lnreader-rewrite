@@ -74,6 +74,10 @@ const BrowseScreen = () => {
         onChangeText={setSearchText}
         actions={[
           {
+            icon: 'book-search',
+            onPress: () => navigate('GlobalSearchScreen'),
+          },
+          {
             icon: 'cog-outline',
             onPress: () => navigate('BrowseSettingsScreen'),
           },
