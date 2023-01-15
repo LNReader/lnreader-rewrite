@@ -22,7 +22,7 @@ const EmptyView: React.FC<Props> = ({
           {icon}
         </Text>
       ) : null}
-      <Text padding={16} color={theme.onSurfaceVariant}>
+      <Text style={styles.descCtn} padding={16} color={theme.onSurfaceVariant}>
         {description}
       </Text>
     </View>
@@ -36,5 +36,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  descCtn: {
+    textAlign: 'center',
   },
 });

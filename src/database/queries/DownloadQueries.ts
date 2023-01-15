@@ -110,3 +110,42 @@ export const deleteDownloads = async (chapterIds: number[]) => {
     );
   });
 };
+
+const setChapterNotDownloadedByNovelIdsQuery = `
+UPDATE 
+  chapters 
+SET 
+  downloaded = 0 
+WHERE 
+  novelId IN 
+`;
+
+const deleteDownloadsByNovelIdsQuery = `
+DELETE FROM downloads
+JOIN chapters on chapters.id = downloads.chapterId
+JOIN novels on novels.id = chapters.id
+WHERE 
+  novelId IN 
+`;
+
+export const deleteDownloadsByNovelIds = async (novelIds: number[]) => {
+  const chapterIdsString = novelIds.toString();
+
+  const deleteDownloadsQueryWithIds = `${deleteDownloadsByNovelIdsQuery} (${chapterIdsString})`;
+  const setChapterNotDownloadedQueryWithIds = `${setChapterNotDownloadedByNovelIdsQuery} (${chapterIdsString})`;
+
+  db.transaction(tx => {
+    tx.executeSql(
+      deleteDownloadsQueryWithIds,
+      undefined,
+      noop,
+      txnErrorCallbackWithoutToast,
+    );
+    tx.executeSql(
+      setChapterNotDownloadedQueryWithIds,
+      undefined,
+      noop,
+      txnErrorCallbackWithoutToast,
+    );
+  });
+};

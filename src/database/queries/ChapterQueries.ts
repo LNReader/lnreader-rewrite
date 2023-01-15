@@ -186,3 +186,61 @@ export const getNextChapter = (
     }),
   );
 };
+
+const getChaptersByNovelIdsQuery = `
+SELECT 
+  chapters.*,
+  novels.sourceId 
+FROM 
+  chapters
+  JOIN
+    novels ON novels.id = chapters.novelId
+WHERE 
+  novelId
+IN 
+`;
+
+export const getChaptersByNovelIds = (
+  novelIds: number[],
+): Promise<Array<DatabaseChapter & { sourceId: number }>> => {
+  const query = getChaptersByNovelIdsQuery + `(${novelIds.toString()})`;
+
+  return new Promise(resolve =>
+    db.transaction(tx => {
+      tx.executeSql(
+        query,
+        undefined,
+        (txObj, { rows: { _array } }) => resolve(_array),
+        txnErrorCallback,
+      );
+    }),
+  );
+};
+
+const setChaptersReadByNovelIdsQuery = `
+UPDATE 
+  chapters
+SET 
+  \`read\` = 1 
+WHERE 
+  novelId IN
+`;
+
+export const setChaptersReadByNovelIds = async (ids: number[]) => {
+  const query = `${setChaptersReadByNovelIdsQuery} (${ids.toString()})`;
+  db.transaction(tx => tx.executeSql(query, undefined, noop, txnErrorCallback));
+};
+
+const setChaptersUnreadByNovelIdsQuery = `
+UPDATE 
+  chapters 
+SET 
+  \`read\` = 0 
+WHERE 
+  novelId IN
+`;
+
+export const setChaptersUnreadByNovelIds = async (ids: number[]) => {
+  const query = `${setChaptersUnreadByNovelIdsQuery} (${ids.toString()})`;
+  db.transaction(tx => tx.executeSql(query, undefined, noop, txnErrorCallback));
+};

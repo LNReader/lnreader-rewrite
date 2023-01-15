@@ -38,7 +38,7 @@ const DownloadButton: React.FC<Props> = ({
     return (
       <IconButton
         name="arrow-down-circle-outline"
-        onPress={() => downloadChapters(sourceId, [chapter])}
+        onPress={() => downloadChapters([chapter], sourceId)}
       />
     );
   }

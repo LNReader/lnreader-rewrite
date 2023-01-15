@@ -18,6 +18,7 @@ import {
   createChaptersUnreadByNovelIndex,
 } from '@database/tables/ChaptersTable';
 import {
+  dbTxnErrorCallback,
   txnErrorCallback,
   txnErrorCallbackWithoutToast,
 } from '@database/utils';
@@ -28,28 +29,42 @@ import {
 import { noop } from 'lodash';
 import { createUpdatesTableQuery } from '@database/tables/UpdatesTable';
 import { createDownloadTableQuery } from '@database/tables/DownloadsTable';
+import { useMMKVBoolean } from 'react-native-mmkv';
+import { MMKVStorage } from '@utils/mmkv/mmkv';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
+const DB_CREATED = 'DB_CREATED';
+
 const useDatabase = () => {
+  const [dbCreated = false, setDbCreated] = useMMKVBoolean(
+    DB_CREATED,
+    MMKVStorage,
+  );
+
   const createTables = () => {
-    db.transaction(tx => {
-      tx.executeSql(createCategoriesTableQuery, [], () => {
-        tx.executeSql(
-          createDefaultCategoryQuery,
-          undefined,
-          noop,
-          txnErrorCallbackWithoutToast,
-        );
-      });
-      tx.executeSql(createNovelsTableQuery);
-      tx.executeSql(createChaptersTableQuery);
-      tx.executeSql(createHistoryTableQuery);
-      tx.executeSql(createUpdatesTableQuery);
-      tx.executeSql(createDownloadTableQuery);
-      // tx.executeSql('DELETE from chapters where id = 12359');
-      // tx.executeSql('DELETE from downloads');
-    });
+    db.transaction(
+      tx => {
+        tx.executeSql(createCategoriesTableQuery, [], () => {
+          tx.executeSql(
+            createDefaultCategoryQuery,
+            undefined,
+            noop,
+            txnErrorCallbackWithoutToast,
+          );
+        });
+        tx.executeSql(createNovelsTableQuery);
+        tx.executeSql(createChaptersTableQuery);
+        tx.executeSql(createHistoryTableQuery);
+        tx.executeSql(createUpdatesTableQuery);
+        tx.executeSql(createDownloadTableQuery);
+      },
+      dbTxnErrorCallback,
+      () => {
+        setDbCreated(true);
+        createIndexes();
+      },
+    );
   };
 
   const createIndexes = () => {
@@ -63,8 +78,10 @@ const useDatabase = () => {
   };
 
   useEffect(() => {
-    createTables();
-    createIndexes();
+    if (!dbCreated) {
+      createTables();
+      createIndexes();
+    }
   }, []);
 
   const dropTables = () => {
@@ -74,10 +91,11 @@ const useDatabase = () => {
       tx.executeSql('DROP TABLE categories');
       tx.executeSql('DROP TABLE history');
       tx.executeSql('DROP TABLE updates');
+      tx.executeSql('DROP TABLE downloads');
     });
   };
 
-  return { dropTables };
+  return { dropTables, isDbCreated: dbCreated };
 };
 
 export default useDatabase;

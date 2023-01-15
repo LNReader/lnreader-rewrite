@@ -7,13 +7,15 @@ import * as WebBrowser from 'expo-web-browser';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { Text, Row, IconButton, Chip } from '@lnreader/core';
-import { useTheme } from '@hooks';
+import { useBoolean, useTheme } from '@hooks';
 import Color from 'color';
 import { Spacing } from '@theme/constants';
 import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
 import { defaultTo } from 'lodash';
 import { useLibraryContext } from '@contexts/LibraryContext';
 import { useNavigation } from '@react-navigation/native';
+import SetCategoriesModal from '@components/SetCategoriesModal/SetCategoriesModal';
+import { DEFAULT_CATEGORIES } from '@database/constants';
 
 export const CoverImage: React.FC<FastImageProps> = props => {
   const { theme } = useTheme();
@@ -53,6 +55,8 @@ export const SubHeader: React.FC = () => {
   const { novel, handleSetNovelFavorite, loading } = useNovelDetailsContext();
   const { refetch: refetchLibrary } = useLibraryContext();
 
+  const setCategoriesModalState = useBoolean();
+
   const followBtnColor = loading
     ? theme.onSurfaceDisabled
     : novel.favorite
@@ -60,46 +64,58 @@ export const SubHeader: React.FC = () => {
     : theme.onSurfaceVariant;
 
   return (
-    <Row style={styles.subHeaderCtn}>
-      <View style={styles.buttonWrapper}>
-        <Pressable
-          android_ripple={{ color: theme.rippleColor }}
-          style={styles.buttonCtn}
-          onPress={() => {
-            handleSetNovelFavorite(!novel.favorite);
-            refetchLibrary();
-          }}
-          disabled={loading}
-        >
-          <Icon
-            name={novel.favorite ? 'heart' : 'heart-outline'}
-            color={followBtnColor}
-            size={24}
-          />
-          <Text size={12} style={styles.label} color={followBtnColor}>
-            {novel.favorite ? 'In library' : 'Add to library'}
-          </Text>
-        </Pressable>
-      </View>
-      <View style={styles.buttonWrapper}>
-        <Pressable
-          android_ripple={{ color: theme.rippleColor }}
-          style={styles.buttonCtn}
-          onPress={() =>
-            navigate('WebviewScreen', {
-              sourceId: novel.sourceId,
-              name: novel.title,
-              url: novel.url,
-            })
-          }
-        >
-          <Icon name="earth" color={theme.outline} size={24} />
-          <Text size={12} style={styles.label} color={theme.outline}>
-            {'WebView'}
-          </Text>
-        </Pressable>
-      </View>
-    </Row>
+    <>
+      <Row style={styles.subHeaderCtn}>
+        <View style={styles.buttonWrapper}>
+          <Pressable
+            android_ripple={{ color: theme.rippleColor }}
+            style={styles.buttonCtn}
+            onPress={() => {
+              handleSetNovelFavorite(!novel.favorite);
+              refetchLibrary();
+            }}
+            onLongPress={setCategoriesModalState.setTrue}
+            disabled={loading}
+          >
+            <Icon
+              name={novel.favorite ? 'heart' : 'heart-outline'}
+              color={followBtnColor}
+              size={24}
+            />
+            <Text size={12} style={styles.label} color={followBtnColor}>
+              {novel.favorite ? 'In library' : 'Add to library'}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.buttonWrapper}>
+          <Pressable
+            android_ripple={{ color: theme.rippleColor }}
+            style={styles.buttonCtn}
+            onPress={() =>
+              navigate('WebviewScreen', {
+                sourceId: novel.sourceId,
+                name: novel.title,
+                url: novel.url,
+              })
+            }
+          >
+            <Icon name="earth" color={theme.outline} size={24} />
+            <Text size={12} style={styles.label} color={theme.outline}>
+              {'WebView'}
+            </Text>
+          </Pressable>
+        </View>
+      </Row>
+      {/* Modals */}
+      <SetCategoriesModal
+        visible={setCategoriesModalState.value}
+        onDismiss={setCategoriesModalState.setFalse}
+        selectedCategories={
+          novel.categoryIds ? JSON.parse(novel.categoryIds) : DEFAULT_CATEGORIES
+        }
+        novelIds={[novel.id]}
+      />
+    </>
   );
 };
 

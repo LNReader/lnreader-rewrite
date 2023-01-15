@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { FlatList, FlatListProps, StyleSheet } from 'react-native';
 
 import { EmptyView } from '@lnreader/core';
-import { LibraryNovel } from '@database/types';
+import { DatabaseNovel, LibraryNovel } from '@database/types';
 import { SourceNovel } from '@sources/types';
 
 import NovelItem from '@components/NovelItem/NovelItem';
@@ -14,7 +14,10 @@ import { LibraryDisplayModes } from '@utils/LibraryUtils';
 type ListNovel = SourceNovel | LibraryNovel;
 
 const NovelList: React.FC<
-  Omit<FlatListProps<ListNovel>, 'renderItem'>
+  Omit<FlatListProps<ListNovel>, 'renderItem'> & {
+    selected: DatabaseNovel[];
+    setSelected?: React.Dispatch<React.SetStateAction<DatabaseNovel[]>>;
+  }
 > = props => {
   const { LIBRARY_DISPLAY_MODE } = useAppSettings();
 
@@ -32,7 +35,13 @@ const NovelList: React.FC<
         styles.contentCtnStyle
       }
       {...props}
-      renderItem={({ item }) => <NovelItem novel={item} />}
+      renderItem={({ item }) => (
+        <NovelItem
+          novel={item}
+          selected={props.selected}
+          setSelected={props.setSelected}
+        />
+      )}
       ListEmptyComponent={<EmptyView />}
     />
   );

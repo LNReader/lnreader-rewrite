@@ -6,16 +6,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { Text, Row, TextProps } from '@lnreader/core';
 import { useTheme, useAppSettings, useSourceStorage } from '@hooks';
-import { LibraryNovel } from '@database/types';
+import { DatabaseNovel, LibraryNovel } from '@database/types';
 import { SourceNovel } from '@sources/types';
 
 import { IMAGE_PLACEHOLDER_COLOR, Spacing, WHITE_HEX } from '@theme/constants';
 import { LibraryDisplayModes } from '@utils/LibraryUtils';
 import { useLibraryContext } from '@contexts/LibraryContext';
 import { defaultUserAgentString } from '@utils/SettingsUtils';
+import { xor, xorBy } from 'lodash';
 
 interface NovelItemProps {
   novel: SourceNovel | LibraryNovel;
+  selected: DatabaseNovel[];
+  setSelected?: React.Dispatch<React.SetStateAction<DatabaseNovel[]>>;
 }
 
 const titleProps: TextProps = {
@@ -25,7 +28,11 @@ const titleProps: TextProps = {
   size: 12,
 };
 
-const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
+const NovelItem: React.FC<NovelItemProps> = ({
+  novel,
+  selected,
+  setSelected,
+}) => {
   const { theme } = useTheme();
   const { navigate } = useNavigation();
   const route = useRoute();
@@ -59,25 +66,50 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
 
   const coverHeight = useMemo(() => (window.width / 3) * (4 / 3), []);
 
-  const handleOnPress = () => {
-    navigate('NovelDetailsScreen', novel);
+  const isDbNovel = 'id' in novel;
+
+  const onSelectNovel = () => {
+    if (isDbNovel) {
+      setSelected?.(prevVal => xorBy(prevVal, [novel], 'id'));
+    }
   };
 
-  const isDbNovel = 'id' in novel;
+  const onPress = () => {
+    if (isDbNovel && selected?.length) {
+      onSelectNovel();
+    } else {
+      navigate('NovelDetailsScreen', novel);
+    }
+  };
+
+  const onLongPress = onSelectNovel;
+
   const showDownloadsBadge =
     isDbNovel && LIBRARY_SHOW_DOWNLOADS_BADGE && !!novel.chaptersDownloaded;
   const showUnreadBadge =
     isDbNovel && LIBRARY_SHOW_UNREAD_BADGE && !!novel.chaptersUnread;
 
   if (LIBRARY_DISPLAY_MODE === LibraryDisplayModes.List) {
-    return <NovelListItem novel={novel} handleOnPress={handleOnPress} />;
+    return <NovelListItem novel={novel} onPress={onPress} />;
   }
 
+  const isSelected =
+    isDbNovel && selected?.some(selectedNovel => selectedNovel.id === novel.id);
+
   return (
-    <View style={styles.novelCtn}>
+    <View
+      style={[
+        styles.novelCtn,
+        isSelected && {
+          backgroundColor: theme.primary,
+          ...styles.selectedOpacity,
+        },
+      ]}
+    >
       <Pressable
         style={styles.pressable}
-        onPress={handleOnPress}
+        onPress={onPress}
+        onLongPress={onLongPress}
         android_ripple={{ color: theme.rippleColor }}
       >
         <Row style={styles.badgeCtn}>
@@ -155,14 +187,14 @@ const NovelItem: React.FC<NovelItemProps> = ({ novel }) => {
 
 const NovelListItem: React.FC<{
   novel: NovelItemProps['novel'];
-  handleOnPress: () => void;
-}> = ({ novel, handleOnPress }) => {
+  onPress: () => void;
+}> = ({ novel, onPress }) => {
   const { theme } = useTheme();
 
   return (
     <Pressable
       style={styles.listItemCtn}
-      onPress={handleOnPress}
+      onPress={onPress}
       android_ripple={{ color: theme.rippleColor }}
     >
       <Image
@@ -186,11 +218,12 @@ const styles = StyleSheet.create({
   novelCtn: {
     flex: 1 / 3,
     borderRadius: 6,
+    margin: 2,
     overflow: 'hidden',
   },
   pressable: {
     flex: 1,
-    padding: Spacing.S,
+    padding: 6,
     paddingBottom: Spacing.XS,
   },
   cover: {
@@ -248,5 +281,10 @@ const styles = StyleSheet.create({
   },
   isInLibraryBadge: {
     borderRadius: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+  },
+  selectedOpacity: {
+    opacity: 0.8,
   },
 });

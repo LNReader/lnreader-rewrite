@@ -1,7 +1,13 @@
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import { Appbar, ErrorScreen, FAB, LoadingScreen } from '@lnreader/core';
+import {
+  Appbar,
+  EmptyView,
+  ErrorScreen,
+  FAB,
+  LoadingScreen,
+} from '@lnreader/core';
 import { useBoolean, useCategories } from '@hooks';
 import CategoryCard from '@components/CategoryCard/CategoryCard';
 import AddCategoryModal from '@components/AddCategoryModal/AddCategoryModal';
@@ -41,13 +47,14 @@ const CategoriesScreen = () => {
 
   return (
     <>
-      <Appbar title="Edit categories" />
+      <Appbar mode="small" title="Edit categories" />
       {loading ? (
         <LoadingScreen />
       ) : error ? (
         <ErrorScreen error={error} />
       ) : (
         <FlatList
+          contentContainerStyle={styles.listCtn}
           data={categories}
           renderItem={({ item, index }) => (
             <CategoryCard
@@ -58,6 +65,9 @@ const CategoriesScreen = () => {
               totalCategories={categories.length}
             />
           )}
+          ListEmptyComponent={
+            <EmptyView description="You have no categories. Tap the plus button to create one for organizing your library." />
+          }
         />
       )}
       <FAB icon="plus" label="Add" onPress={addCategoryModalState.setTrue} />
@@ -72,4 +82,8 @@ const CategoriesScreen = () => {
 
 export default CategoriesScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  listCtn: {
+    flexGrow: 1,
+  },
+});

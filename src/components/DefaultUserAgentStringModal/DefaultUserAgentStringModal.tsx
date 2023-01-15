@@ -33,7 +33,6 @@ const DefaultUserAgentStringModal: React.FC<
         onDismiss={props.onDismiss}
         onSubmit={() => {
           setAppSetting(Setting.DEFAULT_USER_AGENT_STRING, text);
-          props.onDismiss();
         }}
       >
         <TextInput

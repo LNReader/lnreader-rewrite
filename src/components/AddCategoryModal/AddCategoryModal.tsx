@@ -36,7 +36,6 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = props => {
       props.onSuccess();
     }
     setName('');
-    props.onDismiss();
   };
 
   return (

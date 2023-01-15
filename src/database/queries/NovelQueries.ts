@@ -2,12 +2,13 @@ import * as SQLite from 'expo-sqlite';
 
 import { getAppSettings } from '@hooks/useAppSettings';
 
-import { DATABASE_NAME } from '@database/constants';
+import { DATABASE_NAME, DEFAULT_CATEGORIES } from '@database/constants';
 import { DatabaseNovel, LibraryNovel } from '@database/types';
 import { txnErrorCallback } from '@database/utils';
 
 import { SourceNovelDetails } from '@sources/types';
 import { LibrarySortOrder } from '@utils/LibraryUtils';
+import { flatten, noop, uniq } from 'lodash';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -231,4 +232,29 @@ export const updateNovel = async (
       ),
     ),
   );
+};
+
+const updateNovelCategoryByIdsQuery = `
+UPDATE 
+  novels 
+SET 
+  categoryIds = ? 
+WHERE 
+  id IN 
+`;
+
+export const updateNovelCategoryByIds = async (
+  novelIds: number[],
+  categoryIds: number[],
+) => {
+  const query = updateNovelCategoryByIdsQuery + `(${novelIds.toString()})`;
+
+  db.transaction(tx => {
+    tx.executeSql(
+      query,
+      [JSON.stringify(categoryIds.length ? categoryIds : DEFAULT_CATEGORIES)],
+      noop,
+      txnErrorCallback,
+    );
+  });
 };

@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 
 import { Category } from '@database/types';
 import { getCategories } from '@database/queries/CategoryQueries';
 
 interface UseCategoriesProps {
-  showDefaultCategory: boolean;
+  showDefaultCategory?: boolean;
+  lazy?: boolean;
 }
 
-export const useCategories = ({ showDefaultCategory }: UseCategoriesProps) => {
+export const useCategories = ({
+  showDefaultCategory = false,
+  lazy,
+}: UseCategoriesProps) => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState<Error>();
@@ -31,8 +35,10 @@ export const useCategories = ({ showDefaultCategory }: UseCategoriesProps) => {
   };
 
   useEffect(() => {
-    getCategoriesFromDb();
-  }, []);
+    if (!lazy) {
+      getCategoriesFromDb();
+    }
+  }, [lazy]);
 
   return {
     categories,

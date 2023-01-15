@@ -19,11 +19,6 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onConfirm,
   onDismiss,
 }) => {
-  const onSubmit = () => {
-    onConfirm();
-    onDismiss();
-  };
-
   return (
     <Portal>
       <Modal
@@ -31,7 +26,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         visible={visible}
         onDismiss={onDismiss}
         submitText="OK"
-        onSubmit={onSubmit}
+        onSubmit={onConfirm}
       >
         {description ? <Text style={styles.descCtn}>{description}</Text> : null}
       </Modal>

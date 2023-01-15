@@ -13,10 +13,12 @@ interface ModalProps extends Omit<PaperModalProps, 'theme'> {
   title?: string;
   submitText?: string;
   onSubmit?: () => void;
+  showDismissButton?: boolean;
 }
 
 const Modal: React.FC<ModalProps> = props => {
   const { theme } = useTheme();
+  const { showDismissButton = true } = props;
 
   return (
     <PaperModal
@@ -35,9 +37,14 @@ const Modal: React.FC<ModalProps> = props => {
       <View style={styles.buttonsCtn}>
         <Button
           title={props.submitText ?? 'OK'}
-          onPress={props.onSubmit ?? props.onDismiss}
+          onPress={() => {
+            props.onSubmit?.();
+            props.onDismiss?.();
+          }}
         />
-        <Button title="Cancel" onPress={props.onDismiss} />
+        {showDismissButton ? (
+          <Button title="Cancel" onPress={props.onDismiss} />
+        ) : null}
       </View>
     </PaperModal>
   );

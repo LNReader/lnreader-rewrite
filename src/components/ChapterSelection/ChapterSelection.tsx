@@ -75,7 +75,7 @@ const ChapterSelection: React.FC<Props> = ({
               selectedChapterIds.includes(chapter.id),
             );
 
-            downloadChapters(sourceId, defaultTo(selectedChapters, []));
+            downloadChapters(defaultTo(selectedChapters, []), sourceId);
             clearSelection();
           }}
         />

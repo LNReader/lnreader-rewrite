@@ -10,6 +10,7 @@ import { useTheme, useDatabase } from '@hooks';
 import MainNavigator from '@navigators/MainNavigator/MainNavigator';
 import AppErrorBoundary from '@components/AppErrorBoundary/AppErrorBoundary';
 import { LibraryProvider } from '@contexts/LibraryContext';
+import { LoadingScreen } from '@lnreader/core';
 
 moment.updateLocale('en', {
   calendar: {
@@ -25,23 +26,27 @@ moment.updateLocale('en', {
 const App = () => {
   const { isDarkMode, theme } = useTheme();
 
-  useDatabase();
+  const { isDbCreated } = useDatabase();
 
   useEffect(() => {
     StatusBar.setBarStyle(isDarkMode ? 'light-content' : 'dark-content');
   }, [isDarkMode]);
 
+  if (!isDbCreated) {
+    return <LoadingScreen />;
+  }
+
   return (
     <GestureHandlerRootView style={styles.mainCtn}>
       <AppErrorBoundary>
-        <PaperProvider>
-          <NavigationContainer theme={{ colors: theme } as unknown as Theme}>
+        <NavigationContainer theme={{ colors: theme } as unknown as Theme}>
+          <PaperProvider>
             <LibraryProvider>
               <StatusBar translucent backgroundColor="transparent" />
               <MainNavigator />
             </LibraryProvider>
-          </NavigationContainer>
-        </PaperProvider>
+          </PaperProvider>
+        </NavigationContainer>
       </AppErrorBoundary>
     </GestureHandlerRootView>
   );

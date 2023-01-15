@@ -8,6 +8,7 @@ import { insertChapterInDownloads } from '@database/queries/DownloadQueries';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
 import { uniq } from 'lodash';
 import { sleep } from '@utils/Sleep';
+import { getChaptersByNovelIds } from '@database/queries/ChapterQueries';
 
 export const DOWNLOAD_QUEUE = 'DOWNLOAD_QUEUE';
 
@@ -18,8 +19,8 @@ const useDownloader = () => {
   );
 
   const downloadChapters = async (
-    sourceId: number,
-    chapters: DatabaseChapter[],
+    chapters: Array<DatabaseChapter & { sourceId: number }>,
+    sourceId?: number,
   ) => {
     if (!chapters?.length) {
       return;
@@ -56,6 +57,7 @@ const useDownloader = () => {
         ) {
           if (BackgroundService.isRunning()) {
             const chapter = chapters[i];
+            sourceId ??= chapter.sourceId;
 
             try {
               if (!chapter.downloaded) {
@@ -116,9 +118,15 @@ const useDownloader = () => {
     );
   };
 
+  const downloadNovel = async (novelIds: number[]) => {
+    const chapters = await getChaptersByNovelIds(novelIds);
+    downloadChapters(chapters);
+  };
+
   return {
     downloadQueue,
     downloadChapters,
+    downloadNovel,
   };
 };
 

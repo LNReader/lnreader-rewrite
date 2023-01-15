@@ -25,6 +25,7 @@ import LibraryBottomSheet from '@components/LibraryBottomSheet/LibraryBottomShee
 
 import { Spacing } from '@theme/constants';
 import SettingBanners from '@components/SettingBanners/SettingBanners';
+import NovelSelection from '@components/NovelSelection/NovelSelection';
 
 type State = NavigationState<{
   key: string;
@@ -38,10 +39,13 @@ const LibraryScreen = () => {
   const { LIBRARY_SHOW_NUMBER_OF_ITEMS } = useAppSettings();
 
   const { searchText, setSearchText } = useSearchText();
-  const { error, loading, library } = useLibrary({ searchTerm: searchText });
+  const { error, loading, library, refetch } = useLibrary({
+    searchTerm: searchText,
+  });
   const bottomSheetRef = useRef<BottomSheetType>(null);
 
   const [index, setIndex] = useState(0);
+  const [selected, setSelected] = useState<number[]>([]);
 
   const renderTabBar = (
     props: SceneRendererProps & { navigationState: State },
@@ -117,7 +121,12 @@ const LibraryScreen = () => {
                     style={styles.globalSearchBtn}
                   />
                 ) : null}
-                <LibraryView categoryId={route.id} novels={route.novels} />
+                <LibraryView
+                  categoryId={route.id}
+                  novels={route.novels}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
               </>
             )
           }
@@ -126,6 +135,11 @@ const LibraryScreen = () => {
         />
       )}
       <Portal>
+        <NovelSelection
+          selected={selected}
+          setSelected={setSelected}
+          refetchLibrary={refetch}
+        />
         <LibraryBottomSheet bottomSheetRef={bottomSheetRef} />
       </Portal>
     </>

@@ -3,7 +3,10 @@ import * as Notifications from 'expo-notifications';
 import { intersection, isUndefined } from 'lodash';
 
 import { ToastAndroid } from '@lnreader/core';
-import { insertChapters } from '@database/queries/ChapterQueries';
+import {
+  getChaptersByNovelId,
+  insertChapters,
+} from '@database/queries/ChapterQueries';
 import {
   getLibraryNovels,
   updateNovelMetadata,
@@ -13,6 +16,7 @@ import { sleep } from '@utils/Sleep';
 import useAppSettings from './useAppSettings';
 import { NovelStatus } from '@database/types';
 import { Setting } from 'types/Settings';
+import { insertUpdates } from '@database/queries/UpdateQueries';
 
 export const useLibraryUpdate = () => {
   const {
@@ -100,6 +104,7 @@ export const useLibraryUpdate = () => {
           if (BackgroundService.isRunning()) {
             const novel = novels[i];
             const source = SourceFactory.getSource(novel.sourceId);
+            const oldChapters = await getChaptersByNovelId(novel.id);
 
             try {
               const sourceNovel = await source?.getNovelDetails({
@@ -112,6 +117,17 @@ export const useLibraryUpdate = () => {
 
               if (sourceNovel?.chapters?.length) {
                 await insertChapters(novel.id, sourceNovel.chapters);
+              }
+
+              const dbChapters = await getChaptersByNovelId(novel.id);
+
+              const newChapters = dbChapters.filter(
+                newChapter =>
+                  !oldChapters.some(chapter => chapter.id === newChapter.id),
+              );
+
+              if (newChapters?.length) {
+                insertUpdates(newChapters);
               }
             } catch (err) {
               if (err instanceof Error) {

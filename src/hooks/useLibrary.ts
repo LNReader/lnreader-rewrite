@@ -34,6 +34,11 @@ export const useLibrary = ({ searchTerm }: UseLibraryProps) => {
         };
       });
 
+      /** Remove default category if empty */
+      if (!data[0].novels.length) {
+        data.shift();
+      }
+
       setLibrary(data);
     } catch (err) {
       if (err instanceof Error) {
@@ -54,5 +59,6 @@ export const useLibrary = ({ searchTerm }: UseLibraryProps) => {
     library,
     loading,
     error,
+    refetch: getNovels,
   };
 };
