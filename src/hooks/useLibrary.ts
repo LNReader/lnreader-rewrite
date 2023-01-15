@@ -35,7 +35,7 @@ export const useLibrary = ({ searchTerm }: UseLibraryProps) => {
       });
 
       /** Remove default category if empty */
-      if (!data[0].novels.length) {
+      if (!data[0].novels.length && data.length > 1) {
         data.shift();
       }
 

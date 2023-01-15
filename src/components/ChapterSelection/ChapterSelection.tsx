@@ -57,6 +57,7 @@ const ChapterSelection: React.FC<Props> = ({
           title={`${selectedChapterIds.length} selected`}
           backAction={clearSelection}
           actions={[{ icon: 'select-all', onPress: handleSelectAll }]}
+          style={{ backgroundColor: theme.surface2 }}
         />
       </Animated.View>
 
@@ -71,9 +72,9 @@ const ChapterSelection: React.FC<Props> = ({
         <ReaderFooterButton
           iconName="download-outline"
           onPress={() => {
-            const selectedChapters = chapters?.filter(chapter =>
-              selectedChapterIds.includes(chapter.id),
-            );
+            const selectedChapters = chapters
+              ?.filter(chapter => selectedChapterIds.includes(chapter.id))
+              .map(chapter => ({ ...chapter, sourceId }));
 
             downloadChapters(defaultTo(selectedChapters, []), sourceId);
             clearSelection();

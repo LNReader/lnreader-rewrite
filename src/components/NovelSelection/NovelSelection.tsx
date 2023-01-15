@@ -42,11 +42,6 @@ const NovelSelection: React.FC<Props> = ({
     flatten(selected.map(novel => JSON.parse(novel.categoryIds || ''))),
   );
 
-  console.log(
-    selected.map(novel => JSON.parse(novel.categoryIds || '')),
-    flatten(selected.map(novel => JSON.parse(novel.categoryIds || ''))),
-  );
-
   useBackHandler(() => {
     if (selected.length) {
       clearSelection();
@@ -69,12 +64,13 @@ const NovelSelection: React.FC<Props> = ({
   return (
     <>
       <Animated.View
-        style={styles.appbarCtn}
+        style={[styles.appbarCtn]}
         entering={FadeIn.duration(150)}
         exiting={FadeOut.duration(150)}
       >
         <Appbar
           mode="small"
+          style={{ backgroundColor: theme.surface2 }}
           title={`${selected.length} selected`}
           backAction={clearSelection}
           actions={[{ icon: 'select-all', onPress: onSelectAll }]}

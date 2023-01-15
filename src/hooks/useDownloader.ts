@@ -2,7 +2,7 @@ import BackgroundService from 'react-native-background-actions';
 import * as Notifications from 'expo-notifications';
 import { useMMKVObject } from 'react-native-mmkv';
 
-import { DatabaseChapter } from '@database/types';
+import { DatabaseChapter, DatabaseChapterWithSourceId } from '@database/types';
 
 import { insertChapterInDownloads } from '@database/queries/DownloadQueries';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
@@ -19,7 +19,7 @@ const useDownloader = () => {
   );
 
   const downloadChapters = async (
-    chapters: Array<DatabaseChapter & { sourceId: number }>,
+    chapters: Array<DatabaseChapterWithSourceId>,
     sourceId?: number,
   ) => {
     if (!chapters?.length) {
@@ -57,7 +57,10 @@ const useDownloader = () => {
         ) {
           if (BackgroundService.isRunning()) {
             const chapter = chapters[i];
-            sourceId ??= chapter.sourceId;
+
+            if (!sourceId) {
+              sourceId = chapter.sourceId;
+            }
 
             try {
               if (!chapter.downloaded) {

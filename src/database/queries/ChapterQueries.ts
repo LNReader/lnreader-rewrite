@@ -4,7 +4,7 @@ import { escape, noop } from 'lodash';
 import { NovelStorageMap, NOVEL_STORAGE } from '@hooks/useNovelStorage';
 
 import { DATABASE_NAME } from '@database/constants';
-import { DatabaseChapter } from '@database/types';
+import { DatabaseChapter, DatabaseChapterWithSourceId } from '@database/types';
 import { txnErrorCallback } from '@database/utils';
 
 import { SourceNovelChapter } from '@sources/types';
@@ -243,4 +243,31 @@ WHERE
 export const setChaptersUnreadByNovelIds = async (ids: number[]) => {
   const query = `${setChaptersUnreadByNovelIdsQuery} (${ids.toString()})`;
   db.transaction(tx => tx.executeSql(query, undefined, noop, txnErrorCallback));
+};
+
+const getChaptersByChapterIdsQuery = `
+SELECT 
+  * 
+FROM 
+  chapters 
+WHERE 
+  id
+IN 
+`;
+
+export const getChaptersByChapterIds = (
+  chapterIds: number[],
+): Promise<DatabaseChapterWithSourceId[]> => {
+  const query = `${getChaptersByChapterIdsQuery} (${chapterIds.toString()})`;
+
+  return new Promise(resolve =>
+    db.transaction(tx => {
+      tx.executeSql(
+        query,
+        undefined,
+        (txObj, { rows: { _array } }) => resolve(_array),
+        txnErrorCallback,
+      );
+    }),
+  );
 };
