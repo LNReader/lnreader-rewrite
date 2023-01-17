@@ -44,8 +44,8 @@ export const useGlobalSearch = (defaultSearchText?: string) => {
           )?.getSearchNovels({ searchTerm: searchText, page: 1 });
 
           setData(prevState =>
-            sortBy(
-              prevState.map(prevResult =>
+            prevState
+              .map(prevResult =>
                 prevResult.source.id === source.id
                   ? {
                       ...prevResult,
@@ -53,9 +53,22 @@ export const useGlobalSearch = (defaultSearchText?: string) => {
                       loading: false,
                     }
                   : prevResult,
+              )
+              .sort(
+                (
+                  { novels: aNovels, source: { name: aName } },
+                  { novels: bNovels, source: { name: bName } },
+                ) => {
+                  if (!aNovels.length) {
+                    return 1;
+                  }
+                  if (!bNovels.length) {
+                    return -1;
+                  }
+
+                  return aName.localeCompare(bName);
+                },
               ),
-              'source.name',
-            ),
           );
         } catch (err) {
           setData(prevState =>

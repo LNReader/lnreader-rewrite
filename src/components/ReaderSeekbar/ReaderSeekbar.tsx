@@ -24,9 +24,7 @@ const ReaderSeekbar: React.FC<Props> = ({ visible, webViewRef }) => {
   const [sliderValue, setSliderValue] = useState(PROGRESS);
 
   useEffect(() => {
-    if (sliderValue) {
-      setSliderValue(PROGRESS);
-    }
+    setSliderValue(PROGRESS);
   }, [PROGRESS]);
 
   const onSlidingComplete = (value: number) => {

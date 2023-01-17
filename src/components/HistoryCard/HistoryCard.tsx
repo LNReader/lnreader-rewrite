@@ -12,10 +12,10 @@ import { IMAGE_PLACEHOLDER_COLOR, Spacing } from '@theme/constants';
 
 type Props = {
   history: History;
-  removeHistory: (id: number) => Promise<void>;
+  clearHistoryById: (id: number) => Promise<void>;
 };
 
-const HistoryCard: React.FC<Props> = ({ history, removeHistory }) => {
+const HistoryCard: React.FC<Props> = ({ history, clearHistoryById }) => {
   const { theme } = useTheme();
   const { navigate } = useNavigation();
 
@@ -56,7 +56,7 @@ const HistoryCard: React.FC<Props> = ({ history, removeHistory }) => {
       </View>
       <IconButton
         name="delete-outline"
-        onPress={() => removeHistory(history.id)}
+        onPress={() => clearHistoryById(history.id)}
       />
     </Pressable>
   );

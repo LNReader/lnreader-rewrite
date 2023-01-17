@@ -36,7 +36,7 @@ export const useHistory = ({ searchText = '' }: UseHistoryProps) => {
     }, []),
   );
 
-  const removeHistory = async (historyId: number) => {
+  const clearHistoryById = async (historyId: number) => {
     removeHistoryById(historyId);
     getHistoryFromDb();
   };
@@ -54,7 +54,8 @@ export const useHistory = ({ searchText = '' }: UseHistoryProps) => {
     history: filteredHistory,
     loading,
     error,
-    removeHistory,
+    refetch: getHistoryFromDb,
+    clearHistoryById,
     clearAllHistory,
   };
 };

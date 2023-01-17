@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 import { Switch as PaperSwitch } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -13,6 +13,7 @@ type Props = {
   description?: string;
   onPress: () => void;
   icon?: string;
+  style?: ViewStyle;
 };
 
 const Switch: React.FC<Props> = props => {
@@ -23,7 +24,7 @@ const Switch: React.FC<Props> = props => {
 
   return (
     <Pressable
-      style={styles.switchCtn}
+      style={[styles.switchCtn, props.style]}
       android_ripple={{ color: theme.rippleColor }}
       onPress={props.onPress}
     >

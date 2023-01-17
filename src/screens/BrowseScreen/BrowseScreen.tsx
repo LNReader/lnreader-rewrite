@@ -78,6 +78,11 @@ const BrowseScreen = () => {
             onPress: () => navigate('GlobalSearchScreen'),
           },
           {
+            icon: 'swap-vertical-variant',
+            onPress: () => navigate('MigrationSourcesScreen'),
+            disabled: true,
+          },
+          {
             icon: 'cog-outline',
             onPress: () => navigate('BrowseSettingsScreen'),
           },

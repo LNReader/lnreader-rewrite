@@ -18,7 +18,7 @@ import ConfirmationModal from '@components/ConfirmationModal/ConfirmationModal';
 const HistoryScreen = () => {
   // const { theme } = useTheme();
   const { searchText, setSearchText } = useSearchText();
-  const { error, history, loading, removeHistory, clearAllHistory } =
+  const { error, history, loading, clearHistoryById, clearAllHistory } =
     useHistory({
       searchText,
     });
@@ -52,7 +52,7 @@ const HistoryScreen = () => {
             </Text>
           )}
           renderItem={({ item }) => (
-            <HistoryCard history={item} removeHistory={removeHistory} />
+            <HistoryCard history={item} clearHistoryById={clearHistoryById} />
           )}
           ListEmptyComponent={<EmptyView />}
         />

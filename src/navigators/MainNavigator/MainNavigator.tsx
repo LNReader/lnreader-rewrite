@@ -9,6 +9,8 @@ import ReaderScreen from '@screens/ReaderScreen/ReaderScreen';
 import WebviewScreen from '@screens/WebviewScreen/WebviewScreen';
 import BrowseSettingsScreen from '@screens/BrowseSettingsScreen/BrowseSettingsScreen';
 import GlobalSearchScreen from '@screens/GlobalSearchScreen/GlobalSearchScreen';
+import MigrationSourcesScreen from '@screens/MigrationScreens/MigrationSourcesScreen';
+import MigrationSourceNovelsScreen from '@screens/MigrationScreens/MigrationSourceNovelsScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +25,14 @@ const MainNavigator = () => {
       />
       <Stack.Screen name="WebviewScreen" component={WebviewScreen} />
       <Stack.Screen name="GlobalSearchScreen" component={GlobalSearchScreen} />
+      <Stack.Screen
+        name="MigrationSourcesScreen"
+        component={MigrationSourcesScreen}
+      />
+      <Stack.Screen
+        name="MigrationSourceNovelsScreen"
+        component={MigrationSourceNovelsScreen}
+      />
       <Stack.Screen name="NovelDetailsScreen" component={NovelDetailsScreen} />
       <Stack.Screen name="ReaderScreen" component={ReaderScreen} />
       <Stack.Screen name="MoreStack" component={MoreStack} />

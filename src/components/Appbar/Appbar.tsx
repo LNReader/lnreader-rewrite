@@ -9,8 +9,8 @@ import { useTheme } from '@hooks';
 
 interface AppbarProps
   extends Omit<PaperAppbarHeaderProps, 'children' | 'theme'> {
-  title: string;
-  actions?: Array<{ icon: string; onPress: () => void }>;
+  title?: string;
+  actions?: Array<{ icon: string; onPress: () => void; disabled?: boolean }>;
   backAction?: () => void;
 }
 
@@ -43,6 +43,7 @@ const Appbar: React.FC<AppbarProps> = props => {
           icon={action.icon}
           onPress={action.onPress}
           iconColor={theme.onSurfaceVariant}
+          disabled={action.disabled}
         />
       ))}
     </PaperAppbar.Header>

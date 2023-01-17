@@ -21,7 +21,7 @@ interface Props {
 
 const NovelDetailsHeader: React.FC<Props> = ({ bottomSheetRef }) => {
   const { theme } = useTheme();
-  const { goBack, navigate } = useNavigation();
+  const { navigate } = useNavigation();
   const { novel, chapters } = useNovelDetailsContext();
 
   const sourceName = SourceFactory.getSourceName(novel.sourceId);
@@ -46,7 +46,7 @@ const NovelDetailsHeader: React.FC<Props> = ({ bottomSheetRef }) => {
   useFocusEffect(
     useCallback(() => {
       getLastReadChapter();
-    }, [novel.id]),
+    }, [novel.id, JSON.stringify(chapters)]),
   );
 
   const navigateToReader = () =>
@@ -59,11 +59,6 @@ const NovelDetailsHeader: React.FC<Props> = ({ bottomSheetRef }) => {
   return (
     <>
       <CoverImage source={{ uri: coverUrl }}>
-        <IconButton
-          name="arrow-left"
-          containerStyle={styles.backHandler}
-          onPress={goBack}
-        />
         <Row style={styles.headerCtn}>
           <FastImage source={{ uri: coverUrl }} style={styles.coverCtn} />
           <View style={styles.detailsCtn}>

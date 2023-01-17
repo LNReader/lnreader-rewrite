@@ -71,6 +71,7 @@ const Searchbar: React.FC<SearchbarProps> = props => {
             key={action.icon}
             name={action.icon}
             onPress={action.onPress}
+            disabled={action.disabled}
           />
         ))}
       </Pressable>

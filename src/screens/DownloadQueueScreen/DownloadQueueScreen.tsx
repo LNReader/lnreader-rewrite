@@ -45,7 +45,7 @@ const DownloadQueueScreen = () => {
         )}
         ListEmptyComponent={<EmptyView description="No downloads" />}
       />
-      {!downloadQueue.length ? (
+      {downloadQueue.length ? (
         <FAB
           label={isBackgroundServiceRunning ? 'Pause' : 'Resume'}
           icon={isBackgroundServiceRunning ? 'pause' : 'play'}
