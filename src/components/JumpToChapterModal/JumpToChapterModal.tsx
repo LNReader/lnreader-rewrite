@@ -5,6 +5,7 @@ import { FlashList } from '@shopify/flash-list';
 import { Modal, TextInput, Switch } from '@lnreader/core';
 import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
 import { DatabaseChapter } from '@database/types';
+import { sortBy } from 'lodash';
 
 interface JumpToChapterModalProps {
   listRef: FlashList<DatabaseChapter> | null;
@@ -28,20 +29,21 @@ const JumpToChapterModal: React.FC<JumpToChapterModalProps> = ({
   const { chapters } = useNovelDetailsContext();
 
   const isChapterNameMode = mode === Mode.ChapterName;
+  const isChapterNumberMode = mode === Mode.ChapterNumber;
 
   const label = isChapterNameMode ? 'Chapter name' : 'Chapter number';
 
   const onSubmit = () => {
     let index = 0;
 
-    if (Mode.ChapterNumber) {
+    if (isChapterNumberMode) {
       index = +searchText;
     } else {
-      const exactMatch = chapters?.findIndex(
+      const exactMatch = sortBy(chapters, 'id')?.findIndex(
         chapter => chapter.name.toLowerCase() === searchText?.toLowerCase(),
       );
 
-      if (exactMatch) {
+      if (exactMatch !== -1) {
         index = exactMatch;
       } else {
         const firstMatch = chapters?.findIndex(chapter =>
@@ -57,7 +59,7 @@ const JumpToChapterModal: React.FC<JumpToChapterModalProps> = ({
     listRef?.scrollToIndex({
       index,
       animated: true,
-      viewOffset: 200,
+      viewOffset: 120,
     });
   };
 
@@ -73,7 +75,7 @@ const JumpToChapterModal: React.FC<JumpToChapterModalProps> = ({
         placeholder={label}
         style={styles.contentCtn}
         onChangeText={setSearchText}
-        keyboardType={!isChapterNameMode ? 'numeric' : undefined}
+        keyboardType={isChapterNumberMode ? 'numeric' : undefined}
       />
       <Switch
         value={isChapterNameMode}

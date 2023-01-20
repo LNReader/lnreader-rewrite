@@ -1,7 +1,11 @@
 import * as SQLite from 'expo-sqlite';
 import { escape, noop } from 'lodash';
 
-import { NovelStorageMap, NOVEL_STORAGE } from '@hooks/useNovelStorage';
+import {
+  getNovelStorage,
+  NovelStorageMap,
+  NOVEL_STORAGE,
+} from '@hooks/useNovelStorage';
 
 import { DATABASE_NAME } from '@database/constants';
 import {
@@ -30,11 +34,12 @@ WHERE
 export const getChaptersByNovelId = (
   novelId: number,
 ): Promise<DatabaseChapter[]> => {
-  const rawSettings = MMKVStorage.getString(NOVEL_STORAGE) || '{}';
-  const parsedSettings: NovelStorageMap = JSON.parse(rawSettings);
+  const novelStorage = getNovelStorage(novelId);
 
-  const { FILTERS, SORT_ORDER = NovelSortOrder.BY_SOURCE_ASC } =
-    parsedSettings[novelId] || {};
+  const { FILTERS, SORT_ORDER } = novelStorage || {
+    FILTERS: [],
+    SORT_ORDER: NovelSortOrder.BY_SOURCE_ASC,
+  };
 
   let query = getChaptersByNovelIdQuery;
 

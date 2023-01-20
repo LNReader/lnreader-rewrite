@@ -43,3 +43,10 @@ const useNovelStorage = (novelId: number) => {
 };
 
 export default useNovelStorage;
+
+export const getNovelStorage = (id: number) => {
+  const rawSettings = MMKVStorage.getString(NOVEL_STORAGE) || '{}';
+  const parsedSettings: Partial<NovelStorageMap> = JSON.parse(rawSettings);
+
+  return parsedSettings[id];
+};

@@ -47,18 +47,6 @@ SourceFactory.registerSource(
     id: 40,
     baseUrl: 'https://novelsrock.com/',
     name: 'NovelsRock',
-    path: { novels: 'novels', novel: 'series', chapter: 'series' },
-    iconUrl:
-      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/novelsrock.png?raw=true',
-  }),
-);
-
-SourceFactory.registerSource(
-  new MadaraParser({
-    id: 40,
-    baseUrl: 'https://novelsrock.com/',
-    name: 'NovelsRock',
-    path: { novels: 'novels', novel: 'novel', chapter: 'novel' },
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/novelsrock.png?raw=true',
   }),
@@ -110,6 +98,78 @@ SourceFactory.registerSource(
 
 SourceFactory.registerSource(
   new MadaraParser({
+    id: 45,
+    baseUrl: 'https://freenovel.me/',
+    name: 'FreeNovelMe',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/freenovel.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 46,
+    baseUrl: 'https://1stkissnovel.love/',
+    name: 'FirstKissNovel',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/1stkissnovel.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 47,
+    baseUrl: 'https://daonovel.com/',
+    name: 'DaoNovel',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/daonovel.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 55,
+    baseUrl: 'https://mostnovel.com/',
+    name: 'MostNovel',
+    path: { novels: 'manga', novel: 'manga', chapter: 'manga' },
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/mostnovel.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 56,
+    baseUrl: 'https://www.novelmultiverse.com/',
+    name: 'NovelMultiverse',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/novelmultiverse.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 57,
+    baseUrl: 'https://lightnovelheaven.com/',
+    name: 'LightNovelHeaven',
+    path: { novels: 'series', novel: 'series', chapter: 'series' },
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/lightnovelheaven.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 58,
+    baseUrl: 'https://lightnovelshub.com/',
+    name: 'LightNovelsHub',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/lightnovelshub.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
     id: 59,
     baseUrl: 'https://arnovel.me/',
     name: 'ArNovel',
@@ -150,6 +210,19 @@ SourceFactory.registerSource(
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/sugarbbscan.png?raw=true',
     useNewChapterEndpoint: false,
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 143,
+    baseUrl: 'https://www.webnoveloku.com/',
+    name: 'WebNovelOku',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/multisrc/madara/icons/webnoveloku.png?raw=true',
+    lang: Language.Turkish,
+    useNewChapterEndpoint: false,
+    reverseChapters: false,
   }),
 );
 

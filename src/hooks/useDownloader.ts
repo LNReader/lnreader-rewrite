@@ -1,14 +1,14 @@
 import BackgroundService from 'react-native-background-actions';
 import * as Notifications from 'expo-notifications';
 import { useMMKVObject } from 'react-native-mmkv';
+import { uniq } from 'lodash';
 
 import { DatabaseChapter, DatabaseChapterWithSourceId } from '@database/types';
 
 import { insertChapterInDownloads } from '@database/queries/DownloadQueries';
-import { MMKVStorage } from '@utils/mmkv/mmkv';
-import { uniq } from 'lodash';
-import { sleep } from '@utils/Sleep';
 import { getChaptersByNovelIds } from '@database/queries/ChapterQueries';
+import { MMKVStorage } from '@utils/mmkv/mmkv';
+import { sleep } from '@utils/Sleep';
 
 export const DOWNLOAD_QUEUE = 'DOWNLOAD_QUEUE';
 

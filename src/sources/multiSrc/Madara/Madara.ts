@@ -30,7 +30,7 @@ interface MadaraSource {
     novel: string;
     chapter: string;
   };
-
+  reverseChapters?: boolean;
   useNewChapterEndpoint?: boolean;
 }
 
@@ -43,6 +43,7 @@ const defaultPath = {
 export class MadaraParser extends ParsedSource {
   path?: MadaraSource['path'];
   useNewChapterEndpoint?: boolean;
+  reverseChapters?: boolean;
 
   constructor({
     name,
@@ -52,6 +53,7 @@ export class MadaraParser extends ParsedSource {
     lang = Language.English,
     path = defaultPath,
     useNewChapterEndpoint = true,
+    reverseChapters = true,
   }: MadaraSource) {
     super();
     this.id = id;
@@ -61,6 +63,7 @@ export class MadaraParser extends ParsedSource {
     this.path = path;
     this.lang = lang;
     this.useNewChapterEndpoint = useNewChapterEndpoint;
+    this.reverseChapters = reverseChapters;
   }
 
   async getPopoularNovels({
@@ -114,11 +117,11 @@ export class MadaraParser extends ParsedSource {
     const sourceId = this.id;
 
     const res = await fetchHtml({ url });
-    const $ = cheerio.load(res);
+    let $ = cheerio.load(res);
 
     $('.manga-title-badges').remove();
 
-    const title = $('.post-title > h1').text().trim();
+    const title = $('.post-title').text().trim();
 
     const cover = $('.summary_image > a > img');
     const coverUrl = cover.attr('data-src') || cover.attr('src');
@@ -139,15 +142,18 @@ export class MadaraParser extends ParsedSource {
       switch (detailKey) {
         case 'Genre(s)':
         case 'التصنيفات':
+        case 'Tarz(lar)':
           genre = detailValue.replace(/[\t\n]/g, ',');
           break;
         case 'Author(s)':
         case 'المؤلف':
+        case 'Yazar(lar)':
           author = detailValue;
           break;
         case 'Status':
         case 'الحالة':
-          status = ['OnGoing', 'مستمرة'].includes(detailValue)
+        case 'Durum':
+          status = ['OnGoing', 'مستمرة', 'Devam Eden'].includes(detailValue)
             ? NovelStatus.ONGOING
             : NovelStatus.COMPLETED;
           break;
@@ -189,31 +195,33 @@ export class MadaraParser extends ParsedSource {
       });
     }
 
-    if (chaptersHtml) {
-      const loadedCheerio = cheerio.load(chaptersHtml);
-
-      loadedCheerio('.wp-manga-chapter').each(function () {
-        const name = loadedCheerio(this).find('a').text().trim();
-        const chapterUrl = loadedCheerio(this).find('a').attr('href');
-
-        const dateUploadString = loadedCheerio(this)
-          .find('span.chapter-release-date')
-          .text()
-          .trim();
-        const dateUpload = parseMadaraDate(dateUploadString);
-
-        if (chapterUrl) {
-          chapters.push({
-            sourceId,
-            name,
-            dateUpload,
-            url: chapterUrl,
-          });
-        }
-      });
+    if (chaptersHtml !== '0') {
+      $ = cheerio.load(chaptersHtml);
     }
 
-    chapters.reverse();
+    $('.wp-manga-chapter').each(function () {
+      const name = $(this).find('a').text().trim();
+      const chapterUrl = $(this).find('a').attr('href');
+
+      const dateUploadString = $(this)
+        .find('span.chapter-release-date')
+        .text()
+        .trim();
+      const dateUpload = parseMadaraDate(dateUploadString);
+
+      if (chapterUrl) {
+        chapters.push({
+          sourceId,
+          name,
+          dateUpload,
+          url: chapterUrl,
+        });
+      }
+    });
+
+    if (this.reverseChapters) {
+      chapters.reverse();
+    }
 
     return {
       sourceId,
