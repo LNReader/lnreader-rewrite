@@ -1,7 +1,7 @@
 import BackgroundService from 'react-native-background-actions';
 import * as Notifications from 'expo-notifications';
 import { useMMKVObject } from 'react-native-mmkv';
-import { uniq } from 'lodash';
+import { uniq } from 'lodash-es';
 
 import { DatabaseChapter, DatabaseChapterWithSourceId } from '@database/types';
 

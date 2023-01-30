@@ -1,6 +1,6 @@
 import BackgroundService from 'react-native-background-actions';
 import * as Notifications from 'expo-notifications';
-import { intersection, isUndefined } from 'lodash';
+import { intersection, isUndefined } from 'lodash-es';
 
 import { ToastAndroid } from '@lnreader/core';
 import {
@@ -30,6 +30,11 @@ export const useLibraryUpdate = () => {
   } = useAppSettings();
 
   const updateLibrary = async ({ categoryId }: { categoryId?: number }) => {
+    if (BackgroundService.isRunning()) {
+      ToastAndroid.show('An update is already running');
+      return;
+    }
+
     setAppSetting(Setting.LAST_UPDATE_TIME, +Date.now());
 
     const isCategoryUpdate = !isUndefined(categoryId);

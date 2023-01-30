@@ -21,7 +21,7 @@ import {
   TEXT_ALIGNMENTS,
 } from '@utils/ReaderUtils';
 import { Setting } from 'types/Settings';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 
 const READER_HEIGHT = 250;
 

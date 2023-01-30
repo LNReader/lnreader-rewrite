@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import { sortBy } from 'lodash';
+import { sortBy } from 'lodash-es';
 
 import { Row, Text, IconButton, BottomSheetRef, Button } from '@lnreader/core';
 import { useTheme } from '@hooks';

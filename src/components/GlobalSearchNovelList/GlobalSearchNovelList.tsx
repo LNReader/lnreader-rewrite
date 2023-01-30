@@ -14,7 +14,7 @@ interface GlobalSearchNovelList extends FlatListProps<GlobalSearchResult> {
 const GlobalSearchNovelList: React.FC<
   Omit<GlobalSearchNovelList, 'renderItem'>
 > = props => {
-  const { ONLY_INCLUDE_PINNED_SOURCES } = useAppSettings();
+  const { ONLY_INCLUDE_PINNED_SOURCES = true } = useAppSettings();
   const { bottom: paddingBottom } = useSafeAreaInsets();
 
   const keyExtractor = useCallback(

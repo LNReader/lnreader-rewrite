@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import * as SQLite from 'expo-sqlite';
+import { useMMKVBoolean } from 'react-native-mmkv';
 
 import { DATABASE_NAME } from '@database/constants';
 
@@ -19,17 +20,15 @@ import {
 } from '@database/tables/ChaptersTable';
 import {
   dbTxnErrorCallback,
-  txnErrorCallback,
   txnErrorCallbackWithoutToast,
 } from '@database/utils';
 import {
   createHistoryChapterIdIndexQuery,
   createHistoryTableQuery,
 } from '@database/tables/HistoryTable';
-import { noop } from 'lodash';
+import { noop } from 'lodash-es';
 import { createUpdatesTableQuery } from '@database/tables/UpdatesTable';
 import { createDownloadTableQuery } from '@database/tables/DownloadsTable';
-import { useMMKVBoolean } from 'react-native-mmkv';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
 
 const db = SQLite.openDatabase(DATABASE_NAME);

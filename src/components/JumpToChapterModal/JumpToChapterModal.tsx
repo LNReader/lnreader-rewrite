@@ -5,7 +5,7 @@ import { FlashList } from '@shopify/flash-list';
 import { Modal, TextInput, Switch } from '@lnreader/core';
 import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
 import { DatabaseChapter } from '@database/types';
-import { sortBy } from 'lodash';
+import { sortBy } from 'lodash-es';
 
 interface JumpToChapterModalProps {
   listRef: FlashList<DatabaseChapter> | null;

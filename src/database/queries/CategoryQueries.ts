@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import { defaultTo, noop } from 'lodash';
+import { defaultTo, noop } from 'lodash-es';
 
 import { DATABASE_NAME } from '@database/constants';
 import { Category } from '@database/types';

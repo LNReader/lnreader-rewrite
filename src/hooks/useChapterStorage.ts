@@ -1,5 +1,5 @@
 import { useMMKVObject } from 'react-native-mmkv';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 
 import { MMKVStorage } from '@utils/mmkv/mmkv';
 

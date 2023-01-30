@@ -5,7 +5,7 @@ import { Appbar, List, Switch } from '@lnreader/core';
 import SourceFactory from '@sources/SourceFactory';
 import { useAppSettings } from '@hooks';
 import { Setting } from 'types/Settings';
-import { xor } from 'lodash';
+import { xor } from 'lodash-es';
 import { Language } from '@sources/types';
 
 const BrowseSettingsScreen = () => {

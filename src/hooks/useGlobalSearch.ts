@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Source, SourceNovel } from '@sources/types';
 import SourceFactory from '@sources/SourceFactory';
 import useAppSettings from './useAppSettings';
-import { defaultTo, sortBy } from 'lodash';
+import { defaultTo, sortBy } from 'lodash-es';
 
 export interface GlobalSearchResult {
   source: Source;

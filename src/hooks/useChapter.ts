@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import sanitizeHtml from 'sanitize-html';
-import { defaultTo } from 'lodash';
+import { defaultTo } from 'lodash-es';
 
 import { DatabaseChapter, DownloadedChapter } from '@database/types';
 import { SourceChapter } from '@sources/types';

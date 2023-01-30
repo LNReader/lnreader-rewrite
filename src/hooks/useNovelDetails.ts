@@ -10,7 +10,7 @@ import { DatabaseChapter, DatabaseNovel } from '@database/types';
 
 import SourceFactory from '@sources/SourceFactory';
 import { SourceNovelDetails } from '@sources/types';
-import { isEmpty, isUndefined, omit } from 'lodash';
+import { isEmpty, isUndefined, omit } from 'lodash-es';
 import {
   getChaptersByNovelId,
   insertChapters,

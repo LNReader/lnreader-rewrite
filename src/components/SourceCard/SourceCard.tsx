@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useMMKVObject } from 'react-native-mmkv';
-import { xor } from 'lodash';
+import { xor } from 'lodash-es';
 
 import { IconButton, Text } from '@lnreader/core';
 import { useAppSettings, useTheme } from '@hooks';

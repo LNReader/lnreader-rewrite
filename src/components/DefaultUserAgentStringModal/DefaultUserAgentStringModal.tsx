@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { isUndefined } from 'lodash';
+import { isUndefined } from 'lodash-es';
 import { Portal } from 'react-native-paper';
 
 import { Modal, TextInput, ToastAndroid } from '@lnreader/core';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
-import { xor } from 'lodash';
+import { xor } from 'lodash-es';
 
 import { Text, Row } from '@lnreader/core';
 import { useTheme, useNovelStorage, useChapterStorage } from '@hooks';

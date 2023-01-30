@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Animated, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SceneMap } from 'react-native-tab-view';
-import { xor } from 'lodash';
+import { xor } from 'lodash-es';
 
 import {
   BottomSheetRef,

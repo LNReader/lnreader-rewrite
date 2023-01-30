@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
 import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated';
-import { defaultTo } from 'lodash';
+import { defaultTo } from 'lodash-es';
 
 import { Text } from '@lnreader/core';
 import { useAppSettings, useTheme } from '@hooks';

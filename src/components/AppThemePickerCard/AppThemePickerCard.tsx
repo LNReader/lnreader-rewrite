@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Appearance, Pressable, StyleSheet, View } from 'react-native';
-import { get, isUndefined } from 'lodash';
+import { get, isUndefined } from 'lodash-es';
 import Color from 'color';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 

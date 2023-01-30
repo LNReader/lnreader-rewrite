@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Appearance } from 'react-native';
-import { defaultTo, get, isUndefined } from 'lodash';
+import { defaultTo, get, isUndefined } from 'lodash-es';
 import { useMMKVBoolean, useMMKVObject } from 'react-native-mmkv';
 import Color from 'color';
 

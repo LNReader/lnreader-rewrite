@@ -5,7 +5,7 @@ import {
   TextProps as RNTextProps,
   TextStyle,
 } from 'react-native';
-import { isNumber } from 'lodash';
+import { isNumber } from 'lodash-es';
 
 import { useTheme } from '@hooks';
 

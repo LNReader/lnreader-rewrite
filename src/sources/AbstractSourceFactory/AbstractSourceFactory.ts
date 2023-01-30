@@ -1,5 +1,5 @@
 import { Language, ParsedSource, Source } from '@sources/types';
-import { sortBy, uniq } from 'lodash';
+import { sortBy, uniq } from 'lodash-es';
 
 export class AbstractSourceFactory {
   protected sources: Map<number, ParsedSource>;

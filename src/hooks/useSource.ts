@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { defaultTo } from 'lodash';
+import { defaultTo } from 'lodash-es';
 
 import SourceFactory from '@sources/SourceFactory';
 import { SourceNovel } from '@sources/types';

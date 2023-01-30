@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SceneMap } from 'react-native-tab-view';
-import { xor } from 'lodash';
+import { xor } from 'lodash-es';
 
 import { useAppSettings } from '@hooks';
 import {

@@ -13,7 +13,7 @@ import { IMAGE_PLACEHOLDER_COLOR, Spacing, WHITE_HEX } from '@theme/constants';
 import { LibraryDisplayModes } from '@utils/LibraryUtils';
 import { useLibraryContext } from '@contexts/LibraryContext';
 import { defaultUserAgentString } from '@utils/SettingsUtils';
-import { xor, xorBy } from 'lodash';
+import { xor, xorBy } from 'lodash-es';
 
 interface NovelItemProps {
   novel: SourceNovel | LibraryNovel;

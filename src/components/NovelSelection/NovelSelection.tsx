@@ -15,7 +15,7 @@ import {
 } from '@database/queries/ChapterQueries';
 import SetCategoriesModal from '@components/SetCategoriesModal/SetCategoriesModal';
 import { DatabaseNovel } from '@database/types';
-import { flatten, uniq } from 'lodash';
+import { flatten, uniq } from 'lodash-es';
 
 interface Props {
   selected: DatabaseNovel[];

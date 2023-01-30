@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { Portal } from 'react-native-paper';
-import { isNumber, xor } from 'lodash';
+import { isNumber, xor } from 'lodash-es';
 
 import { Modal, Checkbox, Text } from '@lnreader/core';
 import { useCategories } from '@hooks';

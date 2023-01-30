@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { defaultTo } from 'lodash';
+import { defaultTo } from 'lodash-es';
 
 import { Appbar } from '@lnreader/core';
 import { useBackHandler, useDownloader, useTheme } from '@hooks';

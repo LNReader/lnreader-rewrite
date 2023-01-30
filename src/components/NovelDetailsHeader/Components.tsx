@@ -11,7 +11,7 @@ import { useBoolean, useTheme } from '@hooks';
 import Color from 'color';
 import { Spacing } from '@theme/constants';
 import { useNovelDetailsContext } from '@contexts/NovelDetailsContext';
-import { defaultTo } from 'lodash';
+import { defaultTo } from 'lodash-es';
 import { useLibraryContext } from '@contexts/LibraryContext';
 import { useNavigation } from '@react-navigation/native';
 import SetCategoriesModal from '@components/SetCategoriesModal/SetCategoriesModal';

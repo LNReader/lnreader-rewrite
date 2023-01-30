@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import { noop } from 'lodash-es';
 
 import { getAppSettings } from '@hooks/useAppSettings';
 
@@ -8,7 +9,6 @@ import { txnErrorCallback } from '@database/utils';
 
 import { SourceNovelDetails } from '@sources/types';
 import { LibrarySortOrder } from '@utils/LibraryUtils';
-import { flatten, noop, uniq } from 'lodash';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
@@ -196,38 +196,6 @@ export const updateNovelMetadata = async (
             resolve(novelId);
           }
         },
-        txnErrorCallback,
-      ),
-    ),
-  );
-};
-
-const updateNovelQuery = `
-UPDATE novels SET (
-  title = ?, status = ?, coverUrl = ?, genre = ?, 
-  description = ?, author = ?, artist = ?
-) 
-WHERE 
-  id = ?
-`;
-
-export const updateNovel = async (
-  novel: SourceNovelDetails,
-): Promise<number> => {
-  return new Promise(() =>
-    db.transaction(tx =>
-      tx.executeSql(
-        updateNovelQuery,
-        [
-          novel.title,
-          novel.status || null,
-          novel.coverUrl || null,
-          novel.genre || null,
-          novel.description || null,
-          novel.author || null,
-          novel.artist || null,
-        ],
-        undefined,
         txnErrorCallback,
       ),
     ),

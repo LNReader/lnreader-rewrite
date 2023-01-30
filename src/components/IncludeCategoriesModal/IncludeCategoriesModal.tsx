@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { Portal } from 'react-native-paper';
-import { xor } from 'lodash';
+import { xor } from 'lodash-es';
 
 import { Modal, TriStateCheckbox, Text } from '@lnreader/core';
 import { useAppSettings } from '@hooks';
