@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Image from 'react-native-fast-image';
 import { LinearGradient } from 'expo-linear-gradient';
+import { xorBy } from 'lodash-es';
 
 import { Text, Row, TextProps } from '@lnreader/core';
 import { useTheme, useAppSettings, useSourceStorage } from '@hooks';
@@ -13,7 +14,6 @@ import { IMAGE_PLACEHOLDER_COLOR, Spacing, WHITE_HEX } from '@theme/constants';
 import { LibraryDisplayModes } from '@utils/LibraryUtils';
 import { useLibraryContext } from '@contexts/LibraryContext';
 import { defaultUserAgentString } from '@utils/SettingsUtils';
-import { xor, xorBy } from 'lodash-es';
 
 interface NovelItemProps {
   novel: SourceNovel | LibraryNovel;

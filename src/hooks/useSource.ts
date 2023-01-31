@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { defaultTo } from 'lodash-es';
 
 import SourceFactory from '@sources/SourceFactory';
 import { SourceNovel } from '@sources/types';
@@ -13,20 +12,19 @@ const useSource = (params: UseSourceParams) => {
   const [loading, setLoading] = useState(true);
   const [novels, setNovels] = useState<SourceNovel[]>([]);
   const [error, setError] = useState<Error>();
-  const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
 
-  const hasNextPage = page <= totalPages;
+  const [hasNextPage, setHasNextPage] = useState(true);
+
   const source = SourceFactory.getSource(params.sourceId);
 
   const fetchNovels = async () => {
     try {
       const res = await source?.getPopoularNovels({ page });
-
       const data = res?.novels || [];
 
       setNovels(prevVal => (page === 1 ? data : [...prevVal, ...data]));
-      setTotalPages(defaultTo(res?.totalPages, 1));
+      setHasNextPage(data.length > 0);
     } catch (err) {
       if (err instanceof Error) {
         setError(err);
@@ -38,6 +36,7 @@ const useSource = (params: UseSourceParams) => {
 
   const searchNovels = async () => {
     try {
+      setHasNextPage(true);
       setLoading(true);
       const res = await source?.getSearchNovels({
         searchTerm: params.searchText,
@@ -47,7 +46,7 @@ const useSource = (params: UseSourceParams) => {
       const data = res?.novels || [];
 
       setNovels(prevVal => (page === 1 ? data : [...prevVal, ...data]));
-      setTotalPages(defaultTo(res?.totalPages, 1));
+      setHasNextPage(data.length > 0);
     } catch (err) {
       if (err instanceof Error) {
         setError(err);
@@ -59,7 +58,7 @@ const useSource = (params: UseSourceParams) => {
 
   useEffect(() => {
     if (params.searchText) {
-      searchNovels(params.searchText);
+      searchNovels();
     } else {
       fetchNovels();
     }

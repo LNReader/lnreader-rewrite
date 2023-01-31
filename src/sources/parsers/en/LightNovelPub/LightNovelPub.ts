@@ -13,7 +13,7 @@ import {
   SourceChapter,
   GetChapterParams,
 } from '@sources/types';
-import { fetchApi, fetchHtml } from '@utils/fetch/fetch';
+import { fetchHtml } from '@utils/fetch/fetch';
 import { sleep } from '@utils/Sleep';
 
 export class LightNovelPubParser implements ParsedSource {
@@ -160,7 +160,7 @@ export class LightNovelPubParser implements ParsedSource {
 
     for (let i = 1; i <= totalPages; i++) {
       const chaptersUrl = url + `/chapters/page-${i}`;
-      const chaptersHtml = await fetchHtml({ url: chaptersUrl });
+      const chaptersHtml = await fetchHtml({ url: chaptersUrl, sourceId });
 
       $ = cheerio.load(chaptersHtml);
 

@@ -72,7 +72,6 @@ export interface GetChapterParams {
 
 export interface SourceNovelsResponse {
   novels: SourceNovel[];
-  totalPages?: number;
 }
 
 export abstract class ParsedSource extends Source {

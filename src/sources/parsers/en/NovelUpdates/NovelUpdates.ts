@@ -36,7 +36,7 @@ export class NovelUpdatesParser implements ParsedSource {
     const sourceId = this.id;
     const url = `${baseUrl}series-ranking/`;
 
-    const html = await fetchHtml({ url });
+    const html = await fetchHtml({ url, sourceId });
     const $ = cheerio.load(html);
 
     const novels: SourceNovel[] = [];
@@ -64,7 +64,7 @@ export class NovelUpdatesParser implements ParsedSource {
     const sourceId = this.id;
     const url = `${baseUrl}?s=${searchTerm}&post_type=seriesplans`;
 
-    const html = await fetchHtml({ url });
+    const html = await fetchHtml({ url, sourceId });
     const $ = cheerio.load(html);
 
     const novels: SourceNovel[] = [];
@@ -88,7 +88,7 @@ export class NovelUpdatesParser implements ParsedSource {
   async getNovelDetails({ url }: GetNovelDetailsParams) {
     const sourceId = this.id;
 
-    const html = await fetchHtml({ url });
+    const html = await fetchHtml({ url, sourceId });
 
     let $ = cheerio.load(html);
 
@@ -138,6 +138,7 @@ export class NovelUpdatesParser implements ParsedSource {
         method: 'POST',
         body: formData,
       },
+      sourceId,
     });
 
     $ = cheerio.load(chaptersHtml);
@@ -194,6 +195,8 @@ export class NovelUpdatesParser implements ParsedSource {
       sourceName = SourceName.Wattpad;
     } else if (sourceUrl.includes('travistranslations')) {
       sourceName = SourceName.TravisTranslation;
+    } else if (sourceUrl.includes('divinedaolibrary')) {
+      sourceName = SourceName.DivineDaoLibrary;
     } else if (isWordPress) {
       sourceName = SourceName.WordPress;
     }
@@ -219,6 +222,9 @@ export class NovelUpdatesParser implements ParsedSource {
       case SourceName.WebNovel:
         text = $('.cha-words').html() || $('._content').html();
         break;
+      case SourceName.DivineDaoLibrary:
+        text = $('.entry-content').html();
+        break;
       case SourceName.WordPress:
         const bloatElements = [
           '.c-ads',
@@ -234,6 +240,7 @@ export class NovelUpdatesParser implements ParsedSource {
           '.sidebar',
           '.author-avatar',
           '.ezoic-ad',
+          '.wordads-ad-wrapper',
         ];
 
         bloatElements.forEach(tag => $(tag).remove());
@@ -275,4 +282,5 @@ enum SourceName {
   WebNovel,
   HostedNovel,
   ScribbleHub,
+  DivineDaoLibrary,
 }

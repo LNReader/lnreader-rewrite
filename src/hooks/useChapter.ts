@@ -51,7 +51,7 @@ const useChapter = ({ chapter: { url, id }, sourceId }: UseChapterParams) => {
   const getChapterFromCustomUrl = async (customUrl: string) => {
     if (customUrl !== 'about:blank') {
       setLoading(true);
-      const chaptersHtml = await fetchHtml({ url: customUrl });
+      const chaptersHtml = await fetchHtml({ url: customUrl, sourceId });
 
       setChapter(
         prevVal =>

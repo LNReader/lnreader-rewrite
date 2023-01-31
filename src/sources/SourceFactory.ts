@@ -36,7 +36,7 @@ SourceFactory.registerSource(
     id: 39,
     baseUrl: 'https://novelcake.com/',
     name: 'NovelCake',
-    path: { novels: 'series', novel: 'series', chapter: 'series' },
+    popularNovelsPath: 'series',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/novelcake.png?raw=true',
   }),
@@ -57,7 +57,7 @@ SourceFactory.registerSource(
     id: 41,
     baseUrl: 'https://zinnovel.com/',
     name: 'ZinnNovel',
-    path: { novels: 'manga', novel: 'manga', chapter: 'manga' },
+    popularNovelsPath: 'manga',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/zinnovel.png?raw=true',
   }),
@@ -68,7 +68,7 @@ SourceFactory.registerSource(
     id: 42,
     baseUrl: 'https://noveltranslate.com/',
     name: 'NovelTranslate',
-    path: { novels: 'all-novels', novel: 'manga', chapter: 'manga' },
+    popularNovelsPath: 'all-novels',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/noveltranslate.png?raw=true',
   }),
@@ -79,7 +79,7 @@ SourceFactory.registerSource(
     id: 43,
     baseUrl: 'https://www.lunarletters.com/',
     name: 'LunarLetters',
-    path: { novels: 'series', novel: 'series', chapter: 'series' },
+    popularNovelsPath: 'series',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/lunarletters.png?raw=true',
   }),
@@ -90,7 +90,7 @@ SourceFactory.registerSource(
     id: 44,
     baseUrl: 'https://sleepytranslations.com/',
     name: 'SleepyTranslations',
-    path: { novels: 'series', novel: 'series', chapter: 'series' },
+    popularNovelsPath: 'series',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/sleepytranslations.png?raw=true',
   }),
@@ -131,7 +131,7 @@ SourceFactory.registerSource(
     id: 55,
     baseUrl: 'https://mostnovel.com/',
     name: 'MostNovel',
-    path: { novels: 'manga', novel: 'manga', chapter: 'manga' },
+    popularNovelsPath: 'manga',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/mostnovel.png?raw=true',
   }),
@@ -152,7 +152,7 @@ SourceFactory.registerSource(
     id: 57,
     baseUrl: 'https://lightnovelheaven.com/',
     name: 'LightNovelHeaven',
-    path: { novels: 'series', novel: 'series', chapter: 'series' },
+    popularNovelsPath: 'series',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/lightnovelheaven.png?raw=true',
   }),
@@ -195,7 +195,6 @@ SourceFactory.registerSource(
     id: 141,
     baseUrl: 'https://novelr18.com/',
     name: 'NovelR18 ',
-    path: { novels: 'novel', novel: 'manga', chapter: 'manga' },
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/novelr18.png?raw=true',
   }),
@@ -206,7 +205,7 @@ SourceFactory.registerSource(
     id: 138,
     baseUrl: 'https://sugarbbscan.com/',
     name: 'Sugar Babies',
-    path: { novels: 'series', novel: 'manga', chapter: 'manga' },
+    popularNovelsPath: 'series',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/sugarbbscan.png?raw=true',
     useNewChapterEndpoint: false,
@@ -223,6 +222,17 @@ SourceFactory.registerSource(
     lang: Language.Turkish,
     useNewChapterEndpoint: false,
     reverseChapters: false,
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 143,
+    baseUrl: 'https://galaxytranslations97.com/',
+    name: 'Galaxy Translations',
+    iconUrl:
+      'https://i0.wp.com/galaxytranslations97.com/wp-content/uploads/2021/04/cropped-primordial-galaxy-696x392-1.jpg?fit=180%2C180&ssl=1',
+    popularNovelsPath: 'manga',
   }),
 );
 

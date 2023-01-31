@@ -12,7 +12,7 @@ import { LibrarySortOrder } from '@utils/LibraryUtils';
 
 const db = SQLite.openDatabase(DATABASE_NAME);
 
-const getLibraryNovelsQuery = `
+export const GetLibraryNovelsQuery = `
 SELECT 
   * 
 FROM 
@@ -46,7 +46,7 @@ WHERE
 export const getLibraryNovels = (
   searchTerm?: string,
 ): Promise<LibraryNovel[]> => {
-  let query = getLibraryNovelsQuery;
+  let query = GetLibraryNovelsQuery;
 
   const {
     LIBRARY_FILTERS,

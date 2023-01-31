@@ -1,16 +1,11 @@
 import { getAppSettings } from '@hooks';
-import {
-  getSourceStorage,
-  SourceStorageMap,
-  SOURCE_STORAGE,
-} from '@hooks/useSourceStorage';
-import { MMKVStorage } from '@utils/mmkv/mmkv';
+import { getSourceStorage } from '@hooks/useSourceStorage';
 import { defaultUserAgentString } from '@utils/SettingsUtils';
 
 interface FetchParams {
   url: string;
   init?: RequestInit;
-  sourceId?: number;
+  sourceId: number;
 }
 
 export const fetchApi = async ({
@@ -42,28 +37,19 @@ export const fetchHtml = async ({
   init,
   sourceId,
 }: FetchParams): Promise<string> => {
-  const { DEFAULT_USER_AGENT_STRING = defaultUserAgentString } =
-    getAppSettings();
-
-  const headers = new Headers({
-    ...init?.headers,
-    'User-Agent': DEFAULT_USER_AGENT_STRING,
-  });
-
-  if (sourceId) {
-    const { cookies = '' } = getSourceStorage(sourceId);
-
-    if (cookies) {
-      headers.append('cookie', cookies);
-    }
-  }
-
-  const res = await fetch(url, { ...init, headers });
-
+  const res = await fetchApi({ url, init, sourceId });
   const html = await res.text();
 
   if (html.includes('Checking if the site connection is secure')) {
-    throw Error("The app cannot bypass the source's Cloudflare protection.");
+    throw Error(
+      "The app couldn't bypass the source's Cloudflare protection.\n\nOpen the source in WebView to bypass the Cloudflare protection and reopen the source.",
+    );
+  }
+
+  if (!html) {
+    throw Error(
+      "Chapter not available.\n\nReport on GitHub if it's available in webview.",
+    );
   }
 
   return html;

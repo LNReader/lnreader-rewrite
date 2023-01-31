@@ -40,7 +40,7 @@ const NovelSelection: React.FC<Props> = ({
   const selectedIds = selected.map(novel => novel.id);
   const selectedCategories = uniq(
     flatten(selected.map(novel => JSON.parse(novel.categoryIds || ''))),
-  );
+  ).filter(id => id !== 1);
 
   useBackHandler(() => {
     if (selected.length) {

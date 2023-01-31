@@ -8,6 +8,7 @@ export {
 } from './Checkbox/Checkbox';
 export { default as Chip } from './Chip/Chip';
 export { default as ColorButton } from './ColorButton/ColorButton';
+export { default as ConfirmationModal } from './ConfirmationModal/ConfirmationModal';
 export { default as Counter } from './Counter/Counter';
 export { default as Modal } from './Modal/Modal';
 export { default as FAB } from './FAB/FAB';

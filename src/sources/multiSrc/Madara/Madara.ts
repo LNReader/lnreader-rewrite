@@ -1,5 +1,4 @@
 import * as cheerio from 'cheerio';
-import { defaultTo } from 'lodash-es';
 
 import {
   GetChapterParams,
@@ -25,23 +24,15 @@ interface MadaraSource {
   baseUrl: string;
   iconUrl: string;
   lang?: Language;
-  path?: {
-    novels: string;
-    novel: string;
-    chapter: string;
-  };
+  popularNovelsPath?: string;
   reverseChapters?: boolean;
   useNewChapterEndpoint?: boolean;
 }
 
-const defaultPath = {
-  novels: 'novel',
-  novel: 'novel',
-  chapter: 'novel',
-};
+const defaultPath = 'novel';
 
 export class MadaraParser extends ParsedSource {
-  path?: MadaraSource['path'];
+  popularNovelsPath?: string;
   useNewChapterEndpoint?: boolean;
   reverseChapters?: boolean;
 
@@ -51,7 +42,7 @@ export class MadaraParser extends ParsedSource {
     id,
     iconUrl,
     lang = Language.English,
-    path = defaultPath,
+    popularNovelsPath = defaultPath,
     useNewChapterEndpoint = true,
     reverseChapters = true,
   }: MadaraSource) {
@@ -60,7 +51,7 @@ export class MadaraParser extends ParsedSource {
     this.name = name;
     this.baseUrl = baseUrl;
     this.iconUrl = iconUrl;
-    this.path = path;
+    this.popularNovelsPath = popularNovelsPath;
     this.lang = lang;
     this.useNewChapterEndpoint = useNewChapterEndpoint;
     this.reverseChapters = reverseChapters;
@@ -71,9 +62,13 @@ export class MadaraParser extends ParsedSource {
   }: GetPopularNovelsParams): Promise<SourceNovelsResponse> {
     const sourceId = this.id;
     const url =
-      this.baseUrl + this.path?.novels + '/page/' + page + '/?m_orderby=rating';
+      this.baseUrl +
+      this.popularNovelsPath +
+      '/page/' +
+      page +
+      '/?m_orderby=rating';
 
-    const res = await fetchHtml({ url });
+    const res = await fetchHtml({ url, sourceId });
     const $ = cheerio.load(res);
 
     const novels: SourceNovel[] = [];
@@ -97,17 +92,8 @@ export class MadaraParser extends ParsedSource {
       }
     });
 
-    const totalResultsString = $('.c-blog__heading > div.h4')
-      .text()
-      .trim()
-      .match(/\d+/g)?.[0];
-    const totalResults = Number(totalResultsString);
-
-    const totalPages = defaultTo(Math.floor(totalResults / novels.length), 1);
-
     return {
       novels,
-      totalPages,
     };
   }
 
@@ -116,7 +102,7 @@ export class MadaraParser extends ParsedSource {
   }: GetNovelDetailsParams): Promise<SourceNovelDetails> {
     const sourceId = this.id;
 
-    const res = await fetchHtml({ url });
+    const res = await fetchHtml({ url, sourceId });
     let $ = cheerio.load(res);
 
     $('.manga-title-badges').remove();
@@ -192,6 +178,7 @@ export class MadaraParser extends ParsedSource {
           method: 'POST',
           body: formData,
         },
+        sourceId,
       });
     }
 
@@ -239,7 +226,7 @@ export class MadaraParser extends ParsedSource {
   async getChapter({ url }: GetChapterParams): Promise<SourceChapter> {
     const sourceId = this.id;
 
-    const res = await fetchHtml({ url });
+    const res = await fetchHtml({ url, sourceId });
     const $ = cheerio.load(res);
 
     const text = $('.text-left').html() || $('.text-right').html();
@@ -257,7 +244,7 @@ export class MadaraParser extends ParsedSource {
     const sourceId = this.id;
     const url = `${this.baseUrl}?s=${searchTerm}&post_type=wp-manga`;
 
-    const res = await fetchHtml({ url });
+    const res = await fetchHtml({ url, sourceId });
     const $ = cheerio.load(res);
 
     $('.manga-title-badges').remove();
@@ -282,17 +269,8 @@ export class MadaraParser extends ParsedSource {
       }
     });
 
-    const totalResultsString = $('.c-blog__heading > h1.h4')
-      .text()
-      .trim()
-      .match(/\d+/g)?.[0];
-    const totalResults = Number(totalResultsString);
-
-    const totalPages = defaultTo(Math.floor(totalResults / novels.length), 1);
-
     return {
       novels,
-      totalPages,
     };
   }
 }

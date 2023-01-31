@@ -26,12 +26,11 @@ export class NovelForestParser implements ParsedSource {
   baseUrl = 'https://novelforest.com';
 
   async getPopoularNovels({ page }: GetPopularNovelsParams) {
-    const totalPages = 25;
     const baseUrl = this.baseUrl;
     const sourceId = this.id;
     const url = `${this.baseUrl}/popular?page=${page}`;
 
-    const html = await fetchHtml({ url });
+    const html = await fetchHtml({ url, sourceId });
     const loadedCheerio = cheerio.load(html);
 
     const novels: SourceNovel[] = [];
@@ -45,17 +44,15 @@ export class NovelForestParser implements ParsedSource {
       });
     });
 
-    return { novels, totalPages };
+    return { novels };
   }
 
   async getSearchNovels({ searchTerm }: GetSearchNovelsParams) {
-    const totalPages = 1;
-
     const baseUrl = this.baseUrl;
     const sourceId = this.id;
     const url = `${this.baseUrl}/search?q=${searchTerm}`;
 
-    const html = await fetchHtml({ url });
+    const html = await fetchHtml({ url, sourceId });
     const loadedCheerio = cheerio.load(html);
 
     const novels: SourceNovel[] = [];
@@ -69,14 +66,14 @@ export class NovelForestParser implements ParsedSource {
       });
     });
 
-    return { novels, totalPages };
+    return { novels };
   }
 
   async getNovelDetails({ url }: GetNovelDetailsParams) {
     const baseUrl = this.baseUrl;
     const sourceId = this.id;
 
-    const html = await fetchHtml({ url });
+    const html = await fetchHtml({ url, sourceId });
 
     let $ = cheerio.load(html);
 
@@ -118,7 +115,7 @@ export class NovelForestParser implements ParsedSource {
       url.replace(baseUrl, 'https://novelforest.com/api/novels') +
       '/chapters?source=detail';
 
-    const chaptersHtml = await fetchHtml({ url: chaptersUrl });
+    const chaptersHtml = await fetchHtml({ url: chaptersUrl, sourceId });
 
     $ = cheerio.load(chaptersHtml);
 
@@ -151,7 +148,9 @@ export class NovelForestParser implements ParsedSource {
   }
 
   async getChapter({ url }: GetChapterParams): Promise<SourceChapter> {
-    const html = await fetchHtml({ url });
+    const sourceId = this.id;
+
+    const html = await fetchHtml({ url, sourceId });
     const loadedCheerio = cheerio.load(html);
 
     loadedCheerio('#listen-chapter').remove();

@@ -249,7 +249,7 @@ export const setChaptersUnreadByNovelIds = async (ids: number[]) => {
   db.transaction(tx => tx.executeSql(query, undefined, noop, txnErrorCallback));
 };
 
-const getChaptersByChapterIdsQuery = `
+const GetChaptersByChapterIdsQuery = `
 SELECT 
   * 
 FROM 
@@ -262,7 +262,7 @@ IN
 export const getChaptersByChapterIds = (
   chapterIds: number[],
 ): Promise<DatabaseChapterWithSourceId[]> => {
-  const query = `${getChaptersByChapterIdsQuery} (${chapterIds.toString()})`;
+  const query = `${GetChaptersByChapterIdsQuery} (${chapterIds.toString()})`;
 
   return new Promise(resolve =>
     db.transaction(tx => {
@@ -276,7 +276,7 @@ export const getChaptersByChapterIds = (
   );
 };
 
-const getDownloadedChaptersQuery = `
+export const GetDownloadedChaptersQuery = `
 SELECT 
   chapters.*,
   novels.title as novelName,
@@ -286,22 +286,7 @@ SELECT
 FROM 
   chapters 
 JOIN
-  novels ON novels.id = chapters.id
+  novels ON novels.id = chapters.novelId
 WHERE 
   chapters.downloaded = 1 
 `;
-
-export const getDownloadedChapters = (): Promise<
-  DatabaseChapterWithNovelDetails[]
-> => {
-  return new Promise(resolve =>
-    db.transaction(tx => {
-      tx.executeSql(
-        getDownloadedChaptersQuery,
-        undefined,
-        (txObj, { rows: { _array } }) => resolve(_array),
-        txnErrorCallback,
-      );
-    }),
-  );
-};

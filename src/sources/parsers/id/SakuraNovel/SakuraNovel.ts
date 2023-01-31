@@ -35,7 +35,6 @@ export class SakuraNovelParser implements ParsedSource {
   async getPopoularNovels({
     page,
   }: GetPopularNovelsParams): Promise<SourceNovelsResponse> {
-    const totalPages = 8;
     const sourceId = this.id;
     const url = `${this.baseUrl}advanced-search/page/${page}/?title&author&yearx&status&type&order=rating&country%5B0%5D=china&country%5B1%5D=jepang&country%5B2%5D=unknown`;
 
@@ -65,6 +64,6 @@ export class SakuraNovelParser implements ParsedSource {
       });
     });
 
-    return { totalPages, novels };
+    return { novels };
   }
 }

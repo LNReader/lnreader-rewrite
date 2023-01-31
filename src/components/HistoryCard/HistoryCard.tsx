@@ -49,7 +49,9 @@ const HistoryCard: React.FC<Props> = ({ history, clearHistoryById }) => {
         <FastImage source={{ uri: history.coverUrl }} style={styles.cover} />
       </Pressable>
       <View style={styles.detailsCtn}>
-        <Text style={styles.title}>{history.novelName}</Text>
+        <Text numberOfLines={2} style={styles.title}>
+          {history.novelName}
+        </Text>
         <Text numberOfLines={1} color={theme.onSurfaceVariant}>{`${
           history.chapterName
         } • ${moment(history.lastRead).format('h:mm a')}`}</Text>

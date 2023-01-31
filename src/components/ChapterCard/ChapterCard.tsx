@@ -62,7 +62,7 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
       onPress={onPress}
       onLongPress={onLongPress}
     >
-      <View>
+      <View style={styles.infoCtn}>
         <Text
           numberOfLines={1}
           color={!chapter.read ? theme.onSurface : theme.outline}
@@ -105,5 +105,8 @@ const styles = StyleSheet.create({
   },
   dateCtn: {
     marginTop: Spacing.TINY,
+  },
+  infoCtn: {
+    flex: 1,
   },
 });

@@ -1,47 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
-import { Appbar, EmptyView } from '@lnreader/core';
+import { Appbar, EmptyView, ErrorScreen, LoadingScreen } from '@lnreader/core';
 import { DatabaseChapterWithNovelDetails, Update } from '@database/types';
-import { getDownloadedChapters } from '@database/queries/ChapterQueries';
+import { GetDownloadedChaptersQuery } from '@database/queries/ChapterQueries';
 
 import UpdateCard from '@components/UpdateCard/UpdateCard';
+import useQuery from '@hooks/useQuery';
 
 const DownloadsScreen = () => {
-  const [chapters, setChapters] = useState<DatabaseChapterWithNovelDetails[]>(
-    [],
+  const { loading, data, error } = useQuery<DatabaseChapterWithNovelDetails[]>(
+    GetDownloadedChaptersQuery,
   );
-
-  const getChapters = async () => {
-    const dbChapters = await getDownloadedChapters();
-
-    setChapters(dbChapters);
-  };
-
-  useEffect(() => {
-    getChapters();
-  }, []);
 
   return (
     <>
       <Appbar title="Downloads" />
-      <FlatList
-        contentContainerStyle={styles.listCtn}
-        data={chapters}
-        renderItem={({ item }) => (
-          <UpdateCard
-            update={
-              {
-                ...item,
-                chapterId: item.id,
-                chapterName: item.name,
-                chapterUrl: item.url,
-              } as unknown as Update
-            }
-          />
-        )}
-        ListEmptyComponent={<EmptyView description="No downloads" />}
-      />
+      {loading ? (
+        <LoadingScreen />
+      ) : error ? (
+        <ErrorScreen error={error} />
+      ) : (
+        <FlatList
+          contentContainerStyle={styles.listCtn}
+          data={data}
+          renderItem={({ item }) => (
+            <UpdateCard
+              update={
+                {
+                  ...item,
+                  chapterId: item.id,
+                  chapterName: item.name,
+                  chapterUrl: item.url,
+                } as unknown as Update
+              }
+            />
+          )}
+          ListEmptyComponent={<EmptyView description="No downloads" />}
+        />
+      )}
     </>
   );
 };

@@ -22,31 +22,38 @@ export class ReadLightNovelParser extends ParsedSource {
   lang = Language.English;
 
   async getPopoularNovels() {
+    const sourceId = this.id;
+
     const novels: SourceNovel[] = [
       {
-        name: 'dscds',
+        sourceId,
+        title: 'dscds',
         url: 'dsds',
         coverUrl: 'dsd',
       },
     ];
 
-    return novels;
+    return { novels };
   }
 
   async getSearchNovels() {
+    const sourceId = this.id;
+
     const novels: SourceNovel[] = [
       {
-        name: 'dscds',
+        sourceId,
+        title: 'dscds',
         url: 'dsds',
         coverUrl: 'dsd',
       },
     ];
 
-    return novels;
+    return { novels };
   }
 
   async getNovelDetails({ url }: GetNovelDetailsParams) {
-    const html = await fetchHtml({ url });
+    const sourceId = this.id;
+    const html = await fetchHtml({ url, sourceId });
 
     const $ = cheerio.load(html);
 
@@ -58,6 +65,7 @@ export class ReadLightNovelParser extends ParsedSource {
       'body > div.layout > div.main-container.book-details > div > div.row.no-gutters > div.col-lg-8 > div.book-info > div.detail > div.meta.box.mt-1.p-10 > p:nth-child(1) > a > span';
 
     const novelDetails: SourceNovelDetails = {
+      sourceId,
       url,
       title: $(titleSelector).text().trim(),
       coverUrl: 'https:' + $(coverSelector).attr('data-src'),

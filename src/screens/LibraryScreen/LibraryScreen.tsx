@@ -19,13 +19,14 @@ import {
 import { useNavigation } from '@react-navigation/native';
 
 import { useTheme, useLibrary, useSearchText, useAppSettings } from '@hooks';
+import { DatabaseNovel } from '@database/types';
 
+import SettingBanners from '@components/SettingBanners/SettingBanners';
+import NovelSelection from '@components/NovelSelection/NovelSelection';
 import LibraryView from '@components/LibraryView/LibraryView';
 import LibraryBottomSheet from '@components/LibraryBottomSheet/LibraryBottomSheet';
 
 import { Spacing } from '@theme/constants';
-import SettingBanners from '@components/SettingBanners/SettingBanners';
-import NovelSelection from '@components/NovelSelection/NovelSelection';
 
 type State = NavigationState<{
   key: string;
@@ -45,7 +46,7 @@ const LibraryScreen = () => {
   const bottomSheetRef = useRef<BottomSheetType>(null);
 
   const [index, setIndex] = useState(0);
-  const [selected, setSelected] = useState<number[]>([]);
+  const [selected, setSelected] = useState<DatabaseNovel[]>([]);
 
   const renderTabBar = (
     props: SceneRendererProps & { navigationState: State },
