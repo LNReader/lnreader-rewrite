@@ -140,6 +140,10 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({
                 padding: ${READER_PADDING}%;
               }
 
+              a {
+                color: ${theme.primary};
+              }
+
               ${READER_CUSTOM_CSS}
             </style>
           </head>

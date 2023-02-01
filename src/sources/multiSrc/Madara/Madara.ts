@@ -16,7 +16,17 @@ import {
 import { fetchHtml } from '@utils/fetch/fetch';
 import { NovelStatus } from '@database/types';
 
-import { parseMadaraDate } from './Utils';
+import { parseChapterNumber, parseRelativeDate } from '../../Utils';
+
+interface MadaraOptions {
+  popularNovelsPath?: string;
+  reverseChapters?: boolean;
+
+  /**
+   * @default true
+   */
+  useNewChapterEndpoint?: boolean;
+}
 
 interface MadaraSource {
   id: number;
@@ -24,17 +34,19 @@ interface MadaraSource {
   baseUrl: string;
   iconUrl: string;
   lang?: Language;
-  popularNovelsPath?: string;
-  reverseChapters?: boolean;
-  useNewChapterEndpoint?: boolean;
+  options?: MadaraOptions;
 }
 
 const defaultPath = 'novel';
 
+const defaultOptions: MadaraOptions = {
+  popularNovelsPath: defaultPath,
+  useNewChapterEndpoint: true,
+  reverseChapters: true,
+};
+
 export class MadaraParser extends ParsedSource {
-  popularNovelsPath?: string;
-  useNewChapterEndpoint?: boolean;
-  reverseChapters?: boolean;
+  options: MadaraOptions;
 
   constructor({
     name,
@@ -42,19 +54,15 @@ export class MadaraParser extends ParsedSource {
     id,
     iconUrl,
     lang = Language.English,
-    popularNovelsPath = defaultPath,
-    useNewChapterEndpoint = true,
-    reverseChapters = true,
+    options,
   }: MadaraSource) {
     super();
     this.id = id;
     this.name = name;
     this.baseUrl = baseUrl;
     this.iconUrl = iconUrl;
-    this.popularNovelsPath = popularNovelsPath;
     this.lang = lang;
-    this.useNewChapterEndpoint = useNewChapterEndpoint;
-    this.reverseChapters = reverseChapters;
+    this.options = { ...defaultOptions, ...options };
   }
 
   async getPopoularNovels({
@@ -63,7 +71,7 @@ export class MadaraParser extends ParsedSource {
     const sourceId = this.id;
     const url =
       this.baseUrl +
-      this.popularNovelsPath +
+      this.options.popularNovelsPath +
       '/page/' +
       page +
       '/?m_orderby=rating';
@@ -107,12 +115,13 @@ export class MadaraParser extends ParsedSource {
 
     $('.manga-title-badges').remove();
 
-    const title = $('.post-title').text().trim();
+    const title =
+      $('.post-title').text().trim() || $('#manga-title').text().trim();
 
     const cover = $('.summary_image > a > img');
     const coverUrl = cover.attr('data-src') || cover.attr('src');
 
-    const description =
+    let description =
       $('div.summary__content')
         .text()
         .trim()
@@ -122,8 +131,13 @@ export class MadaraParser extends ParsedSource {
     let genre, author, status;
 
     $('.post-content_item').each(function () {
-      const detailKey = $(this).find('.summary-heading > h5').text().trim();
-      const detailValue = $(this).find('.summary-content').text().trim();
+      const detailKey =
+        $(this).find('.summary-heading > h5').text().trim() ||
+        $(this).find('h5').text().trim();
+
+      const detailValue =
+        $(this).find('.summary-content').text().trim() ||
+        $(this).find('div').text().trim();
 
       switch (detailKey) {
         case 'Genre(s)':
@@ -143,6 +157,9 @@ export class MadaraParser extends ParsedSource {
             ? NovelStatus.ONGOING
             : NovelStatus.COMPLETED;
           break;
+        case 'Summary':
+          description ??= detailValue;
+          break;
       }
     });
 
@@ -150,7 +167,7 @@ export class MadaraParser extends ParsedSource {
 
     let chaptersHtml;
 
-    if (this.useNewChapterEndpoint) {
+    if (this.options.useNewChapterEndpoint) {
       const chaptersUrl = url + 'ajax/chapters/';
 
       chaptersHtml = await fetchHtml({
@@ -194,19 +211,21 @@ export class MadaraParser extends ParsedSource {
         .find('span.chapter-release-date')
         .text()
         .trim();
-      const dateUpload = parseMadaraDate(dateUploadString);
+      const dateUpload = parseRelativeDate(dateUploadString);
+      const chapterNumber = parseChapterNumber(title, name);
 
       if (chapterUrl) {
         chapters.push({
           sourceId,
           name,
           dateUpload,
+          chapterNumber,
           url: chapterUrl,
         });
       }
     });
 
-    if (this.reverseChapters) {
+    if (this.options.reverseChapters) {
       chapters.reverse();
     }
 
@@ -240,9 +259,10 @@ export class MadaraParser extends ParsedSource {
 
   async getSearchNovels({
     searchTerm,
+    page,
   }: GetSearchNovelsParams): Promise<SourceNovelsResponse> {
     const sourceId = this.id;
-    const url = `${this.baseUrl}?s=${searchTerm}&post_type=wp-manga`;
+    const url = `${this.baseUrl}/page/${page}/?s=${searchTerm}&post_type=wp-manga`;
 
     const res = await fetchHtml({ url, sourceId });
     const $ = cheerio.load(res);

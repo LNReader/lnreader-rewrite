@@ -38,7 +38,11 @@ const SourceCard: React.FC<SourceCardProps> = ({ source }) => {
       onPress={onPress}
       android_ripple={{ color: theme.rippleColor }}
     >
-      <Image source={{ uri: iconUrl }} style={styles.icon} />
+      <Image
+        source={{ uri: iconUrl }}
+        style={styles.icon}
+        resizeMode="contain"
+      />
       <View style={styles.infoCtn}>
         <Text color={theme.onSurface}>{name}</Text>
         <Text color={theme.onSurfaceVariant} size={12}>

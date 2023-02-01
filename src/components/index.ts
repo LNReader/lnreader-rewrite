@@ -19,6 +19,7 @@ export { default as IconButton } from './IconButton/IconButton';
 export { ScreenContainer, Row } from './Layout/Layout';
 export { List } from './List/List';
 export { default as LoadingScreen } from './LoadingScreen/LoadingScreen';
+export { default as LoadingMoreIndicator } from './LoadingMoreIndicator/LoadingMoreIndicator';
 export { default as RadioButton } from './RadioButton/RadioButton';
 export { default as Searchbar } from './Searchbar/Searchbar';
 export { default as Switch } from './Switch/Switch';

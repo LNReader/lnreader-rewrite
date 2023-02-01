@@ -36,8 +36,11 @@ const useSource = (params: UseSourceParams) => {
 
   const searchNovels = async () => {
     try {
-      setHasNextPage(true);
-      setLoading(true);
+      if (page === 1) {
+        setHasNextPage(true);
+        setLoading(true);
+      }
+
       const res = await source?.getSearchNovels({
         searchTerm: params.searchText,
         page,
@@ -83,6 +86,7 @@ const useSource = (params: UseSourceParams) => {
     fetchNextPage,
     searchNovels,
     onClearSearch,
+    hasNextPage,
   };
 };
 

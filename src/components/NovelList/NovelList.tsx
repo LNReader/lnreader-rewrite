@@ -15,7 +15,7 @@ type ListNovel = SourceNovel | LibraryNovel;
 
 const NovelList: React.FC<
   Omit<FlatListProps<ListNovel>, 'renderItem'> & {
-    selected: DatabaseNovel[];
+    selected?: DatabaseNovel[];
     setSelected?: React.Dispatch<React.SetStateAction<DatabaseNovel[]>>;
   }
 > = props => {

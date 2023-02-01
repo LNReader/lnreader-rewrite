@@ -6,6 +6,7 @@ import { Language } from './types';
 import { LightNovelPubParser } from './parsers/en/LightNovelPub/LightNovelPub';
 import { SakuraNovelParser } from './parsers/id/SakuraNovel/SakuraNovel';
 import { NovelUpdatesParser } from './parsers/en/NovelUpdates/NovelUpdates';
+import { WPMangaStreamParser } from './multiSrc/WPMangaStream/WPMangaStream';
 
 const SourceFactory = new AbstractSourceFactory();
 
@@ -33,12 +34,24 @@ SourceFactory.registerSource(
 
 SourceFactory.registerSource(
   new MadaraParser({
+    id: 21,
+    baseUrl: 'https://woopread.com/',
+    name: 'WoopRead',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/src/en/woopread/icon.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
     id: 39,
     baseUrl: 'https://novelcake.com/',
     name: 'NovelCake',
-    popularNovelsPath: 'series',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/novelcake.png?raw=true',
+    options: {
+      popularNovelsPath: 'series',
+    },
   }),
 );
 
@@ -57,7 +70,9 @@ SourceFactory.registerSource(
     id: 41,
     baseUrl: 'https://zinnovel.com/',
     name: 'ZinnNovel',
-    popularNovelsPath: 'manga',
+    options: {
+      popularNovelsPath: 'manga',
+    },
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/zinnovel.png?raw=true',
   }),
@@ -68,7 +83,9 @@ SourceFactory.registerSource(
     id: 42,
     baseUrl: 'https://noveltranslate.com/',
     name: 'NovelTranslate',
-    popularNovelsPath: 'all-novels',
+    options: {
+      popularNovelsPath: 'all-novels',
+    },
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/noveltranslate.png?raw=true',
   }),
@@ -79,7 +96,9 @@ SourceFactory.registerSource(
     id: 43,
     baseUrl: 'https://www.lunarletters.com/',
     name: 'LunarLetters',
-    popularNovelsPath: 'series',
+    options: {
+      popularNovelsPath: 'series',
+    },
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/lunarletters.png?raw=true',
   }),
@@ -90,7 +109,9 @@ SourceFactory.registerSource(
     id: 44,
     baseUrl: 'https://sleepytranslations.com/',
     name: 'SleepyTranslations',
-    popularNovelsPath: 'series',
+    options: {
+      popularNovelsPath: 'series',
+    },
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/sleepytranslations.png?raw=true',
   }),
@@ -123,6 +144,9 @@ SourceFactory.registerSource(
     name: 'DaoNovel',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/daonovel.png?raw=true',
+    options: {
+      popularNovelsPath: 'novels-list',
+    },
   }),
 );
 
@@ -131,7 +155,9 @@ SourceFactory.registerSource(
     id: 55,
     baseUrl: 'https://mostnovel.com/',
     name: 'MostNovel',
-    popularNovelsPath: 'manga',
+    options: {
+      popularNovelsPath: 'manga',
+    },
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/mostnovel.png?raw=true',
   }),
@@ -152,7 +178,9 @@ SourceFactory.registerSource(
     id: 57,
     baseUrl: 'https://lightnovelheaven.com/',
     name: 'LightNovelHeaven',
-    popularNovelsPath: 'series',
+    options: {
+      popularNovelsPath: 'series',
+    },
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/lightnovelheaven.png?raw=true',
   }),
@@ -192,6 +220,33 @@ SourceFactory.registerSource(
 
 SourceFactory.registerSource(
   new MadaraParser({
+    id: 75,
+    baseUrl: 'https://mysticalmerries.com/',
+    name: 'MysticalSeries',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/mysticalseries.png?raw=true',
+    options: {
+      popularNovelsPath: 'series',
+    },
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 126,
+    name: 'Sweet Escape Translations',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/sweetescapetranslations.png?raw=true',
+    baseUrl: 'https://sweetescapetranslations.com/',
+    options: {
+      useNewChapterEndpoint: false,
+      popularNovelsPath: 'manga',
+    },
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
     id: 141,
     baseUrl: 'https://novelr18.com/',
     name: 'NovelR18 ',
@@ -202,13 +257,25 @@ SourceFactory.registerSource(
 
 SourceFactory.registerSource(
   new MadaraParser({
+    id: 135,
+    baseUrl: 'https://zetrotranslation.com/',
+    name: 'Zetro Translation',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/zetrotranslation.png?raw=true',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
     id: 138,
     baseUrl: 'https://sugarbbscan.com/',
     name: 'Sugar Babies',
-    popularNovelsPath: 'series',
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/sugarbbscan.png?raw=true',
-    useNewChapterEndpoint: false,
+    options: {
+      popularNovelsPath: 'series',
+      useNewChapterEndpoint: false,
+    },
   }),
 );
 
@@ -220,19 +287,108 @@ SourceFactory.registerSource(
     iconUrl:
       'https://github.com/LNReader/lnreader-sources/blob/main/multisrc/madara/icons/webnoveloku.png?raw=true',
     lang: Language.Turkish,
-    useNewChapterEndpoint: false,
-    reverseChapters: false,
+    options: {
+      useNewChapterEndpoint: false,
+      reverseChapters: false,
+    },
   }),
 );
 
 SourceFactory.registerSource(
   new MadaraParser({
-    id: 143,
+    id: 148,
+    baseUrl: 'https://salmonlatte.com/',
+    name: 'Salmon Latte',
+    iconUrl:
+      'https://salmonlatte.com/wp-content/uploads/2022/10/Copy-of-Salmon-Latte-Translations.png',
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 149,
     baseUrl: 'https://galaxytranslations97.com/',
     name: 'Galaxy Translations',
     iconUrl:
       'https://i0.wp.com/galaxytranslations97.com/wp-content/uploads/2021/04/cropped-primordial-galaxy-696x392-1.jpg?fit=180%2C180&ssl=1',
-    popularNovelsPath: 'manga',
+    options: {
+      popularNovelsPath: 'manga',
+    },
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
+    id: 151,
+    baseUrl: 'https://novelutopia.com/',
+    name: 'NovelUtopia',
+    iconUrl: 'https://novelutopia.com/wp-content/uploads/2017/10/1.png',
+    options: {
+      useNewChapterEndpoint: false,
+    },
+  }),
+);
+
+/**
+ * WPMangaStream
+ */
+SourceFactory.registerSource(
+  new WPMangaStreamParser({
+    id: 123,
+    baseUrl: 'https://lshnovel.com/',
+    name: 'Liebe Schnee Hiver Novel',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/wpmangastream/icons/lshnovel.png?raw=true',
+    lang: Language.Turkish,
+  }),
+);
+
+SourceFactory.registerSource(
+  new WPMangaStreamParser({
+    id: 129,
+    baseUrl: 'https://lightnovelbrasil.com/',
+    name: 'Light Novels Brasil',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/wpmangastream/icons/lshnovel.png?raw=true',
+    lang: Language.PortugueseBr,
+  }),
+);
+
+SourceFactory.registerSource(
+  new WPMangaStreamParser({
+    id: 144,
+    baseUrl: 'https://noblemtl.com/',
+    name: 'Noble Machine translations',
+    iconUrl:
+      'https://i1.wp.com/noblemtl.com/wp-content/uploads/2022/07/cropped-Noble-192x192.png',
+  }),
+);
+
+SourceFactory.registerSource(
+  new WPMangaStreamParser({
+    id: 145,
+    baseUrl: 'https://genesistls.com/',
+    name: 'Genesis Translations',
+    iconUrl: 'https://genesistls.com/wp-content/uploads/2022/04/logo.png',
+  }),
+);
+
+SourceFactory.registerSource(
+  new WPMangaStreamParser({
+    id: 146,
+    baseUrl: 'https://knoxt.space/',
+    name: 'KnoxT',
+    iconUrl: 'https://knoxt.space/wp-content/uploads/2021/06/knoxtlight.jpg',
+  }),
+);
+
+SourceFactory.registerSource(
+  new WPMangaStreamParser({
+    id: 147,
+    baseUrl: 'https://awebstories.com/',
+    name: 'Awebstories',
+    iconUrl:
+      'https://sf.ezoiccdn.com/ezoimgfmt/awebstories.com/wp-content/uploads/2022/12/d671f544f354b086dd2f8c5334455d24.png?ezimgfmt=rs:119x35/rscb1/ngcb1/notWebP',
   }),
 );
 

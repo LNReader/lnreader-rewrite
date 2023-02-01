@@ -4,6 +4,7 @@ import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 
 import {
   ErrorScreen,
+  LoadingMoreIndicator,
   LoadingScreen,
   ScreenContainer,
   Searchbar,
@@ -33,6 +34,7 @@ const SourceScreen: React.FC = () => {
     fetchNextPage,
     searchNovels,
     onClearSearch,
+    hasNextPage,
   } = useSource({
     searchText,
     sourceId,
@@ -64,7 +66,13 @@ const SourceScreen: React.FC = () => {
       ) : error ? (
         <ErrorScreen error={error} />
       ) : (
-        <NovelList data={novels} onEndReached={fetchNextPage} />
+        <NovelList
+          data={novels}
+          onEndReached={fetchNextPage}
+          ListFooterComponent={
+            hasNextPage ? <LoadingMoreIndicator /> : undefined
+          }
+        />
       )}
     </ScreenContainer>
   );

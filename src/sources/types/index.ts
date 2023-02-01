@@ -6,6 +6,7 @@ export enum Language {
   Indonesian = 'Indonesian',
   Japanese = 'Japanese',
   Turkish = 'Turkish',
+  PortugueseBr = 'Portuguese (Brazil)',
 }
 
 export abstract class Source {
