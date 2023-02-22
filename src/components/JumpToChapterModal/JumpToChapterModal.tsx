@@ -37,7 +37,15 @@ const JumpToChapterModal: React.FC<JumpToChapterModalProps> = ({
     let index = 0;
 
     if (isChapterNumberMode) {
-      index = +searchText;
+      const exactMatch = chapters?.findIndex(
+        chapter => chapter.chapterNumber === Number(searchText),
+      );
+
+      if (exactMatch && exactMatch !== -1) {
+        index = exactMatch;
+      } else {
+        index = +searchText;
+      }
     } else {
       const exactMatch = sortBy(chapters, 'id')?.findIndex(
         chapter => chapter.name.toLowerCase() === searchText?.toLowerCase(),

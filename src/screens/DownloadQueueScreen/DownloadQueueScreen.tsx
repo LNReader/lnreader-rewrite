@@ -3,14 +3,30 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import BackgroundService from 'react-native-background-actions';
 import { ProgressBar } from 'react-native-paper';
 
-import { Appbar, EmptyView, FAB, Text } from '@lnreader/core';
-import { useDownloader, useTheme } from '@hooks';
+import {
+  Appbar,
+  EmptyView,
+  FAB,
+  IconButton,
+  Menu,
+  MenuItem,
+  Text,
+  ToastAndroid,
+} from '@lnreader/core';
+import { useBoolean, useDownloader, useTheme } from '@hooks';
 import { DatabaseChapterWithSourceId } from '@database/types';
 import { getChaptersByChapterIds } from '@database/queries/ChapterQueries';
 
 const DownloadQueueScreen = () => {
   const { theme } = useTheme();
-  const { downloadQueue, downloadChapters } = useDownloader();
+  const { downloadQueue, downloadChapters, clearDownloadQueue } =
+    useDownloader();
+
+  const {
+    value: menuVisible,
+    setTrue: showMenu,
+    setFalse: hideMenu,
+  } = useBoolean();
 
   const [chapters, setChapters] = useState<DatabaseChapterWithSourceId[]>([]);
 
@@ -26,9 +42,29 @@ const DownloadQueueScreen = () => {
 
   const isBackgroundServiceRunning = BackgroundService.isRunning();
 
+  const onCancelDownloads = async () => {
+    await BackgroundService.stop();
+    clearDownloadQueue();
+    ToastAndroid.show('Downloads cancelled.');
+    hideMenu();
+  };
+
   return (
     <>
-      <Appbar title="Download queue" />
+      <Appbar
+        title="Download queue"
+        menu={
+          downloadQueue.length ? (
+            <Menu
+              visible={menuVisible}
+              openMenu={showMenu}
+              onDismiss={hideMenu}
+            >
+              <MenuItem title="Cancel downloads" onPress={onCancelDownloads} />
+            </Menu>
+          ) : undefined
+        }
+      />
       <FlatList
         contentContainerStyle={styles.listCtn}
         data={chapters}

@@ -12,6 +12,7 @@ interface AppbarProps
   title?: string;
   actions?: Array<{ icon: string; onPress: () => void; disabled?: boolean }>;
   backAction?: () => void;
+  menu?: React.ReactElement;
 }
 
 const Appbar: React.FC<AppbarProps> = props => {
@@ -46,6 +47,7 @@ const Appbar: React.FC<AppbarProps> = props => {
           disabled={action.disabled}
         />
       ))}
+      {props.menu}
     </PaperAppbar.Header>
   );
 };

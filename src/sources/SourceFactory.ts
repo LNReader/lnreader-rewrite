@@ -7,9 +7,11 @@ import { LightNovelPubParser } from './parsers/en/LightNovelPub/LightNovelPub';
 import { SakuraNovelParser } from './parsers/id/SakuraNovel/SakuraNovel';
 import { NovelUpdatesParser } from './parsers/en/NovelUpdates/NovelUpdates';
 import { WPMangaStreamParser } from './multiSrc/WPMangaStream/WPMangaStream';
+import { ComradeMaoParser } from './parsers/en/ComradeMao/ComradeMao';
 
 const SourceFactory = new AbstractSourceFactory();
 
+SourceFactory.registerSource(new ComradeMaoParser());
 SourceFactory.registerSource(new NovelForestParser());
 SourceFactory.registerSource(new NovelUpdatesParser());
 SourceFactory.registerSource(new LightNovelPubParser());
@@ -220,6 +222,20 @@ SourceFactory.registerSource(
 
 SourceFactory.registerSource(
   new MadaraParser({
+    id: 96,
+    baseUrl: 'https://hizomanga.com/',
+    name: 'HizoManga',
+    iconUrl:
+      'https://github.com/LNReader/lnreader-sources/blob/main/icons/multisrc/madara/icons/hizomanga.png?raw=true',
+    lang: Language.Arabic,
+    options: {
+      popularNovelsPath: 'serie',
+    },
+  }),
+);
+
+SourceFactory.registerSource(
+  new MadaraParser({
     id: 75,
     baseUrl: 'https://mysticalmerries.com/',
     name: 'MysticalSeries',
@@ -379,16 +395,6 @@ SourceFactory.registerSource(
     baseUrl: 'https://knoxt.space/',
     name: 'KnoxT',
     iconUrl: 'https://knoxt.space/wp-content/uploads/2021/06/knoxtlight.jpg',
-  }),
-);
-
-SourceFactory.registerSource(
-  new WPMangaStreamParser({
-    id: 147,
-    baseUrl: 'https://awebstories.com/',
-    name: 'Awebstories',
-    iconUrl:
-      'https://sf.ezoiccdn.com/ezoimgfmt/awebstories.com/wp-content/uploads/2022/12/d671f544f354b086dd2f8c5334455d24.png?ezimgfmt=rs:119x35/rscb1/ngcb1/notWebP',
   }),
 );
 

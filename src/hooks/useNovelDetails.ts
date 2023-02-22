@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import * as Notifications from 'expo-notifications';
 
 import {
   getNovel,
@@ -148,6 +149,14 @@ export const useNovelDetails = ({
     } catch (err) {
       if (err instanceof Error) {
         setError(err);
+
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: novel.title,
+            body: `Update failed: ${err.message}`,
+          },
+          trigger: null,
+        });
       }
     } finally {
       setLoading(false);

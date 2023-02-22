@@ -20,7 +20,17 @@ const DownloadButton: React.FC<Props> = ({
     novel: { sourceId = novelSourceId },
   } = useNovelDetailsContext();
   const { theme } = useTheme();
-  const { downloadChapters, downloadQueue } = useDownloader();
+  const { downloadChapters, downloadQueue, downloadErrors } = useDownloader();
+
+  if (downloadErrors?.includes(chapter.id)) {
+    return (
+      <IconButton
+        name="information-outline"
+        color={theme.error}
+        onPress={() => downloadChapters([chapter], sourceId)}
+      />
+    );
+  }
 
   if (downloadQueue?.includes(chapter.id)) {
     return (

@@ -40,6 +40,12 @@ export const fetchHtml = async ({
   const res = await fetchApi({ url, init, sourceId });
   const html = await res.text();
 
+  verifyHtml(html);
+
+  return html;
+};
+
+export const verifyHtml = (html: string) => {
   if (html.includes('Checking if the site connection is secure')) {
     throw Error(
       "The app couldn't bypass the source's Cloudflare protection.\n\nOpen the source in WebView to bypass the Cloudflare protection and reopen the source.",
@@ -51,6 +57,4 @@ export const fetchHtml = async ({
       "Chapter not available.\n\nReport on GitHub if it's available in webview.",
     );
   }
-
-  return html;
 };

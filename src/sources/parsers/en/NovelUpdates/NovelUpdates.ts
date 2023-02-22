@@ -12,7 +12,8 @@ import {
   SourceChapter,
   GetChapterParams,
 } from '@sources/types';
-import { fetchApi, fetchHtml } from '@utils/fetch/fetch';
+import { fetchApi, fetchHtml, verifyHtml } from '@utils/fetch/fetch';
+import { parseChapterNumber } from '@sources/Utils';
 
 function getAbsoluteUrls(href: string) {
   var match = href.match(
@@ -57,12 +58,10 @@ export class NovelUpdatesParser implements ParsedSource {
     return { novels, totalPages };
   }
 
-  async getSearchNovels({ searchTerm }: GetSearchNovelsParams) {
-    const totalPages = 1;
-
+  async getSearchNovels({ searchTerm, page }: GetSearchNovelsParams) {
     const baseUrl = this.baseUrl;
     const sourceId = this.id;
-    const url = `${baseUrl}?s=${searchTerm}&post_type=seriesplans`;
+    const url = `${baseUrl}page/${page}?s=${searchTerm}&post_type=seriesplans`;
 
     const html = await fetchHtml({ url, sourceId });
     const $ = cheerio.load(html);
@@ -82,7 +81,7 @@ export class NovelUpdatesParser implements ParsedSource {
       }
     });
 
-    return { novels, totalPages };
+    return { novels };
   }
 
   async getNovelDetails({ url }: GetNovelDetailsParams) {
@@ -145,6 +144,8 @@ export class NovelUpdatesParser implements ParsedSource {
 
     $('li.sp_li_chp').each(function () {
       const name = $(this).text().trim();
+      const chapterNumber = parseChapterNumber(title, name);
+
       const dateUpload = undefined;
 
       const chapterUrl =
@@ -155,6 +156,7 @@ export class NovelUpdatesParser implements ParsedSource {
         name,
         dateUpload,
         url: chapterUrl,
+        chapterNumber,
       });
     });
 
@@ -166,6 +168,8 @@ export class NovelUpdatesParser implements ParsedSource {
   async getChapter({ url }: GetChapterParams): Promise<SourceChapter> {
     const res = await fetchApi({ url, sourceId: this.id });
     const html = await res.text();
+
+    verifyHtml(html);
 
     const $ = cheerio.load(html);
 

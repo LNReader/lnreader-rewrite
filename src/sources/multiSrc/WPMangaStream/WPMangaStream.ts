@@ -19,6 +19,7 @@ import { parseChapterNumber, parseRelativeDate } from '@sources/Utils';
 
 interface WPMangaStreamOptions {}
 
+const defaultOptions: WPMangaStreamOptions = {};
 interface WPMangaStreamSource {
   id: number;
   name: string;
@@ -37,7 +38,7 @@ export class WPMangaStreamParser extends ParsedSource {
     id,
     iconUrl,
     lang = Language.English,
-    options = {},
+    options,
   }: WPMangaStreamSource) {
     super();
     this.id = id;
@@ -45,7 +46,7 @@ export class WPMangaStreamParser extends ParsedSource {
     this.baseUrl = baseUrl;
     this.iconUrl = iconUrl;
     this.lang = lang;
-    this.options = options;
+    this.options = { ...defaultOptions, ...options };
   }
 
   async getPopoularNovels({
@@ -124,12 +125,11 @@ export class WPMangaStreamParser extends ParsedSource {
     $('.eplister')
       .find('li')
       .each(function () {
-        const name =
-          $(this).find('.epl-num').text() +
-          ' - ' +
-          $(this).find('.epl-title').text();
+        const chapterNumberString = $(this).find('.epl-num').text();
+        const chapterNumber = parseChapterNumber(title, chapterNumberString);
 
-        console.log(parseChapterNumber(title, name));
+        const name =
+          chapterNumberString + ' - ' + $(this).find('.epl-title').text();
 
         const chapterUrl = $(this).find('a').attr('href');
 
@@ -141,6 +141,7 @@ export class WPMangaStreamParser extends ParsedSource {
             sourceId,
             name,
             dateUpload,
+            chapterNumber,
             url: chapterUrl,
           });
         }

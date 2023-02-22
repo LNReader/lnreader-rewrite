@@ -10,6 +10,7 @@ export { default as Chip } from './Chip/Chip';
 export { default as ColorButton } from './ColorButton/ColorButton';
 export { default as ConfirmationModal } from './ConfirmationModal/ConfirmationModal';
 export { default as Counter } from './Counter/Counter';
+export { Menu, MenuItem } from './Menu/Menu';
 export { default as Modal } from './Modal/Modal';
 export { default as FAB } from './FAB/FAB';
 export { default as EmptyView } from './EmptyView/EmptyView';

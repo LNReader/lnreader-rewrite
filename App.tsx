@@ -4,6 +4,7 @@ import { StatusBar, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
+import * as Notifications from 'expo-notifications';
 import moment from 'moment';
 
 import { useTheme, useDatabase } from '@hooks';
@@ -20,6 +21,16 @@ moment.updateLocale('en', {
     lastWeek: '[Last] dddd',
     nextWeek: '[Next] dddd',
     sameElse: 'L',
+  },
+});
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    };
   },
 });
 

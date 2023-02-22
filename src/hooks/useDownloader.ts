@@ -9,12 +9,19 @@ import { insertChapterInDownloads } from '@database/queries/DownloadQueries';
 import { getChaptersByNovelIds } from '@database/queries/ChapterQueries';
 import { MMKVStorage } from '@utils/mmkv/mmkv';
 import { sleep } from '@utils/Sleep';
+import { useCallback } from 'react';
 
 export const DOWNLOAD_QUEUE = 'DOWNLOAD_QUEUE';
+export const DOWNLOAD_ERRORS = 'DOWNLOAD_ERRORS';
 
 const useDownloader = () => {
   const [downloadQueue = [], setDownloadQueue] = useMMKVObject<number[]>(
     DOWNLOAD_QUEUE,
+    MMKVStorage,
+  );
+
+  const [downloadErrors = [], setDownloadErrors] = useMMKVObject<number[]>(
+    DOWNLOAD_ERRORS,
     MMKVStorage,
   );
 
@@ -49,6 +56,8 @@ const useDownloader = () => {
       let tempDownloadQueue = uniq([...downloadQueue, ...chapterIds]);
       setDownloadQueue(tempDownloadQueue);
 
+      let tempDownloadErrors = [...downloadErrors];
+
       await new Promise(async resolve => {
         for (
           let i = 0;
@@ -73,7 +82,16 @@ const useDownloader = () => {
                 tempDownloadQueue = tempDownloadQueue.filter(
                   chapterId => chapterId !== chapter.id,
                 );
-                setDownloadQueue(tempDownloadQueue);
+
+                /**
+                 * Remove from Errors List
+                 */
+
+                if (tempDownloadErrors.includes(chapter.id)) {
+                  tempDownloadErrors = tempDownloadErrors.filter(
+                    chapterId => chapterId !== chapter.id,
+                  );
+                }
               }
             } catch (err) {
               if (err instanceof Error) {
@@ -84,7 +102,11 @@ const useDownloader = () => {
                   },
                   trigger: null,
                 });
+                tempDownloadErrors = uniq([...downloadErrors, chapter.id]);
               }
+            } finally {
+              setDownloadQueue(tempDownloadQueue);
+              setDownloadErrors(tempDownloadErrors);
             }
 
             await BackgroundService.updateNotification({
@@ -126,10 +148,17 @@ const useDownloader = () => {
     downloadChapters(chapters);
   };
 
+  const clearDownloadQueue = useCallback(() => {
+    setDownloadQueue([]);
+    setDownloadErrors([]);
+  }, []);
+
   return {
     downloadQueue,
+    downloadErrors,
     downloadChapters,
     downloadNovel,
+    clearDownloadQueue,
   };
 };
 
