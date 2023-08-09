@@ -33,7 +33,7 @@
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
     "react": "18.2.0",
-    "react-native": "0.71.12",
+    "react-native": "0.72.0",
     "react-native-background-actions": "^3.0.0",
     "react-native-device-info": "^10.3.0",
     "react-native-easing-gradient": "^1.1.0",
