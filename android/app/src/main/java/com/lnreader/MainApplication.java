@@ -13,8 +13,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
-import com.lnreader.newarchitecture.MainApplicationReactNativeHost;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -40,12 +38,10 @@ public class MainApplication extends Application implements ReactApplication {
           return "index";
         }
 
-        @Override
         protected boolean isNewArchEnabled() {
           return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
         }
         
-        @Override
         protected Boolean isHermesEnabled() {
           return BuildConfig.IS_HERMES_ENABLED;
         }
@@ -65,7 +61,7 @@ public class MainApplication extends Application implements ReactApplication {
       DefaultNewArchitectureEntryPoint.load();
     }
     ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-    }
+    ApplicationLifecycleDispatcher.onApplicationCreate(this);
   }
 
   @Override

@@ -1,0 +1,13 @@
+diff --git a/node_modules/expo-navigation-bar/android/build.gradle b/node_modules/expo-navigation-bar/android/build.gradle
+index 7dac519..1cc8e37 100644
+--- a/node_modules/expo-navigation-bar/android/build.gradle
++++ b/node_modules/expo-navigation-bar/android/build.gradle
+@@ -37,7 +37,7 @@ buildscript {
+ 
+ // Creating sources with comments
+ task androidSourcesJar(type: Jar) {
+-  classifier = 'sources'
++  archiveClassifier = 'sources'
+   from android.sourceSets.main.java.srcDirs
+ }
+ 
